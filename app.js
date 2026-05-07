@@ -1,7 +1,6 @@
 let allBooks = [];
 let currentBookId = null;
 
-// 초기화
 document.addEventListener('DOMContentLoaded', () => {
   loadBooks();
 });
@@ -9,22 +8,16 @@ document.addEventListener('DOMContentLoaded', () => {
 // 책 목록 불러오기
 async function loadBooks() {
   const grid = document.getElementById('bookGrid');
-  const emptyMsg = document.getElementById('emptyMsg');
   grid.innerHTML = '<div class="loading">책 목록을 불러오는 중...</div>';
 
-  const { data, error } = await supabase
-    .from('books')
-    .select('*')
-    .order('created_at', { ascending: false });
-
-  if (error) {
+  try {
+    const res = await fetch('/api/books');
+    allBooks = await res.json();
+    renderBooks(allBooks);
+  } catch (e) {
     grid.innerHTML = '<div class="loading">불러오기 실패 😢</div>';
-    console.error(error);
-    return;
+    console.error(e);
   }
-
-  allBooks = data || [];
-  renderBooks(allBooks);
 }
 
 // 책 카드 렌더링
@@ -53,7 +46,7 @@ function renderBooks(books) {
         ${book.subject ? `<span class="tag tag-subject">${escapeHtml(book.subject)}</span>` : ''}
       </div>
       <div class="card-bottom">
-        <span class="card-price">${book.price.toLocaleString()}원</span>
+        <span class="card-price">${Number(book.price).toLocaleString()}원</span>
         <span class="badge-condition condition-${book.condition}">${book.condition}</span>
       </div>
     </div>
@@ -116,15 +109,20 @@ async function submitBook(e) {
     contact: document.getElementById('f-contact').value.trim(),
   };
 
-  const { error } = await supabase.from('books').insert([book]);
+  try {
+    const res = await fetch('/api/books', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(book),
+    });
 
-  if (error) {
-    alert('등록에 실패했습니다. 다시 시도해주세요.');
-    console.error(error);
-  } else {
+    if (!res.ok) throw new Error('등록 실패');
     closeRegisterModal();
     await loadBooks();
     alert('책이 등록되었습니다! 📚');
+  } catch (e) {
+    alert('등록에 실패했습니다. 다시 시도해주세요.');
+    console.error(e);
   }
 
   btn.textContent = '등록하기';
@@ -137,11 +135,10 @@ function openDetail(id) {
   if (!book) return;
 
   currentBookId = id;
-
   document.getElementById('d-title').textContent = book.title;
   document.getElementById('d-condition').textContent = book.condition;
   document.getElementById('d-condition').className = `badge-condition condition-${book.condition}`;
-  document.getElementById('d-price').textContent = `${book.price.toLocaleString()}원`;
+  document.getElementById('d-price').textContent = `${Number(book.price).toLocaleString()}원`;
   document.getElementById('d-author').textContent = book.author || '-';
   document.getElementById('d-subject').textContent = book.subject || '-';
   document.getElementById('d-dept').textContent = book.department || '-';
@@ -164,17 +161,14 @@ async function markSold() {
   if (!currentBookId) return;
   if (!confirm('판매완료로 처리하시겠습니까?')) return;
 
-  const { error } = await supabase
-    .from('books')
-    .update({ is_sold: true })
-    .eq('id', currentBookId);
-
-  if (error) {
-    alert('처리에 실패했습니다.');
-    console.error(error);
-  } else {
+  try {
+    const res = await fetch(`/api/books/${currentBookId}`, { method: 'PATCH' });
+    if (!res.ok) throw new Error('처리 실패');
     closeDetailModal();
     await loadBooks();
+  } catch (e) {
+    alert('처리에 실패했습니다.');
+    console.error(e);
   }
 }
 
@@ -182,12 +176,10 @@ async function markSold() {
 document.getElementById('registerModal').addEventListener('click', function(e) {
   if (e.target === this) closeRegisterModal();
 });
-
 document.getElementById('detailModal').addEventListener('click', function(e) {
   if (e.target === this) closeDetailModal();
 });
 
-// XSS 방지
 function escapeHtml(str) {
   const d = document.createElement('div');
   d.textContent = str;
