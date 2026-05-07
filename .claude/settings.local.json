@@ -12,7 +12,11 @@
       "Bash(python3 *)",
       "WebFetch(domain:vibe-2026-42-team.pages.dev)",
       "Bash(curl -i https://vibe-2026-42-team.pages.dev/)",
-      "Bash(curl *)"
+      "Bash(curl *)",
+      "Bash(npm --version)",
+      "Bash(mkdir -p /home/jovyan/work/중고책-app)",
+      "Bash(npx create-expo-app@latest . --template blank)",
+      "Bash(npm install *)"
     ]
   }
 }
