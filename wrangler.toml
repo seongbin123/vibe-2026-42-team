@@ -2,7 +2,3 @@ name = "vibe-2026-42-team"
 compatibility_date = "2024-09-23"
 pages_build_output_dir = "."
 
-[[d1_databases]]
-binding = "DB"
-database_name = "junggobook-db"
-database_id = "PLACEHOLDER"
