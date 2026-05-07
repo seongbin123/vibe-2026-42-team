@@ -10,7 +10,9 @@
       "Skill(update-config)",
       "Bash(bash -c ' *)",
       "Bash(python3 *)",
-      "WebFetch(domain:vibe-2026-42-team.pages.dev)"
+      "WebFetch(domain:vibe-2026-42-team.pages.dev)",
+      "Bash(curl -i https://vibe-2026-42-team.pages.dev/)",
+      "Bash(curl *)"
     ]
   }
 }
