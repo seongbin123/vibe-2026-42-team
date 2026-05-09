@@ -286,6 +286,28 @@ function renderExpenseList() {
     return;
   }
   list.innerHTML = expenses.map(e => expenseItemHTML(e)).join('');
+  menuAllowedAfter = Date.now() + 350;
+  initExpenseDragScroll(list);
+}
+
+function initExpenseDragScroll(el) {
+  let startY, startScroll, dragging = false;
+  el.onpointerdown = (e) => {
+    if (e.target.closest('.expense-menu-wrap')) return;
+    dragging = true;
+    startY = e.clientY;
+    startScroll = el.scrollTop;
+    el.classList.add('dragging');
+    el.setPointerCapture(e.pointerId);
+  };
+  el.onpointermove = (e) => {
+    if (!dragging) return;
+    el.scrollTop = startScroll - (e.clientY - startY);
+  };
+  el.onpointerup = el.onpointercancel = () => {
+    dragging = false;
+    el.classList.remove('dragging');
+  };
 }
 
 function filterExpenses(cat, btn) {
@@ -481,15 +503,19 @@ function addExpense() {
   closeExpenseModal();
   renderAll();
 }
+let menuAllowedAfter = 0;
 function toggleExpenseMenu(event, id) {
   event.stopPropagation();
+  if (Date.now() < menuAllowedAfter) return;
   const popup = document.getElementById('menu-' + id);
   const isHidden = popup.classList.contains('hidden');
   document.querySelectorAll('.expense-menu-popup').forEach(p => p.classList.add('hidden'));
   if (isHidden) popup.classList.remove('hidden');
 }
-document.addEventListener('click', () => {
-  document.querySelectorAll('.expense-menu-popup').forEach(p => p.classList.add('hidden'));
+document.addEventListener('click', (e) => {
+  if (!e.target.closest('.expense-menu-wrap')) {
+    document.querySelectorAll('.expense-menu-popup').forEach(p => p.classList.add('hidden'));
+  }
 });
 function editExpense(id) {
   const d = getData();
