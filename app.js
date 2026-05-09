@@ -204,17 +204,17 @@ function renderHome() {
     label.textContent = '🟢 안전 — 여유 있음';
   }
 
-  // 오늘 카테고리 합계
+  // 오늘 카테고리 합계 (전체)
   const todayStr = toDateStr(today);
   const todayExp = d.expenses.filter(e => e.date === todayStr);
-  ['식비','카페','교통','술자리'].forEach((cat, i) => {
-    const ids = ['today-food','today-cafe','today-transport','today-drink'];
+  const cats = Object.keys(EMOJIS);
+  const todayCats = document.getElementById('today-cats');
+  todayCats.innerHTML = cats.map(cat => {
     const sum = todayExp.filter(e => e.cat === cat).reduce((s,e)=>s+e.amount,0);
-    document.getElementById(ids[i]).textContent = fmt(sum);
-  });
+    return `<div class="cat-stat"><span>${EMOJIS[cat]} ${cat}</span><span>${fmt(sum)}</span></div>`;
+  }).join('');
 
   renderWarnings(d, remaining, daysLeft);
-  renderRecentList(d.expenses.slice(-5).reverse());
 }
 
 function renderWarnings(d, remaining, daysLeft) {
@@ -249,14 +249,6 @@ function renderWarnings(d, remaining, daysLeft) {
   });
 }
 
-function renderRecentList(expenses) {
-  const el = document.getElementById('recent-list');
-  if (!expenses.length) {
-    el.innerHTML = '<div class="empty-state"><div class="emoji">💸</div>아직 지출 내역이 없어요</div>';
-    return;
-  }
-  el.innerHTML = expenses.map(e => expenseItemHTML(e)).join('');
-}
 
 function expenseItemHTML(e) {
   return `<div class="expense-item">
