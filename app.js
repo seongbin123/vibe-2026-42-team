@@ -428,7 +428,7 @@ function renderRecentAmounts() {
   const d = getData();
   const seen = new Set();
   const recent = [];
-  for (let i = d.expenses.length - 1; i >= 0 && recent.length < 5; i--) {
+  for (let i = d.expenses.length - 1; i >= 0 && recent.length < 4; i--) {
     const e = d.expenses[i];
     const key = `${e.cat}-${e.amount}`;
     if (!seen.has(key)) { seen.add(key); recent.push(e); }
