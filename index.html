@@ -34,6 +34,24 @@
     <div class="modal-sheet">
       <div class="modal-handle"></div>
       <h3 id="modal-title">지출 추가</h3>
+      <!-- 빠른 입력 -->
+      <div class="quick-label">⚡ 빠른 입력</div>
+      <div class="quick-grid">
+        <button class="quick-btn" onclick="quickInput('식비',3500,'🍚 학식 일반')">🍚<span>학식 일반</span><span class="quick-price">3,500</span></button>
+        <button class="quick-btn" onclick="quickInput('식비',5000,'🍱 학식 특선')">🍱<span>학식 특선</span><span class="quick-price">5,000</span></button>
+        <button class="quick-btn" onclick="quickInput('카페',2000,'☕ 메가커피')">☕<span>메가커피</span><span class="quick-price">2,000</span></button>
+        <button class="quick-btn" onclick="quickInput('카페',1500,'☕ 컴포즈')">☕<span>컴포즈</span><span class="quick-price">1,500</span></button>
+        <button class="quick-btn" onclick="quickInput('카페',5900,'☕ 스타벅스')">🟢<span>스타벅스</span><span class="quick-price">5,900</span></button>
+        <button class="quick-btn" onclick="quickInput('교통',1400,'🚌 버스')">🚌<span>버스</span><span class="quick-price">1,400</span></button>
+        <button class="quick-btn" onclick="quickInput('교통',1400,'🚇 지하철')">🚇<span>지하철</span><span class="quick-price">1,400</span></button>
+        <button class="quick-btn" onclick="quickInput('식비',4500,'🏪 편의점')">🏪<span>편의점</span><span class="quick-price">4,500</span></button>
+        <button class="quick-btn" onclick="quickInput('식비',8000,'🍜 외식')">🍜<span>외식</span><span class="quick-price">8,000</span></button>
+        <button class="quick-btn" onclick="quickInput('술자리',15000,'🍺 치맥')">🍺<span>치맥</span><span class="quick-price">15,000</span></button>
+        <button class="quick-btn" onclick="quickInput('술자리',30000,'🥃 2차')">🥃<span>2차</span><span class="quick-price">30,000</span></button>
+        <button class="quick-btn" onclick="quickInput('기타',3000,'🖥️ PC방')">🖥️<span>PC방</span><span class="quick-price">3,000</span></button>
+      </div>
+
+      <div class="quick-label" style="margin-top:14px">카테고리</div>
       <div class="category-grid" id="modal-categories">
         <button class="cat-btn active" data-cat="식비" onclick="selectCat(this)">🍚 식비</button>
         <button class="cat-btn" data-cat="카페" onclick="selectCat(this)">☕ 카페</button>
@@ -44,7 +62,7 @@
         <button class="cat-btn" data-cat="기타" onclick="selectCat(this)">💸 기타</button>
       </div>
       <div class="input-wrap">
-        <input type="number" id="expense-amount" placeholder="0" inputmode="numeric">
+        <input type="number" id="expense-amount" placeholder="직접 입력" inputmode="numeric">
         <span class="unit">원</span>
       </div>
       <input type="text" id="expense-note" placeholder="메모 (선택)" maxlength="20">
