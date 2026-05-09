@@ -264,7 +264,13 @@ function expenseItemHTML(e) {
       <div class="expense-amount">-${fmt(e.amount)}</div>
       <div class="expense-date">${e.date}</div>
     </div>
-    <button class="expense-delete" onclick="deleteExpense('${e.id}')">×</button>
+    <div class="expense-menu-wrap">
+      <button class="expense-menu-btn" onclick="toggleExpenseMenu(event,'${e.id}')">⋮</button>
+      <div class="expense-menu-popup hidden" id="menu-${e.id}">
+        <button onclick="editExpense('${e.id}')">✏️ 수정하기</button>
+        <button onclick="deleteExpense('${e.id}')">🗑️ 삭제하기</button>
+      </div>
+    </div>
   </div>`;
 }
 
@@ -448,6 +454,8 @@ function applyRecentAmount(amount, note) {
 }
 function closeExpenseModal() {
   document.getElementById('expense-overlay').classList.add('hidden');
+  document.getElementById('modal-title').textContent = '지출 추가';
+  editingExpenseId = null;
 }
 function selectCat(btn, showRecent = true) {
   document.querySelectorAll('.cat-btn').forEach(b => b.classList.remove('active'));
@@ -460,11 +468,45 @@ function addExpense() {
   if (!amount || amount <= 0) { alert('금액을 입력해주세요'); return; }
   const note = document.getElementById('expense-note').value.trim();
   const d = getData();
-  d.expenses.push({ id: Date.now().toString(), cat: selectedCat, amount, note, date: toDateStr(new Date()) });
+  if (editingExpenseId) {
+    const idx = d.expenses.findIndex(e => e.id === editingExpenseId);
+    if (idx !== -1) {
+      d.expenses[idx] = { ...d.expenses[idx], cat: selectedCat, amount, note };
+    }
+    editingExpenseId = null;
+  } else {
+    d.expenses.push({ id: Date.now().toString(), cat: selectedCat, amount, note, date: toDateStr(new Date()) });
+  }
   save(d);
   closeExpenseModal();
   renderAll();
 }
+function toggleExpenseMenu(event, id) {
+  event.stopPropagation();
+  const popup = document.getElementById('menu-' + id);
+  const isHidden = popup.classList.contains('hidden');
+  document.querySelectorAll('.expense-menu-popup').forEach(p => p.classList.add('hidden'));
+  if (isHidden) popup.classList.remove('hidden');
+}
+document.addEventListener('click', () => {
+  document.querySelectorAll('.expense-menu-popup').forEach(p => p.classList.add('hidden'));
+});
+function editExpense(id) {
+  const d = getData();
+  const e = d.expenses.find(x => x.id === id);
+  if (!e) return;
+  document.querySelectorAll('.expense-menu-popup').forEach(p => p.classList.add('hidden'));
+  openExpenseModal();
+  document.getElementById('expense-amount').value = e.amount;
+  document.getElementById('expense-note').value = e.note || '';
+  selectedCat = e.cat;
+  document.querySelectorAll('.cat-btn').forEach(b => {
+    b.classList.toggle('active', b.dataset.cat === e.cat);
+  });
+  document.getElementById('modal-title').textContent = '지출 수정';
+  editingExpenseId = id;
+}
+let editingExpenseId = null;
 function deleteExpense(id) {
   const d = getData();
   d.expenses = d.expenses.filter(e => e.id !== id);
