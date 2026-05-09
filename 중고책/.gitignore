@@ -1,4 +1,0 @@
-.env*
-!.env.example
-supabase-config.js
-.ipynb_checkpoints/

@@ -1,187 +1,453 @@
-let allBooks = [];
-let currentBookId = null;
+// ─── 데이터 ───
+const EMOJIS = { 식비:'🍚', 카페:'☕', 교통:'🚌', 술자리:'🍺', 구독:'📱', 쇼핑:'🛍️', 기타:'💸' };
+const CAT_COLORS = { 식비:'#7C6CF4', 카페:'#FFB347', 교통:'#4ADE80', 술자리:'#FF5A5A', 구독:'#00D4FF', 쇼핑:'#FF69B4', 기타:'#9090A8' };
 
-document.addEventListener('DOMContentLoaded', () => {
-  loadBooks();
-});
+const FRIEND_COSTS = {
+  cafe:  { min: 5000,  max: 10000,  label: '카페' },
+  meal:  { min: 10000, max: 18000,  label: '밥' },
+  drink: { min: 15000, max: 35000,  label: '술' },
+  movie: { min: 14000, max: 18000,  label: '영화' },
+  pc:    { min: 4000,  max: 10000,  label: 'PC방' }
+};
 
-// 책 목록 불러오기
-async function loadBooks() {
-  const grid = document.getElementById('bookGrid');
-  grid.innerHTML = '<div class="loading">책 목록을 불러오는 중...</div>';
+const SURVIVAL_DIETS = [
+  { name: '수원대 학식 3끼', cost: 10500, tip: '가장 저렴한 생존법' },
+  { name: '학식 2끼 + 편의점 1끼', cost: 11500, tip: '균형 잡힌 생존' },
+  { name: '편의점 도시락 3끼', cost: 13500, tip: '학식보다 비싸지만 유연' },
+  { name: '학식 2끼 + 집밥 1끼', cost: 9000, tip: '자취생 최강 전략' },
+];
 
-  try {
-    const res = await fetch('/api/books');
-    allBooks = await res.json();
-    renderBooks(allBooks);
-  } catch (e) {
-    grid.innerHTML = '<div class="loading">불러오기 실패 😢</div>';
-    console.error(e);
-  }
+let selectedCat = '식비';
+let selectedFriendType = 'cafe';
+let friendPeople = 2;
+
+function load() { return JSON.parse(localStorage.getItem('suwon_planner') || '{}'); }
+function save(d) { localStorage.setItem('suwon_planner', JSON.stringify(d)); }
+
+function getData() {
+  const d = load();
+  return {
+    name: d.name || '',
+    budget: d.budget || 0,
+    payday: d.payday || 1,
+    expenses: d.expenses || [],
+    subscriptions: d.subscriptions || []
+  };
 }
 
-// 책 카드 렌더링
-function renderBooks(books) {
-  const grid = document.getElementById('bookGrid');
-  const emptyMsg = document.getElementById('emptyMsg');
-  const countEl = document.getElementById('bookCount');
-
-  const available = books.filter(b => !b.is_sold);
-  countEl.textContent = `총 ${books.length}권 (판매중 ${available.length}권)`;
-
-  if (books.length === 0) {
-    grid.innerHTML = '';
-    emptyMsg.style.display = 'block';
-    return;
+// ─── 초기화 ───
+window.onload = () => {
+  const d = getData();
+  if (!d.budget) {
+    document.getElementById('setup-overlay').style.display = 'flex';
+  } else {
+    document.getElementById('setup-overlay').style.display = 'none';
+    renderAll();
   }
+};
 
-  emptyMsg.style.display = 'none';
-  grid.innerHTML = books.map(book => `
-    <div class="book-card ${book.is_sold ? 'sold' : ''}" onclick="openDetail('${book.id}')">
-      ${book.is_sold ? '<span class="sold-badge">판매완료</span>' : ''}
-      <div class="card-title">${escapeHtml(book.title)}</div>
-      <div class="card-author">${escapeHtml(book.author || '저자 미상')}</div>
-      <div class="card-tags">
-        ${book.department ? `<span class="tag tag-dept">${escapeHtml(book.department)}</span>` : ''}
-        ${book.subject ? `<span class="tag tag-subject">${escapeHtml(book.subject)}</span>` : ''}
-      </div>
-      <div class="card-bottom">
-        <span class="card-price">${Number(book.price).toLocaleString()}원</span>
-        <span class="badge-condition condition-${book.condition}">${book.condition}</span>
-      </div>
-    </div>
-  `).join('');
+function saveSetup() {
+  const name = document.getElementById('setup-name').value.trim() || '수원대생';
+  const budget = parseInt(document.getElementById('setup-budget').value) || 0;
+  const payday = parseInt(document.getElementById('setup-payday').value) || 1;
+  if (!budget) { alert('생활비를 입력해주세요'); return; }
+  const d = getData();
+  d.name = name; d.budget = budget; d.payday = payday;
+  save(d);
+  document.getElementById('setup-overlay').style.display = 'none';
+  renderAll();
 }
 
-// 검색 + 필터
-function filterBooks() {
-  const query = document.getElementById('searchInput').value.toLowerCase();
-  const dept = document.getElementById('filterDept').value;
-  const condition = document.getElementById('filterCondition').value;
-  const priceRange = document.getElementById('filterPrice').value;
+// ─── 렌더 전체 ───
+function renderAll() {
+  renderHome();
+  renderExpenseList();
+  renderAnalysis();
+  renderSurvival();
+}
 
-  let filtered = allBooks.filter(book => {
-    const matchQuery = !query ||
-      book.title.toLowerCase().includes(query) ||
-      (book.subject && book.subject.toLowerCase().includes(query)) ||
-      (book.author && book.author.toLowerCase().includes(query));
+// ─── 홈 ───
+function renderHome() {
+  const d = getData();
+  const today = new Date();
+  const totalSpent = d.expenses.reduce((s, e) => s + e.amount, 0);
+  const remaining = d.budget - totalSpent;
+  const daysLeft = getDaysLeft(today, d.payday);
+  const dailyAllowance = daysLeft > 0 ? Math.floor(remaining / daysLeft) : 0;
+  const pct = Math.min(100, Math.round((totalSpent / d.budget) * 100));
 
-    const matchDept = !dept || book.department === dept;
-    const matchCondition = !condition || book.condition === condition;
+  document.getElementById('greeting').textContent = `안녕하세요, ${d.name}님 👋`;
+  document.getElementById('remaining-amount').textContent = fmt(remaining);
+  document.getElementById('remaining-sub').textContent = '남은 생활비';
+  document.getElementById('daily-amount').textContent = fmt(Math.max(0, dailyAllowance));
+  document.getElementById('progress-bar').style.width = pct + '%';
+  document.getElementById('spent-pct').textContent = pct + '% 사용';
+  document.getElementById('days-left').textContent = `D-${daysLeft}`;
 
-    let matchPrice = true;
-    if (priceRange) {
-      const [min, max] = priceRange.split('-').map(Number);
-      matchPrice = book.price >= min && book.price <= max;
-    }
+  const card = document.getElementById('survival-card');
+  const label = document.getElementById('survival-label');
+  card.className = 'survival-card';
+  if (pct >= 90 || remaining < 30000) {
+    card.classList.add('danger-mode');
+    label.textContent = '🔴 위험 — 월말 생존 모드';
+  } else if (pct >= 70 || remaining < 80000) {
+    card.classList.add('warning-mode');
+    label.textContent = '🟡 주의 — 절약 필요';
+  } else {
+    card.classList.add('safe-mode');
+    label.textContent = '🟢 안전 — 여유 있음';
+  }
 
-    return matchQuery && matchDept && matchCondition && matchPrice;
+  // 오늘 카테고리 합계
+  const todayStr = toDateStr(today);
+  const todayExp = d.expenses.filter(e => e.date === todayStr);
+  ['식비','카페','교통','술자리'].forEach((cat, i) => {
+    const ids = ['today-food','today-cafe','today-transport','today-drink'];
+    const sum = todayExp.filter(e => e.cat === cat).reduce((s,e)=>s+e.amount,0);
+    document.getElementById(ids[i]).textContent = fmt(sum);
   });
 
-  renderBooks(filtered);
+  renderWarnings(d, remaining, daysLeft);
+  renderRecentList(d.expenses.slice(-5).reverse());
 }
 
-// 등록 모달
-function openRegisterModal() {
-  document.getElementById('registerModal').style.display = 'flex';
-  document.getElementById('registerForm').reset();
-}
+function renderWarnings(d, remaining, daysLeft) {
+  const zone = document.getElementById('warning-zone');
+  zone.innerHTML = '';
+  const warnings = [];
 
-function closeRegisterModal() {
-  document.getElementById('registerModal').style.display = 'none';
-}
-
-// 책 등록 제출
-async function submitBook(e) {
-  e.preventDefault();
-  const btn = document.getElementById('submitBtn');
-  btn.textContent = '등록 중...';
-  btn.disabled = true;
-
-  const book = {
-    title: document.getElementById('f-title').value.trim(),
-    author: document.getElementById('f-author').value.trim() || null,
-    subject: document.getElementById('f-subject').value.trim() || null,
-    department: document.getElementById('f-dept').value || null,
-    price: parseInt(document.getElementById('f-price').value),
-    condition: document.getElementById('f-condition').value,
-    description: document.getElementById('f-desc').value.trim() || null,
-    contact: document.getElementById('f-contact').value.trim(),
-  };
-
-  try {
-    const res = await fetch('/api/books', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(book),
-    });
-
-    if (!res.ok) throw new Error('등록 실패');
-    closeRegisterModal();
-    await loadBooks();
-    alert('책이 등록되었습니다! 📚');
-  } catch (e) {
-    alert('등록에 실패했습니다. 다시 시도해주세요.');
-    console.error(e);
+  // 카페 주간 경고
+  const weekCafe = getWeeklyByCategory(d.expenses, '카페');
+  if (weekCafe >= 25000) {
+    warnings.push({ type: 'red', msg: `☕ 이번 주 카페 지출이 ${fmt(weekCafe)}이에요! 커피 좀 줄여봐요 ☠️` });
+  } else if (weekCafe >= 15000) {
+    warnings.push({ type: 'yellow', msg: `☕ 이번 주 카페 지출 ${fmt(weekCafe)}. 슬슬 조심할 때에요` });
   }
 
-  btn.textContent = '등록하기';
-  btn.disabled = false;
+  // 구독료 경고
+  const totalSub = d.subscriptions.reduce((s, sub) => s + sub.amount, 0);
+  if (totalSub > 0) {
+    warnings.push({ type: 'yellow', msg: `📱 이번 달 구독료 합계: ${fmt(totalSub)}. 필요 없는 거 정리해봐요!` });
+  }
+
+  // 잔액 경고
+  if (remaining < 50000 && daysLeft > 3) {
+    warnings.push({ type: 'red', msg: `🆘 ${daysLeft}일 남았는데 ${fmt(remaining)}밖에 없어요. 생존 탭을 확인하세요!` });
+  }
+
+  warnings.forEach(w => {
+    const el = document.createElement('div');
+    el.className = 'warning-card' + (w.type === 'yellow' ? ' yellow' : '');
+    el.textContent = w.msg;
+    zone.appendChild(el);
+  });
 }
 
-// 상세 모달
-function openDetail(id) {
-  const book = allBooks.find(b => b.id === id);
-  if (!book) return;
-
-  currentBookId = id;
-  document.getElementById('d-title').textContent = book.title;
-  document.getElementById('d-condition').textContent = book.condition;
-  document.getElementById('d-condition').className = `badge-condition condition-${book.condition}`;
-  document.getElementById('d-price').textContent = `${Number(book.price).toLocaleString()}원`;
-  document.getElementById('d-author').textContent = book.author || '-';
-  document.getElementById('d-subject').textContent = book.subject || '-';
-  document.getElementById('d-dept').textContent = book.department || '-';
-  document.getElementById('d-desc').textContent = book.description || '설명 없음';
-  document.getElementById('d-contact').textContent = book.contact;
-
-  const soldBtn = document.getElementById('d-soldBtn');
-  soldBtn.style.display = book.is_sold ? 'none' : 'inline-block';
-
-  document.getElementById('detailModal').style.display = 'flex';
+function renderRecentList(expenses) {
+  const el = document.getElementById('recent-list');
+  if (!expenses.length) {
+    el.innerHTML = '<div class="empty-state"><div class="emoji">💸</div>아직 지출 내역이 없어요</div>';
+    return;
+  }
+  el.innerHTML = expenses.map(e => expenseItemHTML(e)).join('');
 }
 
-function closeDetailModal() {
-  document.getElementById('detailModal').style.display = 'none';
-  currentBookId = null;
+function expenseItemHTML(e) {
+  return `<div class="expense-item">
+    <div class="expense-emoji">${EMOJIS[e.cat]||'💸'}</div>
+    <div class="expense-info">
+      <div class="expense-cat">${e.cat}</div>
+      ${e.note ? `<div class="expense-note">${e.note}</div>` : ''}
+    </div>
+    <div class="expense-right">
+      <div class="expense-amount">-${fmt(e.amount)}</div>
+      <div class="expense-date">${e.date}</div>
+    </div>
+    <button class="expense-delete" onclick="deleteExpense('${e.id}')">×</button>
+  </div>`;
 }
 
-// 판매완료 처리
-async function markSold() {
-  if (!currentBookId) return;
-  if (!confirm('판매완료로 처리하시겠습니까?')) return;
+// ─── 지출 내역 탭 ───
+let currentFilter = 'all';
+function renderExpenseList() {
+  const d = getData();
+  const list = document.getElementById('full-expense-list');
+  let expenses = [...d.expenses].reverse();
+  if (currentFilter !== 'all') expenses = expenses.filter(e => e.cat === currentFilter);
+  if (!expenses.length) {
+    list.innerHTML = '<div class="empty-state"><div class="emoji">📋</div>내역이 없어요</div>';
+    return;
+  }
+  list.innerHTML = expenses.map(e => expenseItemHTML(e)).join('');
+}
 
-  try {
-    const res = await fetch(`/api/books/${currentBookId}`, { method: 'PATCH' });
-    if (!res.ok) throw new Error('처리 실패');
-    closeDetailModal();
-    await loadBooks();
-  } catch (e) {
-    alert('처리에 실패했습니다.');
-    console.error(e);
+function filterExpenses(cat, btn) {
+  currentFilter = cat;
+  document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  renderExpenseList();
+}
+
+// ─── 분석 탭 ───
+function renderAnalysis() {
+  const d = getData();
+  const weekCafe = getWeeklyByCategory(d.expenses, '카페');
+  const cafeLimit = 20000;
+  const cafePct = Math.min(100, (weekCafe / cafeLimit) * 100);
+
+  document.getElementById('coffee-weekly').textContent = fmt(weekCafe);
+  document.getElementById('coffee-bar').style.width = cafePct + '%';
+  const coffeeComment = weekCafe === 0 ? '이번 주 카페 지출 없음 👏' :
+    weekCafe < 10000 ? '절약 중이에요! 훌륭해요 ✨' :
+    weekCafe < 20000 ? '적당한 편이에요' :
+    weekCafe < 30000 ? '⚠️ 카페비가 많아요. 텀블러 챙겨봐요!' :
+    '🚨 카페비가 너무 많아요! 학교 정수기를 애용하세요';
+  document.getElementById('coffee-comment').textContent = coffeeComment;
+
+  renderSubscriptions();
+  renderCategoryChart(d.expenses);
+
+  // 월 페이스
+  const today = new Date();
+  const dayOfMonth = today.getDate();
+  const totalSpent = d.expenses.reduce((s, e) => s + e.amount, 0);
+  const dailyAvg = dayOfMonth > 0 ? totalSpent / dayOfMonth : 0;
+  const daysInMonth = new Date(today.getFullYear(), today.getMonth()+1, 0).getDate();
+  const projectedTotal = Math.round(dailyAvg * daysInMonth);
+  document.getElementById('monthly-pace').textContent = `예상 월 지출: ${fmt(projectedTotal)}`;
+  const diff = projectedTotal - d.budget;
+  document.getElementById('pace-comment').textContent = diff > 0
+    ? `⚠️ 이 페이스면 ${fmt(diff)} 초과해요`
+    : `✅ 이 페이스면 ${fmt(Math.abs(diff))} 남아요`;
+}
+
+function renderSubscriptions() {
+  const d = getData();
+  const list = document.getElementById('subscription-list');
+  if (!d.subscriptions.length) {
+    list.innerHTML = '<div style="color:var(--text2);font-size:13px;padding:8px 0">등록된 구독이 없어요</div>';
+    return;
+  }
+  list.innerHTML = d.subscriptions.map(sub => `
+    <div class="sub-item">
+      <div class="sub-info">
+        <span style="font-size:20px">${sub.emoji||'📱'}</span>
+        <span class="sub-name">${sub.name}</span>
+      </div>
+      <div style="display:flex;align-items:center;gap:10px">
+        <span class="sub-amount">-${fmt(sub.amount)}/월</span>
+        <button class="sub-delete" onclick="deleteSub('${sub.id}')">×</button>
+      </div>
+    </div>`).join('');
+}
+
+function renderCategoryChart(expenses) {
+  const totals = {};
+  expenses.forEach(e => { totals[e.cat] = (totals[e.cat]||0) + e.amount; });
+  const max = Math.max(...Object.values(totals), 1);
+  const chart = document.getElementById('category-chart');
+  chart.innerHTML = Object.entries(totals)
+    .sort((a,b) => b[1]-a[1])
+    .map(([cat, amt]) => `
+    <div class="chart-row">
+      <div class="chart-label">${EMOJIS[cat]||''} ${cat}</div>
+      <div class="chart-bar-wrap">
+        <div class="chart-bar-fill" style="width:${(amt/max*100).toFixed(1)}%;background:${CAT_COLORS[cat]||'#7C6CF4'}"></div>
+      </div>
+      <div class="chart-amount">${fmt(amt)}</div>
+    </div>`).join('') || '<div style="color:var(--text2);font-size:13px;padding:8px 0">지출 데이터가 없어요</div>';
+}
+
+// ─── 생존 탭 ───
+function renderSurvival() {
+  const d = getData();
+  const totalSpent = d.expenses.reduce((s, e) => s + e.amount, 0);
+  const remaining = d.budget - totalSpent;
+  const daysLeft = getDaysLeft(new Date(), d.payday);
+  const dailyAllowance = daysLeft > 0 ? Math.floor(remaining / daysLeft) : 0;
+
+  // 학식 vs 외식
+  const hakshikCard = document.getElementById('meal-hakshik');
+  const outsideCard = document.getElementById('meal-outside');
+  const tip = document.getElementById('meal-tip');
+
+  if (dailyAllowance < 8000) {
+    hakshikCard.classList.add('recommended');
+    outsideCard.classList.remove('recommended');
+    document.getElementById('hakshik-tag').className = 'meal-tag';
+    document.getElementById('hakshik-tag').textContent = '✅ 추천';
+    document.getElementById('outside-tag').className = 'meal-tag danger';
+    document.getElementById('outside-tag').textContent = '❌ 위험';
+    tip.textContent = `⚡ 하루 예산 ${fmt(dailyAllowance)} — 학식만 먹어야 살아남아요!`;
+  } else if (dailyAllowance < 15000) {
+    hakshikCard.classList.add('recommended');
+    outsideCard.classList.remove('recommended');
+    document.getElementById('hakshik-tag').textContent = '✅ 추천';
+    document.getElementById('outside-tag').className = 'meal-tag warning';
+    document.getElementById('outside-tag').textContent = '⚠️ 가끔만';
+    tip.textContent = `💡 하루 예산 ${fmt(dailyAllowance)} — 학식 위주로, 외식은 가끔만!`;
+  } else {
+    hakshikCard.classList.remove('recommended');
+    outsideCard.classList.remove('recommended');
+    document.getElementById('hakshik-tag').textContent = '추천';
+    document.getElementById('outside-tag').className = 'meal-tag';
+    document.getElementById('outside-tag').textContent = '가능';
+    tip.textContent = `😊 하루 예산 ${fmt(dailyAllowance)} — 여유 있어요. 가끔 외식도 OK!`;
+  }
+
+  // 생존 식단
+  const diet = document.getElementById('survival-diet');
+  diet.innerHTML = SURVIVAL_DIETS.map(item => `
+    <div class="diet-item">
+      <div>
+        <div style="font-weight:600">${item.name}</div>
+        <div style="font-size:12px;color:var(--text2);margin-top:3px">${item.tip}</div>
+      </div>
+      <div class="diet-cost">하루 ${fmt(item.cost)}</div>
+    </div>`).join('');
+
+  updateFriendCalc();
+}
+
+// ─── 지출 모달 ───
+function openExpenseModal() {
+  document.getElementById('expense-overlay').classList.remove('hidden');
+  document.getElementById('expense-amount').value = '';
+  document.getElementById('expense-note').value = '';
+  selectCat(document.querySelector('.cat-btn[data-cat="식비"]'));
+}
+function closeExpenseModal() {
+  document.getElementById('expense-overlay').classList.add('hidden');
+}
+function selectCat(btn) {
+  document.querySelectorAll('.cat-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  selectedCat = btn.dataset.cat;
+}
+function addExpense() {
+  const amount = parseInt(document.getElementById('expense-amount').value);
+  if (!amount || amount <= 0) { alert('금액을 입력해주세요'); return; }
+  const note = document.getElementById('expense-note').value.trim();
+  const d = getData();
+  d.expenses.push({ id: Date.now().toString(), cat: selectedCat, amount, note, date: toDateStr(new Date()) });
+  save(d);
+  closeExpenseModal();
+  renderAll();
+}
+function deleteExpense(id) {
+  const d = getData();
+  d.expenses = d.expenses.filter(e => e.id !== id);
+  save(d);
+  renderAll();
+}
+
+// ─── 구독 모달 ───
+function openSubModal() {
+  document.getElementById('sub-overlay').classList.remove('hidden');
+}
+function closeSubModal() {
+  document.getElementById('sub-overlay').classList.add('hidden');
+}
+function addSubPreset(name, emoji, amount) {
+  const d = getData();
+  d.subscriptions.push({ id: Date.now().toString(), name, emoji, amount });
+  save(d);
+  closeSubModal();
+  renderAll();
+}
+function addCustomSub() {
+  const name = document.getElementById('sub-name').value.trim();
+  const amount = parseInt(document.getElementById('sub-amount').value);
+  if (!name || !amount) { alert('이름과 금액을 입력해주세요'); return; }
+  addSubPreset(name, '📱', amount);
+}
+function deleteSub(id) {
+  const d = getData();
+  d.subscriptions = d.subscriptions.filter(s => s.id !== id);
+  save(d);
+  renderAll();
+}
+
+// ─── 설정 ───
+function openSettings() {
+  const d = getData();
+  document.getElementById('settings-name').value = d.name;
+  document.getElementById('settings-budget').value = d.budget;
+  document.getElementById('settings-payday').value = d.payday;
+  document.getElementById('settings-overlay').classList.remove('hidden');
+}
+function closeSettings() {
+  document.getElementById('settings-overlay').classList.add('hidden');
+}
+function saveSettings() {
+  const d = getData();
+  d.name = document.getElementById('settings-name').value.trim() || d.name;
+  d.budget = parseInt(document.getElementById('settings-budget').value) || d.budget;
+  d.payday = parseInt(document.getElementById('settings-payday').value) || d.payday;
+  save(d);
+  closeSettings();
+  renderAll();
+}
+function resetAll() {
+  if (confirm('정말 모든 데이터를 초기화할까요?')) {
+    localStorage.removeItem('suwon_planner');
+    location.reload();
   }
 }
 
-// 모달 외부 클릭 시 닫기
-document.getElementById('registerModal').addEventListener('click', function(e) {
-  if (e.target === this) closeRegisterModal();
-});
-document.getElementById('detailModal').addEventListener('click', function(e) {
-  if (e.target === this) closeDetailModal();
-});
+// ─── 친구 약속 ───
+function selectFriend(btn) {
+  document.querySelectorAll('.friend-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  selectedFriendType = btn.dataset.type;
+  updateFriendCalc();
+}
+function changePeople(delta) {
+  friendPeople = Math.max(1, Math.min(10, friendPeople + delta));
+  document.getElementById('people-count').textContent = friendPeople;
+  updateFriendCalc();
+}
+function updateFriendCalc() {
+  const c = FRIEND_COSTS[selectedFriendType];
+  const minTotal = c.min * friendPeople;
+  const maxTotal = c.max * friendPeople;
+  document.getElementById('friend-cost').textContent = `${fmt(minTotal)} ~ ${fmt(maxTotal)}`;
+  const d = getData();
+  const totalSpent = d.expenses.reduce((s,e)=>s+e.amount,0);
+  const remaining = d.budget - totalSpent;
+  const comment = remaining < minTotal
+    ? `⚠️ 현재 잔액(${fmt(remaining)})으로 부족할 수 있어요`
+    : `✅ 잔액 ${fmt(remaining)} — 충분해요!`;
+  document.getElementById('friend-comment').textContent = comment;
+}
 
-function escapeHtml(str) {
-  const d = document.createElement('div');
-  d.textContent = str;
-  return d.innerHTML;
+// ─── 탭 전환 ───
+function switchTab(tab, btn) {
+  document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
+  document.querySelectorAll('.nav-btn').forEach(el => el.classList.remove('active'));
+  document.getElementById('tab-' + tab).classList.add('active');
+  btn.classList.add('active');
+  renderAll();
+}
+
+// ─── 유틸 ───
+function fmt(n) { return (n||0).toLocaleString('ko-KR') + '원'; }
+function toDateStr(d) { return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`; }
+
+function getDaysLeft(today, payday) {
+  const y = today.getFullYear(), m = today.getMonth();
+  const daysInMonth = new Date(y, m+1, 0).getDate();
+  const nextPayday = today.getDate() < payday
+    ? new Date(y, m, payday)
+    : new Date(y, m+1, payday);
+  const diff = Math.ceil((nextPayday - today) / (1000*60*60*24));
+  return Math.max(1, diff);
+}
+
+function getWeeklyByCategory(expenses, cat) {
+  const now = new Date();
+  const weekAgo = new Date(now); weekAgo.setDate(now.getDate() - 7);
+  return expenses
+    .filter(e => e.cat === cat && new Date(e.date) >= weekAgo)
+    .reduce((s, e) => s + e.amount, 0);
 }

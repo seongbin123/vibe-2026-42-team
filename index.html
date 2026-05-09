@@ -1,154 +1,278 @@
 <!DOCTYPE html>
-<html lang="ko"> <!-- deploy test -->
+<html lang="ko">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>수원대 중고책 거래 - TEST</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>수원대 월말생존 플래너</title>
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-  <!-- 헤더 -->
-  <header>
-    <div class="header-inner">
-      <h1>📚 수원대 중고책</h1>
-      <button class="btn-primary" onclick="openRegisterModal()">+ 책 등록</button>
-    </div>
-  </header>
-
-  <!-- 검색 + 필터 -->
-  <div class="search-section">
-    <input type="text" id="searchInput" placeholder="책 제목, 과목으로 검색..." oninput="filterBooks()">
-    <div class="filters">
-      <select id="filterDept" onchange="filterBooks()">
-        <option value="">전체 학과</option>
-        <option>컴퓨터학과</option>
-        <option>경영학과</option>
-        <option>전자공학과</option>
-        <option>기계공학과</option>
-        <option>건축학과</option>
-        <option>간호학과</option>
-        <option>사회복지학과</option>
-        <option>영어영문학과</option>
-        <option>기타</option>
-      </select>
-      <select id="filterCondition" onchange="filterBooks()">
-        <option value="">전체 상태</option>
-        <option>상</option>
-        <option>중</option>
-        <option>하</option>
-      </select>
-      <select id="filterPrice" onchange="filterBooks()">
-        <option value="">전체 가격</option>
-        <option value="0-5000">5,000원 이하</option>
-        <option value="5000-10000">5,000 ~ 10,000원</option>
-        <option value="10000-20000">10,000 ~ 20,000원</option>
-        <option value="20000-99999999">20,000원 이상</option>
-      </select>
+  <!-- 최초 설정 모달 -->
+  <div id="setup-overlay" class="overlay">
+    <div class="setup-modal">
+      <div class="setup-logo">🎓</div>
+      <h2>수원대 월말생존 플래너</h2>
+      <p class="setup-sub">이번 달 생활비를 입력하면<br>하루하루 생존 전략을 짜드려요</p>
+      <div class="setup-form">
+        <label>내 이름 / 닉네임</label>
+        <input type="text" id="setup-name" placeholder="예: 수원대생" maxlength="10">
+        <label>이번 달 총 생활비</label>
+        <div class="input-wrap">
+          <input type="number" id="setup-budget" placeholder="500000" inputmode="numeric">
+          <span class="unit">원</span>
+        </div>
+        <label>월급날 / 용돈 받는 날</label>
+        <input type="number" id="setup-payday" placeholder="1" min="1" max="31" inputmode="numeric">
+        <button onclick="saveSetup()" class="btn-primary">생존 시작하기 🚀</button>
+      </div>
     </div>
   </div>
 
-  <!-- 책 목록 -->
-  <main>
-    <div id="bookCount" class="book-count"></div>
-    <div id="bookGrid" class="book-grid"></div>
-    <div id="emptyMsg" class="empty-msg" style="display:none">
-      등록된 책이 없습니다 😢
-    </div>
-  </main>
-
-  <!-- 책 등록 모달 -->
-  <div id="registerModal" class="modal-overlay" style="display:none">
-    <div class="modal">
-      <div class="modal-header">
-        <h2>📖 책 등록하기</h2>
-        <button class="modal-close" onclick="closeRegisterModal()">✕</button>
+  <!-- 지출 입력 모달 -->
+  <div id="expense-overlay" class="overlay hidden">
+    <div class="modal-sheet">
+      <div class="modal-handle"></div>
+      <h3 id="modal-title">지출 추가</h3>
+      <div class="category-grid" id="modal-categories">
+        <button class="cat-btn active" data-cat="식비" onclick="selectCat(this)">🍚 식비</button>
+        <button class="cat-btn" data-cat="카페" onclick="selectCat(this)">☕ 카페</button>
+        <button class="cat-btn" data-cat="교통" onclick="selectCat(this)">🚌 교통</button>
+        <button class="cat-btn" data-cat="술자리" onclick="selectCat(this)">🍺 술자리</button>
+        <button class="cat-btn" data-cat="구독" onclick="selectCat(this)">📱 구독</button>
+        <button class="cat-btn" data-cat="쇼핑" onclick="selectCat(this)">🛍️ 쇼핑</button>
+        <button class="cat-btn" data-cat="기타" onclick="selectCat(this)">💸 기타</button>
       </div>
-      <form id="registerForm" onsubmit="submitBook(event)">
-        <div class="form-group">
-          <label>책 제목 *</label>
-          <input type="text" id="f-title" placeholder="예: 자료구조론" required>
-        </div>
-        <div class="form-group">
-          <label>저자</label>
-          <input type="text" id="f-author" placeholder="예: 홍길동">
-        </div>
-        <div class="form-row">
-          <div class="form-group">
-            <label>과목명</label>
-            <input type="text" id="f-subject" placeholder="예: 자료구조">
-          </div>
-          <div class="form-group">
-            <label>학과</label>
-            <select id="f-dept">
-              <option value="">선택</option>
-              <option>컴퓨터학과</option>
-              <option>경영학과</option>
-              <option>전자공학과</option>
-              <option>기계공학과</option>
-              <option>건축학과</option>
-              <option>간호학과</option>
-              <option>사회복지학과</option>
-              <option>영어영문학과</option>
-              <option>기타</option>
-            </select>
-          </div>
-        </div>
-        <div class="form-row">
-          <div class="form-group">
-            <label>가격 (원) *</label>
-            <input type="number" id="f-price" placeholder="예: 8000" min="0" required>
-          </div>
-          <div class="form-group">
-            <label>책 상태 *</label>
-            <select id="f-condition" required>
-              <option value="">선택</option>
-              <option>상</option>
-              <option>중</option>
-              <option>하</option>
-            </select>
-          </div>
-        </div>
-        <div class="form-group">
-          <label>설명</label>
-          <textarea id="f-desc" placeholder="책 상태, 필기 여부 등 자유롭게 적어주세요" rows="3"></textarea>
-        </div>
-        <div class="form-group">
-          <label>연락처 (카톡 ID 또는 전화번호) *</label>
-          <input type="text" id="f-contact" placeholder="예: kakao123 또는 010-1234-5678" required>
-        </div>
-        <div class="form-actions">
-          <button type="button" class="btn-secondary" onclick="closeRegisterModal()">취소</button>
-          <button type="submit" class="btn-primary" id="submitBtn">등록하기</button>
-        </div>
-      </form>
+      <div class="input-wrap">
+        <input type="number" id="expense-amount" placeholder="0" inputmode="numeric">
+        <span class="unit">원</span>
+      </div>
+      <input type="text" id="expense-note" placeholder="메모 (선택)" maxlength="20">
+      <button onclick="addExpense()" class="btn-primary">저장</button>
+      <button onclick="closeExpenseModal()" class="btn-ghost">취소</button>
     </div>
   </div>
 
-  <!-- 책 상세 모달 -->
-  <div id="detailModal" class="modal-overlay" style="display:none">
-    <div class="modal">
-      <div class="modal-header">
-        <h2 id="d-title"></h2>
-        <button class="modal-close" onclick="closeDetailModal()">✕</button>
+  <!-- 앱 본체 -->
+  <div id="app">
+
+    <!-- 홈 탭 -->
+    <section class="tab-content active" id="tab-home">
+      <div class="home-header">
+        <div>
+          <p class="greeting" id="greeting">안녕하세요 👋</p>
+          <p class="header-sub">수원대 월말생존 플래너</p>
+        </div>
+        <button class="icon-btn" onclick="openSettings()">⚙️</button>
       </div>
-      <div class="detail-body">
-        <div class="detail-info">
-          <span class="badge-condition" id="d-condition"></span>
-          <span class="detail-price" id="d-price"></span>
+
+      <!-- 메인 카드 -->
+      <div class="survival-card" id="survival-card">
+        <div class="survival-label" id="survival-label">생존 상태</div>
+        <div class="survival-amount" id="remaining-amount">0원</div>
+        <div class="survival-sub" id="remaining-sub">남은 생활비</div>
+        <div class="daily-box">
+          <span class="daily-label">오늘 쓸 수 있는 돈</span>
+          <span class="daily-amount" id="daily-amount">0원</span>
         </div>
-        <div class="detail-row"><span>저자</span><span id="d-author"></span></div>
-        <div class="detail-row"><span>과목</span><span id="d-subject"></span></div>
-        <div class="detail-row"><span>학과</span><span id="d-dept"></span></div>
-        <div class="detail-desc" id="d-desc"></div>
-        <div class="contact-box">
-          <p>연락처</p>
-          <strong id="d-contact"></strong>
+        <div class="progress-bar-wrap">
+          <div class="progress-bar" id="progress-bar"></div>
         </div>
-        <div class="detail-actions">
-          <button class="btn-sold" id="d-soldBtn" onclick="markSold()">판매완료 처리</button>
+        <div class="progress-labels">
+          <span id="spent-pct">0% 사용</span>
+          <span id="days-left">D-?</span>
         </div>
       </div>
+
+      <!-- 오늘 지출 -->
+      <div class="section-title">오늘 지출
+        <button class="add-btn" onclick="openExpenseModal()">+ 추가</button>
+      </div>
+      <div class="today-cats" id="today-cats">
+        <div class="cat-stat"><span>🍚 식비</span><span id="today-food">0원</span></div>
+        <div class="cat-stat"><span>☕ 카페</span><span id="today-cafe">0원</span></div>
+        <div class="cat-stat"><span>🚌 교통</span><span id="today-transport">0원</span></div>
+        <div class="cat-stat"><span>🍺 술자리</span><span id="today-drink">0원</span></div>
+      </div>
+
+      <!-- 경고 카드 -->
+      <div id="warning-zone"></div>
+
+      <!-- 최근 내역 -->
+      <div class="section-title">최근 내역</div>
+      <div id="recent-list" class="recent-list"></div>
+    </section>
+
+    <!-- 지출 탭 -->
+    <section class="tab-content" id="tab-expense">
+      <div class="page-header">지출 내역 📋</div>
+      <div class="filter-row">
+        <button class="filter-btn active" onclick="filterExpenses('all', this)">전체</button>
+        <button class="filter-btn" onclick="filterExpenses('식비', this)">🍚</button>
+        <button class="filter-btn" onclick="filterExpenses('카페', this)">☕</button>
+        <button class="filter-btn" onclick="filterExpenses('교통', this)">🚌</button>
+        <button class="filter-btn" onclick="filterExpenses('술자리', this)">🍺</button>
+        <button class="filter-btn" onclick="filterExpenses('구독', this)">📱</button>
+      </div>
+      <div id="full-expense-list" class="recent-list"></div>
+      <div class="fab" onclick="openExpenseModal()">+</div>
+    </section>
+
+    <!-- 분석 탭 -->
+    <section class="tab-content" id="tab-analysis">
+      <div class="page-header">소비 분석 📊</div>
+
+      <div class="analysis-card" id="coffee-warning-card">
+        <div class="analysis-icon">☕</div>
+        <div class="analysis-content">
+          <div class="analysis-title">이번 주 카페 지출</div>
+          <div class="analysis-value" id="coffee-weekly">0원</div>
+          <div class="analysis-bar-wrap">
+            <div class="analysis-bar coffee-bar" id="coffee-bar"></div>
+          </div>
+          <div class="analysis-comment" id="coffee-comment">아직 괜찮아요</div>
+        </div>
+      </div>
+
+      <div class="section-title">구독 서비스 체크</div>
+      <div id="subscription-list" class="sub-list"></div>
+      <button class="btn-ghost small" onclick="openSubModal()">+ 구독 추가</button>
+
+      <div class="section-title">카테고리별 지출</div>
+      <div id="category-chart" class="category-chart"></div>
+
+      <div class="analysis-card">
+        <div class="analysis-icon">📅</div>
+        <div class="analysis-content">
+          <div class="analysis-title">이번 달 페이스</div>
+          <div class="analysis-value" id="monthly-pace">계산중...</div>
+          <div class="analysis-comment" id="pace-comment"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 생존 탭 -->
+    <section class="tab-content" id="tab-survival">
+      <div class="page-header">생존 모드 🆘</div>
+
+      <!-- 학식 vs 외식 -->
+      <div class="section-title">오늘 뭐 먹지?</div>
+      <div class="meal-compare" id="meal-compare">
+        <div class="meal-card" id="meal-hakshik">
+          <div class="meal-emoji">🏫</div>
+          <div class="meal-name">수원대 학식</div>
+          <div class="meal-price">일반식 3,500원</div>
+          <div class="meal-tag" id="hakshik-tag">추천</div>
+        </div>
+        <div class="vs">VS</div>
+        <div class="meal-card" id="meal-outside">
+          <div class="meal-emoji">🍜</div>
+          <div class="meal-name">외식</div>
+          <div class="meal-price">평균 8,000원~</div>
+          <div class="meal-tag danger" id="outside-tag">비쌈</div>
+        </div>
+      </div>
+      <div class="survival-meal-tip" id="meal-tip"></div>
+
+      <!-- 월말 식단 -->
+      <div class="section-title">월말 생존 식단 🥬</div>
+      <div id="survival-diet" class="diet-list"></div>
+
+      <!-- 친구 약속 예측 -->
+      <div class="section-title">친구 약속 비용 예측 👫</div>
+      <div class="friend-calc">
+        <div class="friend-options">
+          <button class="friend-btn active" data-type="cafe" onclick="selectFriend(this)">☕ 카페</button>
+          <button class="friend-btn" data-type="meal" onclick="selectFriend(this)">🍽️ 밥</button>
+          <button class="friend-btn" data-type="drink" onclick="selectFriend(this)">🍺 술</button>
+          <button class="friend-btn" data-type="movie" onclick="selectFriend(this)">🎬 영화</button>
+          <button class="friend-btn" data-type="pc" onclick="selectFriend(this)">🖥️ PC방</button>
+        </div>
+        <div class="friend-people">
+          <span>인원</span>
+          <button onclick="changePeople(-1)">−</button>
+          <span id="people-count">2</span>명
+          <button onclick="changePeople(1)">+</button>
+        </div>
+        <div class="friend-result" id="friend-result">
+          <div class="friend-cost" id="friend-cost">예상 0원</div>
+          <div class="friend-comment" id="friend-comment"></div>
+        </div>
+      </div>
+
+      <!-- 수원대 학식 메뉴 -->
+      <div class="section-title">수원대 학식 메뉴 정보 🍱</div>
+      <div class="hakshik-info">
+        <div class="hakshik-item"><span>일반식</span><span class="price">3,500원</span></div>
+        <div class="hakshik-item"><span>특선</span><span class="price">5,000원</span></div>
+        <div class="hakshik-item"><span>분식코너</span><span class="price">2,000~3,000원</span></div>
+        <div class="hakshik-item"><span>편의점 도시락</span><span class="price">3,500~5,500원</span></div>
+        <div class="hakshik-tip">💡 학식 3끼 = 하루 약 10,500원으로 해결!</div>
+      </div>
+    </section>
+
+    <!-- 하단 네비 -->
+    <nav class="bottom-nav">
+      <button class="nav-btn active" onclick="switchTab('home', this)">
+        <span class="nav-icon">🏠</span>
+        <span class="nav-label">홈</span>
+      </button>
+      <button class="nav-btn" onclick="switchTab('expense', this)">
+        <span class="nav-icon">📋</span>
+        <span class="nav-label">내역</span>
+      </button>
+      <button class="nav-btn" onclick="switchTab('analysis', this)">
+        <span class="nav-icon">📊</span>
+        <span class="nav-label">분석</span>
+      </button>
+      <button class="nav-btn" onclick="switchTab('survival', this)">
+        <span class="nav-icon">🆘</span>
+        <span class="nav-label">생존</span>
+      </button>
+    </nav>
+  </div>
+
+  <!-- 구독 추가 모달 -->
+  <div id="sub-overlay" class="overlay hidden">
+    <div class="modal-sheet">
+      <div class="modal-handle"></div>
+      <h3>구독 서비스 추가</h3>
+      <div class="sub-presets">
+        <button onclick="addSubPreset('넷플릭스','📺',17000)">📺 넷플릭스 17,000원</button>
+        <button onclick="addSubPreset('유튜브 프리미엄','▶️',14900)">▶️ 유튜브 프리미엄 14,900원</button>
+        <button onclick="addSubPreset('스포티파이','🎵',10900)">🎵 스포티파이 10,900원</button>
+        <button onclick="addSubPreset('왓챠','🎬',12900)">🎬 왓챠 12,900원</button>
+        <button onclick="addSubPreset('웨이브','🌊',13900)">🌊 웨이브 13,900원</button>
+        <button onclick="addSubPreset('ChatGPT','🤖',27000)">🤖 ChatGPT Plus 27,000원</button>
+      </div>
+      <label>직접 입력</label>
+      <input type="text" id="sub-name" placeholder="서비스 이름">
+      <div class="input-wrap">
+        <input type="number" id="sub-amount" placeholder="금액" inputmode="numeric">
+        <span class="unit">원</span>
+      </div>
+      <button onclick="addCustomSub()" class="btn-primary">추가</button>
+      <button onclick="closeSubModal()" class="btn-ghost">닫기</button>
+    </div>
+  </div>
+
+  <!-- 설정 모달 -->
+  <div id="settings-overlay" class="overlay hidden">
+    <div class="modal-sheet">
+      <div class="modal-handle"></div>
+      <h3>설정 ⚙️</h3>
+      <label>이름</label>
+      <input type="text" id="settings-name" maxlength="10">
+      <label>이번 달 생활비</label>
+      <div class="input-wrap">
+        <input type="number" id="settings-budget" inputmode="numeric">
+        <span class="unit">원</span>
+      </div>
+      <label>용돈 받는 날</label>
+      <input type="number" id="settings-payday" min="1" max="31" inputmode="numeric">
+      <button onclick="saveSettings()" class="btn-primary">저장</button>
+      <button onclick="resetAll()" class="btn-danger">전체 초기화</button>
+      <button onclick="closeSettings()" class="btn-ghost">닫기</button>
     </div>
   </div>
 
