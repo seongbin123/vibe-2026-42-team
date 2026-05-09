@@ -1,3 +1,38 @@
+// ─── 드래그 입력 ───
+function initDragInputs() {
+  document.querySelectorAll('input[type="number"]').forEach(input => {
+    let startY = 0, startVal = 0, dragging = false;
+
+    const step = () => {
+      const max = parseInt(input.max) || Infinity;
+      if (max <= 31) return 1;       // 날짜 같은 작은 값
+      return 1000;                    // 금액은 1,000원 단위
+    };
+
+    const onStart = (y) => {
+      startY = y;
+      startVal = parseInt(input.value) || 0;
+      dragging = true;
+    };
+    const onMove = (y) => {
+      if (!dragging) return;
+      const delta = Math.round((startY - y) / 4) * step();
+      const min = parseInt(input.min) || 0;
+      const max = parseInt(input.max) || Infinity;
+      input.value = Math.max(min, Math.min(max, startVal + delta));
+    };
+    const onEnd = () => { dragging = false; };
+
+    input.addEventListener('mousedown',  e => onStart(e.clientY));
+    document.addEventListener('mousemove', e => { if (dragging) onMove(e.clientY); });
+    document.addEventListener('mouseup',   onEnd);
+
+    input.addEventListener('touchstart', e => onStart(e.touches[0].clientY), { passive: true });
+    input.addEventListener('touchmove',  e => { onMove(e.touches[0].clientY); }, { passive: true });
+    input.addEventListener('touchend',   onEnd);
+  });
+}
+
 // ─── 데이터 ───
 const EMOJIS = { 식비:'🍚', 카페:'☕', 교통:'🚌', 술자리:'🍺', 구독:'📱', 쇼핑:'🛍️', 기타:'💸' };
 const CAT_COLORS = { 식비:'#7C6CF4', 카페:'#FFB347', 교통:'#4ADE80', 술자리:'#FF5A5A', 구독:'#00D4FF', 쇼핑:'#FF69B4', 기타:'#9090A8' };
@@ -37,6 +72,7 @@ function getData() {
 
 // ─── 초기화 ───
 window.onload = () => {
+  initDragInputs();
   const d = getData();
   if (!d.budget) {
     document.getElementById('setup-overlay').style.display = 'flex';
