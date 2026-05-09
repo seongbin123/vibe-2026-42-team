@@ -420,40 +420,41 @@ function openExpenseModal() {
   document.getElementById('expense-overlay').classList.remove('hidden');
   document.getElementById('expense-amount').value = '';
   document.getElementById('expense-note').value = '';
-  selectCat(document.querySelector('.cat-btn[data-cat="식비"]'));
-  renderRecentAmounts();
+  document.getElementById('recent-amounts').innerHTML = '';
+  selectCat(document.querySelector('.cat-btn[data-cat="식비"]'), false);
 }
 
-function renderRecentAmounts() {
+function renderRecentAmounts(cat) {
   const d = getData();
   const seen = new Set();
   const recent = [];
   for (let i = d.expenses.length - 1; i >= 0 && recent.length < 4; i--) {
     const e = d.expenses[i];
-    const key = `${e.cat}-${e.amount}`;
+    if (e.cat !== cat) continue;
+    const key = String(e.amount);
     if (!seen.has(key)) { seen.add(key); recent.push(e); }
   }
   const el = document.getElementById('recent-amounts');
   if (!recent.length) { el.innerHTML = ''; return; }
   el.innerHTML = recent.map(e =>
-    `<button class="recent-chip" onclick="applyRecentAmount('${e.cat}',${e.amount},'${e.note||''}')">
-      ${EMOJIS[e.cat]||'💸'} ${e.amount.toLocaleString()}원
+    `<button class="recent-chip" onclick="applyRecentAmount(${e.amount},'${(e.note||'').replace(/'/g,"\\'")}')">
+      ${e.amount.toLocaleString()}원
     </button>`
   ).join('');
 }
 
-function applyRecentAmount(cat, amount, note) {
+function applyRecentAmount(amount, note) {
   document.getElementById('expense-amount').value = amount;
   document.getElementById('expense-note').value = note;
-  selectCat(document.querySelector(`.cat-btn[data-cat="${cat}"]`));
 }
 function closeExpenseModal() {
   document.getElementById('expense-overlay').classList.add('hidden');
 }
-function selectCat(btn) {
+function selectCat(btn, showRecent = true) {
   document.querySelectorAll('.cat-btn').forEach(b => b.classList.remove('active'));
   btn.classList.add('active');
   selectedCat = btn.dataset.cat;
+  if (showRecent) renderRecentAmounts(selectedCat);
 }
 function addExpense() {
   const amount = parseInt(document.getElementById('expense-amount').value);
