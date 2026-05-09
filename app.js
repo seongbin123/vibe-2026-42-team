@@ -247,12 +247,17 @@ function renderWarnings(d, remaining, daysLeft) {
   zone.innerHTML = '';
   const warnings = [];
 
-  // 카페 주간 경고
-  const weekCafe = getWeeklyByCategory(d.expenses, '카페');
-  if (weekCafe >= 25000) {
-    warnings.push({ type: 'red', msg: `☕ 이번 주 카페 지출이 ${fmt(weekCafe)}이에요! 커피 좀 줄여봐요 ☠️` });
-  } else if (weekCafe >= 15000) {
-    warnings.push({ type: 'yellow', msg: `☕ 이번 주 카페 지출 ${fmt(weekCafe)}. 슬슬 조심할 때에요` });
+  // 이번 주 최다 지출 카테고리 경고
+  const now2 = new Date();
+  const weekAgo2 = new Date(now2); weekAgo2.setDate(now2.getDate() - 7);
+  const wTotals = {};
+  d.expenses.filter(e => new Date(e.date) >= weekAgo2).forEach(e => { wTotals[e.cat] = (wTotals[e.cat]||0) + e.amount; });
+  const topW = Object.keys(wTotals).sort((a,b) => wTotals[b]-wTotals[a])[0];
+  if (topW) {
+    const limit2 = CAT_LIMITS[topW] || 30000;
+    const amt = wTotals[topW];
+    if (amt >= limit2) warnings.push({ type: 'red', msg: `${EMOJIS[topW]||'💸'} 이번 주 ${topW} 지출이 ${fmt(amt)}이에요! 너무 많아요 ☠️` });
+    else if (amt >= limit2 * 0.7) warnings.push({ type: 'yellow', msg: `${EMOJIS[topW]||'💸'} 이번 주 ${topW} 지출 ${fmt(amt)}. 슬슬 조심할 때에요` });
   }
 
   // 구독료 경고
@@ -320,20 +325,45 @@ function filterExpenses(cat, btn) {
 }
 
 // ─── 분석 탭 ───
+const CAT_LIMITS = { 식비:60000, 카페:20000, 교통:20000, 술자리:30000, 구독:30000, 쇼핑:50000, 병원:30000, 기타:20000 };
+const CAT_COMMENTS = {
+  식비:  [['절약 식단 중! 훌륭해요 ✨','식비 적당해요 👍','⚠️ 식비가 꽤 많아요. 학식 활용해봐요!','🚨 식비가 너무 많아요! 학식 or 편의점 도시락으로!']],
+  카페:  [['카페 지출 없음 👏','절약 중이에요! 훌륭해요 ✨','적당한 편이에요','⚠️ 카페비가 많아요. 텀블러 챙겨봐요!','🚨 카페비가 너무 많아요! 학교 정수기를 애용하세요']],
+  교통:  [['교통비 지출 없음 👏','교통비 절약 중이에요 ✨','적당한 편이에요','⚠️ 교통비가 많아요. 자전거나 도보 고려해봐요!','🚨 교통비가 많아요! 정기권 활용해보세요']],
+  술자리:[['술자리 지출 없음 👏','절제하고 있어요 ✨','적당한 편이에요','⚠️ 술자리 지출이 많아요. 조금 줄여봐요!','🚨 술자리 지출이 너무 많아요!']],
+  구독:  [['구독료 지출 없음 👏','구독 관리 잘 하고 있어요 ✨','적당한 편이에요','⚠️ 구독료가 많아요. 안 쓰는 거 정리해봐요!','🚨 구독료가 너무 많아요! 꼭 필요한 것만 남겨요']],
+  쇼핑:  [['쇼핑 지출 없음 👏','절약 중이에요 ✨','적당한 편이에요','⚠️ 쇼핑 지출이 많아요. 장바구니 다시 확인해봐요!','🚨 쇼핑을 너무 많이 했어요!']],
+  병원:  [['병원 지출 없음 👏','건강 챙기고 있어요 ✨','적당한 편이에요','병원비가 꽤 있어요. 건강 잘 챙겨요!','병원비가 많아요. 건강이 먼저에요 💊']],
+  기타:  [['기타 지출 없음 👏','기타 지출 절약 중이에요 ✨','적당한 편이에요','⚠️ 기타 지출이 많아요.','🚨 기타 지출이 너무 많아요!']],
+};
 function renderAnalysis() {
   const d = getData();
-  const weekCafe = getWeeklyByCategory(d.expenses, '카페');
-  const cafeLimit = 20000;
-  const cafePct = Math.min(100, (weekCafe / cafeLimit) * 100);
 
-  document.getElementById('coffee-weekly').textContent = fmt(weekCafe);
-  document.getElementById('coffee-bar').style.width = cafePct + '%';
-  const coffeeComment = weekCafe === 0 ? '이번 주 카페 지출 없음 👏' :
-    weekCafe < 10000 ? '절약 중이에요! 훌륭해요 ✨' :
-    weekCafe < 20000 ? '적당한 편이에요' :
-    weekCafe < 30000 ? '⚠️ 카페비가 많아요. 텀블러 챙겨봐요!' :
-    '🚨 카페비가 너무 많아요! 학교 정수기를 애용하세요';
-  document.getElementById('coffee-comment').textContent = coffeeComment;
+  // 이번 주 카테고리별 합산
+  const now = new Date();
+  const weekAgo = new Date(now); weekAgo.setDate(now.getDate() - 7);
+  const weekTotals = {};
+  d.expenses.filter(e => new Date(e.date) >= weekAgo).forEach(e => {
+    weekTotals[e.cat] = (weekTotals[e.cat] || 0) + e.amount;
+  });
+
+  // 최다 지출 카테고리 찾기
+  const topCat = Object.keys(weekTotals).sort((a, b) => weekTotals[b] - weekTotals[a])[0];
+  const topAmount = topCat ? weekTotals[topCat] : 0;
+  const limit = topCat ? (CAT_LIMITS[topCat] || 30000) : 30000;
+  const pct = Math.min(100, (topAmount / limit) * 100);
+  const comments = topCat ? CAT_COMMENTS[topCat][0] : null;
+  const comment = !topCat ? '이번 주 지출 내역이 없어요' :
+    topAmount < limit * 0.25 ? comments[1] :
+    topAmount < limit * 0.5  ? comments[2] :
+    topAmount < limit * 0.75 ? comments[3] :
+    topAmount < limit        ? comments[3] : comments[4];
+
+  document.getElementById('top-cat-icon').textContent = topCat ? (EMOJIS[topCat] || '📊') : '📊';
+  document.getElementById('top-cat-title').textContent = topCat ? `이번 주 ${topCat} 지출` : '이번 주 최다 지출';
+  document.getElementById('coffee-weekly').textContent = fmt(topAmount);
+  document.getElementById('coffee-bar').style.width = pct + '%';
+  document.getElementById('coffee-comment').textContent = comment || '아직 괜찮아요';
 
   renderSubscriptions();
   renderCategoryChart(d.expenses);
