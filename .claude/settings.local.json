@@ -1,17 +1,4 @@
 {
-  "hooks": {
-    "Stop": [
-      {
-        "hooks": [
-          {
-            "type": "command",
-            "command": "cd /home/jovyan/work && git diff --quiet && git diff --cached --quiet || (git add -A && git commit -m \"Auto-save\" && git push origin main) 2>/dev/null || true",
-            "statusMessage": "GitHub에 자동 저장 중..."
-          }
-        ]
-      }
-    ]
-  },
   "permissions": {
     "allow": [
       "Bash(mkdir -p \"/home/jovyan/work/야작 관리/yajak-app/schedule-app\")",
@@ -31,7 +18,21 @@
       "Bash(npx create-expo-app@latest . --template blank)",
       "Bash(npm install *)",
       "Bash(bash -c 'cd /home/jovyan/work && git diff --quiet && git diff --cached --quiet || \\(git add -A && git commit -m \"Auto-save\" && git push origin main\\)')",
-      "Bash(echo \"exit: $?\")"
+      "Bash(echo \"exit: $?\")",
+      "Bash(grep -v \"^$\")"
+    ]
+  },
+  "hooks": {
+    "Stop": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "cd /home/jovyan/work && git diff --quiet && git diff --cached --quiet || (git add -A && git commit -m \"Auto-save\" && git push origin main) 2>/dev/null || true",
+            "statusMessage": "GitHub에 자동 저장 중..."
+          }
+        ]
+      }
     ]
   }
 }
