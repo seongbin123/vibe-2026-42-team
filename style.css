@@ -365,6 +365,7 @@ input::placeholder { color: var(--text2); }
 }
 .sub-info { display: flex; align-items: center; gap: 10px; }
 .sub-name { font-size: 14px; font-weight: 600; }
+.sub-billing { font-size: 11px; color: var(--text2); margin-top: 2px; }
 .sub-amount { font-size: 13px; color: var(--danger); font-weight: 700; }
 .sub-delete { background: none; border: none; color: var(--text2); font-size: 18px; cursor: pointer; }
 

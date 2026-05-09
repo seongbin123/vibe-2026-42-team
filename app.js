@@ -60,11 +60,14 @@ function renderCalendar() {
 
 function selectCalDay(day) {
   calSelectedDay = day;
-  const btnId = calContext === 'setup' ? 'setup-payday-btn' : 'settings-payday-btn';
+  const btnId = calContext === 'setup' ? 'setup-payday-btn'
+    : calContext === 'settings' ? 'settings-payday-btn'
+    : 'sub-date-btn';
   const btn = document.getElementById(btnId);
   btn.textContent = `📅 ${calMonth + 1}월 ${day}일`;
   btn.classList.add('selected');
   btn.dataset.payday = day;
+  btn.dataset.month = calMonth + 1;
   closeCalendar();
 }
 
@@ -330,7 +333,10 @@ function renderSubscriptions() {
     <div class="sub-item">
       <div class="sub-info">
         <span style="font-size:20px">${sub.emoji||'📱'}</span>
-        <span class="sub-name">${sub.name}</span>
+        <div>
+          <div class="sub-name">${sub.name}</div>
+          ${sub.billingDate ? `<div class="sub-billing">${sub.billingDate.month}월 ${sub.billingDate.day}일 결제</div>` : ''}
+        </div>
       </div>
       <div style="display:flex;align-items:center;gap:10px">
         <span class="sub-amount">-${fmt(sub.amount)}/월</span>
@@ -468,14 +474,28 @@ function deleteExpense(id) {
 
 // ─── 구독 모달 ───
 function openSubModal() {
+  const btn = document.getElementById('sub-date-btn');
+  btn.textContent = '📅 결제일 선택';
+  btn.classList.remove('selected');
+  btn.dataset.payday = '';
+  btn.dataset.month = '';
+  document.getElementById('sub-name').value = '';
+  document.getElementById('sub-amount').value = '';
   document.getElementById('sub-overlay').classList.remove('hidden');
 }
 function closeSubModal() {
   document.getElementById('sub-overlay').classList.add('hidden');
 }
+function getSubDate() {
+  const btn = document.getElementById('sub-date-btn');
+  const day = parseInt(btn.dataset.payday) || null;
+  const month = parseInt(btn.dataset.month) || null;
+  return day ? { month, day } : null;
+}
+
 function addSubPreset(name, emoji, amount) {
   const d = getData();
-  d.subscriptions.push({ id: Date.now().toString(), name, emoji, amount });
+  d.subscriptions.push({ id: Date.now().toString(), name, emoji, amount, billingDate: getSubDate() });
   save(d);
   closeSubModal();
   renderAll();
