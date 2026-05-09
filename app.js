@@ -497,6 +497,7 @@ function deleteSub(id) {
 function openAddBudgetModal() {
   document.getElementById('add-budget-amount').value = '';
   document.getElementById('add-budget-overlay').classList.remove('hidden');
+  initDragInputs();
 }
 function closeAddBudgetModal() {
   document.getElementById('add-budget-overlay').classList.add('hidden');
