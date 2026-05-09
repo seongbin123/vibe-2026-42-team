@@ -421,7 +421,8 @@ function openExpenseModal() {
   document.getElementById('expense-amount').value = '';
   document.getElementById('expense-note').value = '';
   document.getElementById('recent-amounts').innerHTML = '';
-  selectCat(document.querySelector('.cat-btn[data-cat="식비"]'), false);
+  selectedCat = '식비';
+  document.querySelectorAll('.cat-btn').forEach(b => b.classList.remove('active'));
 }
 
 function renderRecentAmounts(cat) {
