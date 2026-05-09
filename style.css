@@ -13,7 +13,7 @@
   --nav-height: 70px;
 }
 
-* { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+* { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; max-width: 100%; }
 
 body {
   background: var(--bg);
@@ -22,6 +22,7 @@ body {
   font-size: 15px;
   min-height: 100vh;
   overflow-x: hidden;
+  width: 100%;
 }
 
 /* ─── 오버레이 / 모달 ─── */
@@ -150,9 +151,9 @@ input::placeholder { color: var(--text2); }
 }
 
 /* ─── 앱 레이아웃 ─── */
-#app { max-width: 480px; margin: 0 auto; padding-bottom: var(--nav-height); }
+#app { max-width: 480px; margin: 0 auto; padding-bottom: var(--nav-height); overflow-x: hidden; }
 
-.tab-content { display: none; padding: 0 16px; animation: fadeIn .2s ease; }
+.tab-content { display: none; padding: 0 16px; animation: fadeIn .2s ease; overflow-x: hidden; }
 .tab-content.active { display: block; }
 @keyframes fadeIn { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: none; } }
 
@@ -483,14 +484,15 @@ input::placeholder { color: var(--text2); }
 /* ─── 하단 네비 ─── */
 .bottom-nav {
   position: fixed;
-  bottom: 0; left: 0; right: 0;
+  bottom: 0; left: 50%;
+  transform: translateX(-50%);
   background: var(--surface);
   border-top: 1px solid var(--border);
   display: flex;
   height: var(--nav-height);
   z-index: 50;
+  width: 100%;
   max-width: 480px;
-  margin: 0 auto;
 }
 .nav-btn {
   flex: 1;
