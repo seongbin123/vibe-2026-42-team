@@ -287,7 +287,9 @@ function expenseItemHTML(e) {
       <div class="expense-date">${e.date}</div>
     </div>
     <div class="expense-menu-wrap">
-      <button class="expense-menu-btn" onclick="toggleExpenseMenu(event,'${e.id}')">⋮</button>
+      <button class="expense-menu-btn"
+        ontouchend="event.preventDefault();toggleExpenseMenu(event,'${e.id}')"
+        onclick="toggleExpenseMenu(event,'${e.id}')">⋮</button>
       <div class="expense-menu-popup hidden" id="menu-${e.id}">
         <button onclick="editExpense('${e.id}')">✏️ 수정하기</button>
         <button onclick="deleteExpense('${e.id}')">🗑️ 삭제하기</button>
@@ -506,6 +508,8 @@ function addExpense() {
 let menuAllowedAfter = 0;
 function toggleExpenseMenu(event, id) {
   event.stopPropagation();
+  // touch 기기에서는 ontouchend로만 처리, ghost click(click 이벤트) 차단
+  if (event.type === 'click' && navigator.maxTouchPoints > 0) return;
   if (Date.now() < menuAllowedAfter) return;
   const popup = document.getElementById('menu-' + id);
   const isHidden = popup.classList.contains('hidden');
