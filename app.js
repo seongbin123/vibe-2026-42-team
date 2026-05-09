@@ -493,6 +493,24 @@ function deleteSub(id) {
   renderAll();
 }
 
+// ─── 용돈 추가 ───
+function openAddBudgetModal() {
+  document.getElementById('add-budget-amount').value = '';
+  document.getElementById('add-budget-overlay').classList.remove('hidden');
+}
+function closeAddBudgetModal() {
+  document.getElementById('add-budget-overlay').classList.add('hidden');
+}
+function applyAddBudget() {
+  const amount = parseInt(document.getElementById('add-budget-amount').value);
+  if (!amount || amount <= 0) { alert('금액을 입력해주세요'); return; }
+  const d = getData();
+  d.budget += amount;
+  save(d);
+  closeAddBudgetModal();
+  renderAll();
+}
+
 // ─── 설정 ───
 function openSettings() {
   const d = getData();

@@ -71,7 +71,10 @@
       <!-- 메인 카드 -->
       <div class="survival-card" id="survival-card">
         <div class="survival-label" id="survival-label">생존 상태</div>
-        <div class="survival-amount" id="remaining-amount">0원</div>
+        <div class="survival-amount-row">
+          <span id="remaining-amount">0원</span>
+          <button class="add-budget-btn" onclick="openAddBudgetModal()">+ 용돈</button>
+        </div>
         <div class="survival-sub" id="remaining-sub">남은 생활비</div>
         <div class="daily-box">
           <span class="daily-label">오늘 쓸 수 있는 돈</span>
@@ -266,6 +269,20 @@
       <button onclick="saveSettings()" class="btn-primary">저장</button>
       <button onclick="resetAll()" class="btn-danger">전체 초기화</button>
       <button onclick="closeSettings()" class="btn-ghost">닫기</button>
+    </div>
+  </div>
+
+  <!-- 용돈 추가 모달 -->
+  <div id="add-budget-overlay" class="overlay hidden">
+    <div class="modal-sheet">
+      <div class="modal-handle"></div>
+      <h3>💰 용돈 추가</h3>
+      <div class="input-wrap">
+        <input type="number" id="add-budget-amount" placeholder="0" inputmode="numeric">
+        <span class="unit">원</span>
+      </div>
+      <button onclick="applyAddBudget()" class="btn-primary">추가하기</button>
+      <button onclick="closeAddBudgetModal()" class="btn-ghost">취소</button>
     </div>
   </div>
 

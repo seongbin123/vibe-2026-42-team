@@ -180,7 +180,21 @@ input::placeholder { color: var(--text2); }
 .survival-card.safe-mode { background: linear-gradient(135deg, #4ADE80, #22A855); }
 
 .survival-label { font-size: 12px; opacity: .8; font-weight: 600; letter-spacing: .5px; text-transform: uppercase; }
-.survival-amount { font-size: 40px; font-weight: 800; margin: 8px 0 4px; }
+.survival-amount-row { display: flex; align-items: center; gap: 10px; margin: 8px 0 4px; }
+#remaining-amount { font-size: 36px; font-weight: 800; }
+.add-budget-btn {
+  background: rgba(255,255,255,.2);
+  border: 1px solid rgba(255,255,255,.4);
+  border-radius: 10px;
+  color: white;
+  font-size: 12px;
+  font-weight: 700;
+  padding: 5px 10px;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: background .15s;
+}
+.add-budget-btn:active { background: rgba(255,255,255,.35); }
 .survival-sub { font-size: 13px; opacity: .8; margin-bottom: 16px; }
 
 .daily-box {
