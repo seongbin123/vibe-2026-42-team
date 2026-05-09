@@ -368,18 +368,53 @@ function renderAnalysis() {
   renderSubscriptions();
   renderCategoryChart(d.expenses);
 
-  // 월 페이스
+  // 예상 월 지출 (구독 결제일 반영)
   const today = new Date();
-  const dayOfMonth = today.getDate();
-  const totalSpent = d.expenses.reduce((s, e) => s + e.amount, 0);
-  const dailyAvg = dayOfMonth > 0 ? totalSpent / dayOfMonth : 0;
+  const todayDay = today.getDate();
   const daysInMonth = new Date(today.getFullYear(), today.getMonth()+1, 0).getDate();
-  const projectedTotal = Math.round(dailyAvg * daysInMonth);
-  document.getElementById('monthly-pace').textContent = `예상 월 지출: ${fmt(projectedTotal)}`;
+  const remainingDays = daysInMonth - todayDay;
+
+  // 이번 달 실제 지출
+  const thisMonthStr = `${today.getFullYear()}-${String(today.getMonth()+1).padStart(2,'0')}`;
+  const thisMonthSpent = d.expenses
+    .filter(e => e.date.startsWith(thisMonthStr))
+    .reduce((s, e) => s + e.amount, 0);
+
+  // 일평균 (비구독 페이스)
+  const dailyAvg = todayDay > 0 ? thisMonthSpent / todayDay : 0;
+  const projectedDaily = Math.round(dailyAvg * remainingDays);
+
+  // 구독 결제 예정 (아직 결제일 안 지난 것 + 날짜 없는 것)
+  const upcomingSubs = d.subscriptions.filter(sub => {
+    if (!sub.billingDate) return true; // 날짜 없으면 예정에 포함
+    return sub.billingDate.day > todayDay;  // 아직 결제일 안 지남
+  });
+  const upcomingSubTotal = upcomingSubs.reduce((s, sub) => s + sub.amount, 0);
+
+  // 이미 결제된 구독 (결제일이 오늘 이전)
+  const paidSubs = d.subscriptions.filter(sub => sub.billingDate && sub.billingDate.day <= todayDay);
+  const paidSubTotal = paidSubs.reduce((s, sub) => s + sub.amount, 0);
+
+  const projectedTotal = thisMonthSpent + projectedDaily + upcomingSubTotal;
+
+  document.getElementById('monthly-pace').textContent = fmt(projectedTotal);
+
+  // 세부 내역
+  const breakdown = document.getElementById('pace-breakdown');
+  let rows = `<div class="pace-row"><span>이번 달 지출</span><span>${fmt(thisMonthSpent)}</span></div>`;
+  rows += `<div class="pace-row"><span>남은 일수 예상 (${remainingDays}일 × 일평균)</span><span>+${fmt(projectedDaily)}</span></div>`;
+  if (upcomingSubTotal > 0) {
+    rows += `<div class="pace-row"><span>결제 예정 구독 (${upcomingSubs.length}개)</span><span>+${fmt(upcomingSubTotal)}</span></div>`;
+  }
+  if (paidSubTotal > 0) {
+    rows += `<div class="pace-row" style="color:var(--success)"><span>이미 결제된 구독 (${paidSubs.length}개)</span><span>✓ ${fmt(paidSubTotal)}</span></div>`;
+  }
+  breakdown.innerHTML = rows;
+
   const diff = projectedTotal - d.budget;
   document.getElementById('pace-comment').textContent = diff > 0
-    ? `⚠️ 이 페이스면 ${fmt(diff)} 초과해요`
-    : `✅ 이 페이스면 ${fmt(Math.abs(diff))} 남아요`;
+    ? `⚠️ 이 페이스면 ${fmt(diff)} 초과 예상이에요`
+    : `✅ 이 페이스면 ${fmt(Math.abs(diff))} 남을 것 같아요`;
 }
 
 function renderSubscriptions() {

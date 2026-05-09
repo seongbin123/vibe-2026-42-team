@@ -383,6 +383,9 @@ input::placeholder { color: var(--text2); }
 .analysis-bar { height: 100%; border-radius: 4px; transition: width .5s ease; }
 .coffee-bar { background: linear-gradient(90deg, #FFB347, #FF5A5A); }
 .analysis-comment { font-size: 13px; color: var(--text2); margin-top: 6px; }
+.pace-breakdown { display: flex; flex-direction: column; gap: 4px; margin: 6px 0 2px; border-top: 1px solid var(--border); padding-top: 8px; }
+.pace-row { display: flex; justify-content: space-between; font-size: 12px; color: var(--text2); }
+.pace-row.highlight { color: var(--text); font-weight: 600; }
 
 .sub-list { display: flex; flex-direction: column; gap: 8px; margin-bottom: 4px; }
 .sub-item {
