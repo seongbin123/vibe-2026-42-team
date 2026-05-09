@@ -23,7 +23,9 @@ body {
   min-height: 100vh;
   overflow-x: hidden;
   width: 100%;
+  scrollbar-width: none;
 }
+body::-webkit-scrollbar { display: none; }
 
 /* ─── 오버레이 / 모달 ─── */
 .overlay {
@@ -264,14 +266,6 @@ input::placeholder { color: var(--text2); }
 
 /* ─── 최근 내역 ─── */
 .recent-list { display: flex; flex-direction: column; gap: 8px; padding-bottom: 12px; }
-#full-expense-list {
-  max-height: calc(100svh - var(--nav-height) - 140px);
-  overflow-y: auto;
-  scrollbar-width: none;
-  cursor: grab;
-}
-#full-expense-list::-webkit-scrollbar { display: none; }
-#full-expense-list.dragging { cursor: grabbing; }
 .expense-item {
   background: var(--surface);
   border-radius: 14px;

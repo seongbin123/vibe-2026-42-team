@@ -143,6 +143,28 @@ function getData() {
   };
 }
 
+// ─── 페이지 드래그 스크롤 ───
+(function() {
+  let startY, startScroll, moved = false;
+  document.addEventListener('mousedown', (e) => {
+    if (e.target.closest('.expense-menu-wrap, .modal, .overlay, .nav, button, input')) return;
+    startY = e.pageY;
+    startScroll = window.scrollY;
+    moved = false;
+    document.body.style.userSelect = 'none';
+  });
+  document.addEventListener('mousemove', (e) => {
+    if (startY === undefined) return;
+    const dy = e.pageY - startY;
+    if (Math.abs(dy) > 5) moved = true;
+    if (moved) window.scrollTo(0, startScroll - dy);
+  });
+  document.addEventListener('mouseup', () => {
+    startY = undefined;
+    document.body.style.userSelect = '';
+  });
+})();
+
 // ─── 초기화 ───
 window.onload = () => {
   initDragInputs();
@@ -286,28 +308,6 @@ function renderExpenseList() {
     return;
   }
   list.innerHTML = expenses.map(e => expenseItemHTML(e)).join('');
-  menuAllowedAfter = Date.now() + 350;
-  initExpenseDragScroll(list);
-}
-
-function initExpenseDragScroll(el) {
-  let startY, startScroll, dragging = false;
-  el.onpointerdown = (e) => {
-    if (e.target.closest('.expense-menu-wrap')) return;
-    dragging = true;
-    startY = e.clientY;
-    startScroll = el.scrollTop;
-    el.classList.add('dragging');
-    el.setPointerCapture(e.pointerId);
-  };
-  el.onpointermove = (e) => {
-    if (!dragging) return;
-    el.scrollTop = startScroll - (e.clientY - startY);
-  };
-  el.onpointerup = el.onpointercancel = () => {
-    dragging = false;
-    el.classList.remove('dragging');
-  };
 }
 
 function filterExpenses(cat, btn) {
@@ -671,7 +671,9 @@ function switchTab(tab, btn) {
   document.querySelectorAll('.nav-btn').forEach(el => el.classList.remove('active'));
   document.getElementById('tab-' + tab).classList.add('active');
   btn.classList.add('active');
+  menuAllowedAfter = Date.now() + 400;
   renderAll();
+  window.scrollTo(0, 0);
 }
 
 // ─── 유틸 ───
