@@ -1,0 +1,31 @@
+{
+  "expo": {
+    "name": "수원대 중고책",
+    "slug": "suwon-junggobook",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "icon": "./assets/icon.png",
+    "userInterfaceStyle": "light",
+    "newArchEnabled": true,
+    "splash": {
+      "image": "./assets/splash-icon.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#1a3a6b"
+    },
+    "ios": {
+      "supportsTablet": false,
+      "bundleIdentifier": "com.suwon.junggobook"
+    },
+    "android": {
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/adaptive-icon.png",
+        "backgroundColor": "#1a3a6b"
+      },
+      "package": "com.suwon.junggobook",
+      "edgeToEdgeEnabled": true
+    },
+    "web": {
+      "favicon": "./assets/favicon.png"
+    }
+  }
+}

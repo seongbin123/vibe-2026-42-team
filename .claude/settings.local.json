@@ -1,0 +1,37 @@
+{
+  "hooks": {
+    "Stop": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "cd /home/jovyan/work && git diff --quiet && git diff --cached --quiet || (git add -A && git commit -m \"Auto-save\" && git push origin main) 2>/dev/null || true",
+            "statusMessage": "GitHub에 자동 저장 중..."
+          }
+        ]
+      }
+    ]
+  },
+  "permissions": {
+    "allow": [
+      "Bash(mkdir -p \"/home/jovyan/work/야작 관리/yajak-app/schedule-app\")",
+      "Bash(cp /home/jovyan/work/schedule-app/index.html \"/home/jovyan/work/야작 관리/yajak-app/schedule-app/\")",
+      "Bash(cp /home/jovyan/work/schedule-app/app.js \"/home/jovyan/work/야작 관리/yajak-app/schedule-app/\")",
+      "Bash(cp /home/jovyan/work/schedule-app/style.css \"/home/jovyan/work/야작 관리/yajak-app/schedule-app/\")",
+      "Bash(cp /home/jovyan/work/schedule-app/schema.sql \"/home/jovyan/work/야작 관리/yajak-app/schedule-app/\")",
+      "Bash(git *)",
+      "Skill(update-config)",
+      "Bash(bash -c ' *)",
+      "Bash(python3 *)",
+      "WebFetch(domain:vibe-2026-42-team.pages.dev)",
+      "Bash(curl -i https://vibe-2026-42-team.pages.dev/)",
+      "Bash(curl *)",
+      "Bash(npm --version)",
+      "Bash(mkdir -p /home/jovyan/work/중고책-app)",
+      "Bash(npx create-expo-app@latest . --template blank)",
+      "Bash(npm install *)",
+      "Bash(bash -c 'cd /home/jovyan/work && git diff --quiet && git diff --cached --quiet || \\(git add -A && git commit -m \"Auto-save\" && git push origin main\\)')",
+      "Bash(echo \"exit: $?\")"
+    ]
+  }
+}
