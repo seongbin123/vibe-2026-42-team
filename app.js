@@ -116,10 +116,10 @@ const FRIEND_COSTS = {
 };
 
 const SURVIVAL_DIETS = [
-  { name: '수원대 학식 3끼', cost: 16500, tip: '가장 저렴한 생존법' },
-  { name: '학식 2끼 + 편의점 1끼', cost: 15500, tip: '균형 잡힌 생존' },
+  { name: '수원대 학식 3끼', cost: 18000, tip: '가장 저렴한 생존법' },
+  { name: '학식 2끼 + 편의점 1끼', cost: 16500, tip: '균형 잡힌 생존' },
   { name: '편의점 도시락 3끼', cost: 13500, tip: '학식보다 저렴할 수도' },
-  { name: '학식 2끼 + 집밥 1끼', cost: 13000, tip: '자취생 최강 전략' },
+  { name: '학식 2끼 + 집밥 1끼', cost: 14000, tip: '자취생 최강 전략' },
 ];
 
 let selectedCat = '식비';
