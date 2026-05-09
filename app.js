@@ -420,16 +420,7 @@ function openExpenseModal() {
   document.getElementById('expense-overlay').classList.remove('hidden');
   document.getElementById('expense-amount').value = '';
   document.getElementById('expense-note').value = '';
-  document.querySelectorAll('.quick-btn').forEach(b => b.classList.remove('active-quick'));
   selectCat(document.querySelector('.cat-btn[data-cat="식비"]'));
-}
-
-function quickInput(cat, amount, note) {
-  document.querySelectorAll('.quick-btn').forEach(b => b.classList.remove('active-quick'));
-  event.currentTarget.classList.add('active-quick');
-  document.getElementById('expense-amount').value = amount;
-  document.getElementById('expense-note').value = note;
-  selectCat(document.querySelector(`.cat-btn[data-cat="${cat}"]`));
 }
 function closeExpenseModal() {
   document.getElementById('expense-overlay').classList.add('hidden');
