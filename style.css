@@ -377,7 +377,9 @@ input::placeholder { color: var(--text2); }
   max-height: 180px;
   overflow-y: auto;
   padding-right: 2px;
+  scrollbar-width: none;
 }
+.sub-presets::-webkit-scrollbar { display: none; }
 .sub-presets button {
   background: var(--surface2);
   border: 1px solid var(--border);
