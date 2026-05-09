@@ -493,18 +493,25 @@ function getSubDate() {
   return day ? { month, day } : null;
 }
 
-function addSubPreset(name, emoji, amount) {
-  const d = getData();
-  d.subscriptions.push({ id: Date.now().toString(), name, emoji, amount, billingDate: getSubDate() });
-  save(d);
-  closeSubModal();
-  renderAll();
+let subEmoji = '📱';
+
+function fillSubPreset(name, emoji, amount, btn) {
+  document.querySelectorAll('.sub-presets button').forEach(b => b.style.borderColor = '');
+  btn.style.borderColor = 'var(--primary)';
+  document.getElementById('sub-name').value = name;
+  document.getElementById('sub-amount').value = amount;
+  subEmoji = emoji;
 }
+
 function addCustomSub() {
   const name = document.getElementById('sub-name').value.trim();
   const amount = parseInt(document.getElementById('sub-amount').value);
   if (!name || !amount) { alert('이름과 금액을 입력해주세요'); return; }
-  addSubPreset(name, '📱', amount);
+  const d = getData();
+  d.subscriptions.push({ id: Date.now().toString(), name, emoji: subEmoji, amount, billingDate: getSubDate() });
+  save(d);
+  closeSubModal();
+  renderAll();
 }
 function deleteSub(id) {
   const d = getData();
