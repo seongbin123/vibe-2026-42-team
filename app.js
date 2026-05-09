@@ -1,3 +1,73 @@
+// ─── 달력 ───
+let calContext = 'setup';
+let calYear, calMonth, calSelectedDay;
+
+function openCalendar(context) {
+  calContext = context;
+  const d = getData();
+  const now = new Date();
+  calYear = now.getFullYear();
+  calMonth = now.getMonth();
+  calSelectedDay = d.payday || null;
+  document.getElementById('calendar-overlay').classList.remove('hidden');
+  renderCalendar();
+}
+
+function closeCalendar() {
+  document.getElementById('calendar-overlay').classList.add('hidden');
+}
+
+function closeCalendarOutside(e) {
+  if (e.target === document.getElementById('calendar-overlay')) closeCalendar();
+}
+
+function moveMonth(delta) {
+  calMonth += delta;
+  if (calMonth > 11) { calMonth = 0; calYear++; }
+  if (calMonth < 0)  { calMonth = 11; calYear--; }
+  renderCalendar();
+}
+
+function renderCalendar() {
+  const MONTHS = ['1월','2월','3월','4월','5월','6월','7월','8월','9월','10월','11월','12월'];
+  document.getElementById('cal-title').textContent = `${calYear}년 ${MONTHS[calMonth]}`;
+
+  const firstDay = new Date(calYear, calMonth, 1).getDay();
+  const daysInMonth = new Date(calYear, calMonth + 1, 0).getDate();
+  const today = new Date();
+  const isCurrentMonth = today.getFullYear() === calYear && today.getMonth() === calMonth;
+
+  const grid = document.getElementById('cal-grid');
+  grid.innerHTML = '';
+
+  for (let i = 0; i < firstDay; i++) {
+    const el = document.createElement('div');
+    el.className = 'cal-day empty';
+    grid.appendChild(el);
+  }
+
+  for (let day = 1; day <= daysInMonth; day++) {
+    const btn = document.createElement('button');
+    btn.className = 'cal-day';
+    btn.textContent = day;
+    if (new Date(calYear, calMonth, day).getDay() === 0) btn.classList.add('sunday');
+    if (isCurrentMonth && day === today.getDate()) btn.classList.add('today');
+    if (day === calSelectedDay) btn.classList.add('selected');
+    btn.onclick = () => selectCalDay(day);
+    grid.appendChild(btn);
+  }
+}
+
+function selectCalDay(day) {
+  calSelectedDay = day;
+  const btnId = calContext === 'setup' ? 'setup-payday-btn' : 'settings-payday-btn';
+  const btn = document.getElementById(btnId);
+  btn.textContent = `📅 ${calMonth + 1}월 ${day}일`;
+  btn.classList.add('selected');
+  btn.dataset.payday = day;
+  closeCalendar();
+}
+
 // ─── 드래그 입력 ───
 function initDragInputs() {
   document.querySelectorAll('input[type="number"]').forEach(input => {
@@ -85,7 +155,7 @@ window.onload = () => {
 function saveSetup() {
   const name = document.getElementById('setup-name').value.trim() || '수원대생';
   const budget = parseInt(document.getElementById('setup-budget').value) || 0;
-  const payday = parseInt(document.getElementById('setup-payday').value) || 1;
+  const payday = parseInt(document.getElementById('setup-payday-btn').dataset.payday) || 1;
   if (!budget) { alert('생활비를 입력해주세요'); return; }
   const d = getData();
   d.name = name; d.budget = budget; d.payday = payday;
@@ -409,7 +479,12 @@ function openSettings() {
   const d = getData();
   document.getElementById('settings-name').value = d.name;
   document.getElementById('settings-budget').value = d.budget;
-  document.getElementById('settings-payday').value = d.payday;
+  const btn = document.getElementById('settings-payday-btn');
+  if (d.payday) {
+    btn.textContent = `📅 ${d.payday}일`;
+    btn.dataset.payday = d.payday;
+    btn.classList.add('selected');
+  }
   document.getElementById('settings-overlay').classList.remove('hidden');
 }
 function closeSettings() {
@@ -419,7 +494,7 @@ function saveSettings() {
   const d = getData();
   d.name = document.getElementById('settings-name').value.trim() || d.name;
   d.budget = parseInt(document.getElementById('settings-budget').value) || d.budget;
-  d.payday = parseInt(document.getElementById('settings-payday').value) || d.payday;
+  d.payday = parseInt(document.getElementById('settings-payday-btn').dataset.payday) || d.payday;
   save(d);
   closeSettings();
   renderAll();
