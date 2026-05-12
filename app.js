@@ -469,8 +469,8 @@ function expenseItemHTML(e) {
         ontouchend="event.preventDefault();toggleExpenseMenu(event,'${e.id}')"
         onclick="toggleExpenseMenu(event,'${e.id}')">⋮</button>
       <div class="expense-menu-popup hidden" id="menu-${e.id}">
-        <button onclick="editExpense('${e.id}')">✏️ 수정하기</button>
-        <button onclick="deleteExpense('${e.id}')">🗑️ 삭제하기</button>
+        <button onclick="editExpense('${e.id}')"><svg width="14" height="14" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M14 3l3 3-9 9H5v-3L14 3z"/></svg> 수정하기</button>
+        <button onclick="deleteExpense('${e.id}')"><svg width="14" height="14" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><polyline points="5,7 15,7"/><path d="M8 7V5h4v2"/><rect x="6" y="7" width="8" height="10" rx="1"/></svg> 삭제하기</button>
       </div>
     </div>
   </div>`;
