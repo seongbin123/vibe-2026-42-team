@@ -614,6 +614,48 @@ function filterExpenses(cat, btn) {
 }
 
 // ─── 분석 탭 ───
+function renderWeeklyChart() {
+  const card = document.getElementById('weekly-chart-card');
+  if (!card) return;
+  const d = getData();
+  const today = new Date();
+
+  const days = [];
+  for (let i = 6; i >= 0; i--) {
+    const date = new Date(today);
+    date.setDate(today.getDate() - i);
+    const dateStr = toDateStr(date);
+    const total = d.expenses.filter(e => e.date === dateStr).reduce((s, e) => s + e.amount, 0);
+    const m = date.getMonth() + 1, dy = date.getDate();
+    days.push({ dateStr, total, isToday: i === 0, label: i === 0 ? '오늘' : `${m}/${dy}` });
+  }
+
+  const total7 = days.reduce((s, x) => s + x.total, 0);
+  const avg7 = Math.round(total7 / 7);
+  const maxVal = Math.max(...days.map(x => x.total), 1);
+  const BAR_MAX_H = 72;
+
+  const bars = days.map(x => {
+    const h = x.total > 0 ? Math.max(6, Math.round((x.total / maxVal) * BAR_MAX_H)) : 3;
+    const barCls = 'weekly-bar' + (x.isToday ? ' today' : x.total > 0 ? ' has' : '');
+    const lblCls = 'weekly-bar-label' + (x.isToday ? ' today' : '');
+    return `<div class="weekly-bar-col">
+      <div class="${barCls}" style="height:${h}px"></div>
+      <span class="${lblCls}">${x.label}</span>
+    </div>`;
+  }).join('');
+
+  card.innerHTML = `
+    <div class="weekly-chart-top">
+      <div class="weekly-chart-meta">
+        <div class="weekly-chart-sublabel">최근 7일 지출</div>
+        <div class="weekly-chart-total">${fmt(total7)}</div>
+        <div class="weekly-chart-avg">일평균 ${fmt(avg7)}</div>
+      </div>
+    </div>
+    <div class="weekly-chart-bars">${bars}</div>`;
+}
+
 const CAT_LIMITS = { 식비:60000, 카페:20000, 교통:20000, 술자리:30000, 구독:30000, 쇼핑:50000, 병원:30000, 기타:20000 };
 const CAT_COMMENTS = {
   식비:  [['절약 식단 중! 훌륭해요 ✨','식비 적당해요 👍','⚠️ 식비가 꽤 많아요. 학식 활용해봐요!','🚨 식비가 너무 많아요! 학식 or 편의점 도시락으로!']],
