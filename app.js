@@ -393,12 +393,12 @@ function renderHome() {
   // 오늘 카테고리 합계 (전체)
   const todayStr = toDateStr(today);
   const todayExp = d.expenses.filter(e => e.date === todayStr);
-  const cats = Object.keys(EMOJIS);
   const todayCats = document.getElementById('today-cats');
-  todayCats.innerHTML = cats.map(cat => {
-    const sum = todayExp.filter(e => e.cat === cat).reduce((s,e)=>s+e.amount,0);
-    return `<div class="cat-stat">${catIconBox(cat,'cat-stat-icon')}<span class="cat-stat-name">${cat}</span><span class="cat-stat-amount">${fmt(sum)}</span></div>`;
-  }).join('');
+  if (todayExp.length === 0) {
+    todayCats.innerHTML = `<div class="today-empty">오늘 지출이 없어요 🎉</div>`;
+  } else {
+    todayCats.innerHTML = todayExp.map(e => expenseItemHTML(e)).join('');
+  }
 
   renderWarnings(d, remaining, daysLeft);
 }
