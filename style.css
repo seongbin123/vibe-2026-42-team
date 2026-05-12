@@ -174,7 +174,12 @@ input::placeholder { color: var(--ink-4); }
   margin-top: 8px;
   font-family: inherit;
 }
-.icon-btn { background: none; border: none; font-size: 22px; cursor: pointer; }
+.icon-btn {
+  width: 38px; height: 38px; border-radius: 12px;
+  background: var(--surface); border: none; cursor: pointer;
+  display: grid; place-items: center;
+  color: var(--ink-2); box-shadow: var(--shadow-sm);
+}
 .add-btn {
   background: var(--accent);
   color: white;
