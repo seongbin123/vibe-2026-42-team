@@ -486,39 +486,6 @@ input::placeholder { color: var(--text2); }
 }
 .diet-cost { font-weight: 700; color: var(--success); font-size: 13px; }
 
-.friend-calc { background: var(--surface); border-radius: 16px; padding: 16px; }
-.friend-options { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 16px; }
-.friend-btn {
-  background: var(--surface2);
-  border: 2px solid transparent;
-  border-radius: 20px;
-  color: var(--text);
-  padding: 8px 14px;
-  font-size: 13px;
-  cursor: pointer;
-  transition: all .15s;
-}
-.friend-btn.active { border-color: var(--primary); background: rgba(124,108,244,.15); }
-.friend-people {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  margin-bottom: 16px;
-  font-size: 14px;
-}
-.friend-people button {
-  background: var(--surface2);
-  border: 1px solid var(--border);
-  border-radius: 8px;
-  color: var(--text);
-  width: 32px; height: 32px;
-  font-size: 18px;
-  cursor: pointer;
-}
-#people-count { font-size: 18px; font-weight: 700; }
-.friend-result { text-align: center; padding: 12px; background: var(--surface2); border-radius: 12px; }
-.friend-cost { font-size: 22px; font-weight: 800; color: var(--primary); margin-bottom: 6px; }
-.friend-comment { font-size: 13px; color: var(--text2); }
 
 .hakshik-info {
   background: var(--surface);
