@@ -1349,7 +1349,7 @@ function getSubDate() {
   return day ? { month, day } : null;
 }
 
-let subEmoji = '📱';
+let subEmoji = '';
 
 function fillSubPreset(name, emoji, amount, btn) {
   document.querySelectorAll('.sub-presets button').forEach(b => b.style.borderColor = '');
