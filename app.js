@@ -668,6 +668,7 @@ const CAT_COMMENTS = {
   기타:  [['기타 지출 없음 👏','기타 지출 절약 중이에요 ✨','적당한 편이에요','⚠️ 기타 지출이 많아요.','🚨 기타 지출이 너무 많아요!']],
 };
 function renderAnalysis() {
+  renderWeeklyChart();
   const d = getData();
 
   // 이번 주 카테고리별 합산
