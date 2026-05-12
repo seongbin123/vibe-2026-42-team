@@ -805,7 +805,6 @@ function refreshRecommendation(mealType) {
   renderRecCard(mealType);
 }
 
-// ─── 생존 탭 ───
 // ─── 봉담 맛집 100 ───
 let _restCat = 'all';
 let _restBudgetOnly = false;
