@@ -138,6 +138,13 @@ function catIconBox(cat, cls) {
   return `<div class="${cls}" style="${style}">${svg}</div>`;
 }
 
+function catIconMini(cat) {
+  const style = CAT_ICON_STYLE[cat] || CAT_ICON_STYLE['기타'];
+  const svg = (CAT_ICONS_SVG[cat] || CAT_ICONS_SVG['기타'])
+    .replace('width="20" height="20"', 'width="13" height="13"');
+  return `<div style="width:22px;height:22px;border-radius:6px;display:grid;place-items:center;flex-shrink:0;${style}">${svg}</div>`;
+}
+
 
 
 // ─── 수원대 주변 식당 데이터 ───
