@@ -385,7 +385,7 @@ function renderHome() {
     label.textContent = '위험 — 월말 생존 모드';
   } else if (pct >= 70 || remaining < 80000) {
     card.classList.add('warning-mode');
-    label.textContent = '🟡 주의 — 절약 필요';
+    label.textContent = '주의 — 절약 필요';
   } else {
     card.classList.add('safe-mode');
     label.textContent = '🟢 안전';
