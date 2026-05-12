@@ -1284,23 +1284,28 @@ function toggleExpenseMenu(event, id) {
   if (event.type === 'click' && navigator.maxTouchPoints > 0) return;
   if (Date.now() < menuAllowedAfter) return;
   const wrap = event.currentTarget.closest('.expense-menu-wrap');
+  const btn = event.currentTarget;
   const popup = wrap.querySelector('.expense-menu-popup');
   const isHidden = popup.classList.contains('hidden');
   document.querySelectorAll('.expense-menu-popup').forEach(p => {
     p.classList.add('hidden');
     p.style.top = '';
     p.style.bottom = '';
+    p.style.right = '';
   });
   if (isHidden) {
     popup.classList.remove('hidden');
-    const rect = popup.getBoundingClientRect();
-    if (rect.bottom > window.innerHeight - 16) {
+    const btnRect = btn.getBoundingClientRect();
+    const popupHeight = popup.offsetHeight;
+    const spaceBelow = window.innerHeight - btnRect.bottom;
+    if (spaceBelow < popupHeight + 16) {
+      popup.style.bottom = (window.innerHeight - btnRect.top + 4) + 'px';
       popup.style.top = 'auto';
-      popup.style.bottom = '28px';
     } else {
-      popup.style.top = '28px';
+      popup.style.top = (btnRect.bottom + 4) + 'px';
       popup.style.bottom = 'auto';
     }
+    popup.style.right = (window.innerWidth - btnRect.right) + 'px';
   }
 }
 document.addEventListener('click', (e) => {
