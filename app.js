@@ -1163,6 +1163,8 @@ function openExpenseModal() {
   document.getElementById('expense-overlay').classList.remove('hidden');
   document.getElementById('expense-amount').value = '';
   document.getElementById('expense-note').value = '';
+  document.getElementById('etc-name').value = '';
+  document.getElementById('etc-name-wrap').classList.add('hidden');
   document.getElementById('recent-amounts').innerHTML = '';
   selectedCat = '식비';
   document.querySelectorAll('.cat-btn').forEach(b => b.classList.remove('active'));
