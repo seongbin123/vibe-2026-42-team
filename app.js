@@ -680,22 +680,28 @@ function renderAnalysis() {
   });
 
   // 최다 지출 카테고리 찾기
+  const totalWeek = Object.values(weekTotals).reduce((s, v) => s + v, 0);
   const topCat = Object.keys(weekTotals).sort((a, b) => weekTotals[b] - weekTotals[a])[0];
   const topAmount = topCat ? weekTotals[topCat] : 0;
-  const limit = topCat ? (CAT_LIMITS[topCat] || 30000) : 30000;
-  const pct = Math.min(100, (topAmount / limit) * 100);
-  const comments = topCat ? CAT_COMMENTS[topCat][0] : null;
-  const comment = !topCat ? '이번 주 지출 내역이 없어요' :
-    topAmount < limit * 0.25 ? comments[1] :
-    topAmount < limit * 0.5  ? comments[2] :
-    topAmount < limit * 0.75 ? comments[3] :
-    topAmount < limit        ? comments[3] : comments[4];
+  const barPct = totalWeek > 0 ? Math.round((topAmount / totalWeek) * 100) : 0;
+  const sharePct = totalWeek > 0 ? Math.round((topAmount / totalWeek) * 100) : 0;
 
-  document.getElementById('top-cat-icon').textContent = topCat ? (EMOJIS[topCat] || '📊') : '📊';
-  document.getElementById('top-cat-title').textContent = topCat ? `이번 주 ${topCat} 지출` : '이번 주 최다 지출';
-  document.getElementById('coffee-weekly').textContent = fmt(topAmount);
-  document.getElementById('coffee-bar').style.width = pct + '%';
-  document.getElementById('coffee-comment').textContent = comment || '아직 괜찮아요';
+  const iconEl = document.getElementById('top-cat-icon');
+  if (topCat) {
+    iconEl.innerHTML = '';
+    iconEl.appendChild(Object.assign(document.createElement('div'), {
+      innerHTML: catIconBox(topCat, 'analysis-cat-icon'),
+    })).firstChild;
+    iconEl.innerHTML = catIconBox(topCat, 'analysis-cat-icon');
+  } else {
+    iconEl.textContent = '📊';
+  }
+  document.getElementById('coffee-weekly').textContent = topCat || '-';
+  document.getElementById('top-cat-amount').textContent = topCat ? fmt(topAmount) : '';
+  document.getElementById('coffee-bar').style.width = barPct + '%';
+  document.getElementById('coffee-comment').textContent = totalWeek === 0
+    ? '이번 주 지출 내역이 없어요'
+    : `전체 지출의 ${sharePct}%`;
 
   renderSubscriptions();
   renderCategoryChart(d.expenses);
