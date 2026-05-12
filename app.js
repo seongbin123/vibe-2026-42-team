@@ -418,8 +418,8 @@ function renderWarnings(d, remaining, daysLeft) {
   if (topW) {
     const limit2 = CAT_LIMITS[topW] || 30000;
     const amt = wTotals[topW];
-    if (amt >= limit2) warnings.push({ type: 'red', msg: `이번 주 ${topW} 지출이 ${fmt(amt)}이에요. 한끼 탭에서 절약 식단을 확인해보세요!` });
-    else if (amt >= limit2 * 0.7) warnings.push({ type: 'yellow', msg: `이번 주 ${topW} 지출이 ${fmt(amt)}. 슬슬 조심할 때예요.` });
+    if (amt >= limit2) warnings.push({ type: 'red', icon: '🚨', title: `${topW} 지출 초과!`, sub: `이번 주 ${fmt(amt)} 사용했어요. 한끼 탭에서 절약 식단을 확인해보세요.` });
+    else if (amt >= limit2 * 0.7) warnings.push({ type: 'yellow', icon: '⚠️', title: `${topW} 지출 주의`, sub: `이번 주 ${fmt(amt)} 사용. 슬슬 조심할 때예요.` });
   }
 
   // 구독료 경고
