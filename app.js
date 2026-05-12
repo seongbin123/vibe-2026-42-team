@@ -687,15 +687,7 @@ function renderAnalysis() {
   const sharePct = totalWeek > 0 ? Math.round((topAmount / totalWeek) * 100) : 0;
 
   const iconEl = document.getElementById('top-cat-icon');
-  if (topCat) {
-    iconEl.innerHTML = '';
-    iconEl.appendChild(Object.assign(document.createElement('div'), {
-      innerHTML: catIconBox(topCat, 'analysis-cat-icon'),
-    })).firstChild;
-    iconEl.innerHTML = catIconBox(topCat, 'analysis-cat-icon');
-  } else {
-    iconEl.textContent = '📊';
-  }
+  iconEl.innerHTML = topCat ? catIconBox(topCat, 'analysis-cat-icon') : '📊';
   document.getElementById('coffee-weekly').textContent = topCat || '-';
   document.getElementById('top-cat-amount').textContent = topCat ? fmt(topAmount) : '';
   document.getElementById('coffee-bar').style.width = barPct + '%';
