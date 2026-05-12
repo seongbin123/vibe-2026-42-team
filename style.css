@@ -204,9 +204,9 @@ input::placeholder { color: var(--ink-4); }
 }
 
 /* ─── 앱 레이아웃 ─── */
-#app { max-width: 480px; margin: 0 auto; padding-bottom: var(--nav-height); overflow-x: hidden; }
+#app { max-width: 480px; margin: 0 auto; padding-bottom: var(--nav-height); overflow-x: clip; }
 
-.tab-content { display: none; padding: 0 16px; animation: fadeUp .25s cubic-bezier(.22,1,.36,1); overflow-x: hidden; }
+.tab-content { display: none; padding: 0 16px; animation: fadeUp .25s cubic-bezier(.22,1,.36,1); overflow-x: clip; }
 .tab-content.active { display: block; }
 
 /* ─── 홈 헤더 ─── */
