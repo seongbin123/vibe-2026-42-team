@@ -752,7 +752,17 @@ function refreshRecommendation(mealType) {
   // 현재 식당을 세션 이력에 추가
   if (currentId && !_shownIds[mealType].includes(currentId)) _shownIds[mealType].push(currentId);
 
-  // 이번 세션에 보여준 식당 + 다른 끼니 식당만 제외 (7일 이력은 제외 안 함)
+  // 전체 풀 계산
+  const basePool = RESTAURANTS.filter(r =>
+    r.mealType.includes(mealType) &&
+    !REC_MEAL_CATS.has(r.category) &&
+    (mealType === 'lunch' ? r.priceMin <= 15000 : true)
+  );
+  const remaining = basePool.filter(r => !_shownIds[mealType].includes(r.id) && r.id !== otherId);
+
+  // 풀 소진 시 순환 재시작 (현재 식당만 제외)
+  if (remaining.length === 0) _shownIds[mealType] = currentId ? [currentId] : [];
+
   const excludeIds = [..._shownIds[mealType], otherId].filter(Boolean);
   const alt = getAlternative(dateStr, mealType, excludeIds, _shownIds[mealType].length);
   _recState[mealType] = alt;
