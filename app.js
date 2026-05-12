@@ -1090,7 +1090,7 @@ function setRestCat(key) {
 
 function renderRestaurantBrowser() {
   const d = getData();
-  const totalSpent = d.expenses.reduce((s, e) => s + e.amount, 0);
+  const totalSpent = onlyExpenses(d.expenses).reduce((s, e) => s + e.amount, 0);
   const remaining = d.budget - totalSpent;
   const daysLeft = getDaysLeft(new Date(), d.payday);
   const dailyAllowance = daysLeft > 0 ? Math.floor(remaining / daysLeft) : 0;
@@ -1153,7 +1153,7 @@ function renderRestaurantBrowser() {
 
 function renderSurvival() {
   const d = getData();
-  const totalSpent = d.expenses.reduce((s, e) => s + e.amount, 0);
+  const totalSpent = onlyExpenses(d.expenses).reduce((s, e) => s + e.amount, 0);
   const remaining = d.budget - totalSpent;
   const daysLeft = getDaysLeft(new Date(), d.payday);
   const dailyAllowance = daysLeft > 0 ? Math.floor(remaining / daysLeft) : 0;
