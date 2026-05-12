@@ -435,7 +435,7 @@ function renderWarnings(d, remaining, daysLeft) {
 
 function expenseItemHTML(e) {
   return `<div class="expense-item">
-    <div class="expense-emoji">${EMOJIS[e.cat]||'💸'}</div>
+    ${catIconBox(e.cat, 'expense-emoji')}
     <div class="expense-info">
       <div class="expense-cat">${e.cat}</div>
       ${e.note ? `<div class="expense-note">${e.note}</div>` : ''}
