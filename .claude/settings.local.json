@@ -28,7 +28,9 @@
       "Bash(xargs -I{} ssh-keygen -l -f {})",
       "Bash(crontab -l)",
       "Bash(ssh -T git@github.com)",
-      "Bash(chmod +x *)"
+      "Bash(chmod +x *)",
+      "WebSearch",
+      "WebFetch(domain:www.suwon.ac.kr)"
     ]
   },
   "hooks": {
