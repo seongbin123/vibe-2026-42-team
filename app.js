@@ -769,7 +769,7 @@ function renderSubscriptions() {
         <span style="font-size:20px">${sub.emoji||'📱'}</span>
         <div>
           <div class="sub-name">${sub.name}</div>
-          ${sub.billingDate ? `<div class="sub-billing">${sub.billingDate.month}월 ${sub.billingDate.day}일 결제</div>` : ''}
+          ${sub.billingDate ? `<div class="sub-billing">매월 ${sub.billingDate.day}일 결제</div>` : ''}
         </div>
       </div>
       <div style="display:flex;align-items:center;gap:10px">
