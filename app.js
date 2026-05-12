@@ -748,7 +748,7 @@ function renderAnalysis() {
   const sharePct = totalWeek > 0 ? Math.round((topAmount / totalWeek) * 100) : 0;
 
   const iconEl = document.getElementById('top-cat-icon');
-  iconEl.innerHTML = topCat ? catIconBox(topCat, 'analysis-cat-icon') : '📊';
+  iconEl.innerHTML = topCat ? catIconBox(topCat, 'analysis-cat-icon') : '<svg width="24" height="24" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="3.5" height="6" rx="1"/><rect x="8.25" y="7" width="3.5" height="10" rx="1"/><rect x="13.5" y="4" width="3.5" height="13" rx="1"/></svg>';
   document.getElementById('coffee-weekly').textContent = topCat || '-';
   document.getElementById('top-cat-amount').textContent = topCat ? fmt(topAmount) : '';
   document.getElementById('coffee-bar').style.width = barPct + '%';
