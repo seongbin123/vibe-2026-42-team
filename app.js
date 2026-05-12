@@ -1374,6 +1374,17 @@ function applyAddBudget() {
   if (!amount || amount <= 0) { alert('금액을 입력해주세요'); return; }
   const d = getData();
   d.budget += amount;
+  const now = new Date();
+  const time = `${String(now.getHours()).padStart(2,'0')}:${String(now.getMinutes()).padStart(2,'0')}`;
+  d.expenses.push({
+    id: Date.now().toString(),
+    date: toDateStr(now),
+    cat: '용돈',
+    amount,
+    note: '용돈 추가',
+    time,
+    type: 'income',
+  });
   save(d);
   closeAddBudgetModal();
   renderAll();
