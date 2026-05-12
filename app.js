@@ -610,7 +610,40 @@ function renderExpenseList() {
     list.innerHTML = '<div class="empty-state"><div class="emoji">📋</div>내역이 없어요</div>';
     return;
   }
-  list.innerHTML = expenses.map(e => expenseItemHTML(e)).join('');
+
+  const today = toDateStr(new Date());
+  const yesterday = toDateStr(new Date(Date.now() - 86400000));
+  const DAY_KO = ['일','월','화','수','목','금','토'];
+
+  // 날짜별 그룹핑
+  const groups = [];
+  const seenDates = {};
+  expenses.forEach(e => {
+    if (!seenDates[e.date]) { seenDates[e.date] = []; groups.push({ date: e.date, items: seenDates[e.date] }); }
+    seenDates[e.date].push(e);
+  });
+
+  list.innerHTML = groups.map(({ date, items }) => {
+    let label;
+    if (date === today) label = '오늘';
+    else if (date === yesterday) label = '어제';
+    else {
+      const dt = new Date(date + 'T00:00:00');
+      label = `${dt.getMonth()+1}월 ${dt.getDate()}일 (${DAY_KO[dt.getDay()]})`;
+    }
+    const dayTotal = items.reduce((s, e) => s + e.amount, 0);
+    return `
+      <div class="expense-date-divider">
+        <span class="expense-date-label">${label}</span>
+        <span class="expense-date-total">-${fmt(dayTotal)}</span>
+      </div>
+      <div class="expense-day-card">
+        ${items.map((e, i) => `
+          ${expenseItemHTML(e)}
+          ${i < items.length - 1 ? '<div class="expense-divider"></div>' : ''}
+        `).join('')}
+      </div>`;
+  }).join('');
 }
 
 function filterExpenses(cat, btn) {
