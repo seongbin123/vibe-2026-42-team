@@ -799,8 +799,8 @@ function renderCategoryChart(expenses) {
       const sharePct = total > 0 ? Math.round(amt / total * 100) : 0;
       return `<div class="chart-row">
         <div class="chart-label-row">
-          <span class="chart-label">${cat}</span>
           ${catIconMini(cat)}
+          <span class="chart-label">${cat}</span>
         </div>
         <div class="chart-bar-row">
           <div class="chart-bar-wrap">
