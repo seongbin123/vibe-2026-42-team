@@ -457,6 +457,71 @@ function renderCategoryChart(expenses) {
     </div>`).join('') || '<div style="color:var(--text2);font-size:13px;padding:8px 0">지출 데이터가 없어요</div>';
 }
 
+// ─── 학식 메뉴 ───
+let hakshikData = null;
+let selectedMenuDay = null;
+let menuLoaded = false;
+
+async function loadHakshikMenu() {
+  if (menuLoaded) return;
+  menuLoaded = true;
+  try {
+    const res = await fetch('menu.json?t=' + Date.now());
+    if (!res.ok) throw new Error();
+    hakshikData = await res.json();
+
+    const DAY_NAMES = ['일', '월', '화', '수', '목', '금', '토'];
+    const todayDay = DAY_NAMES[new Date().getDay()];
+    const weekdays = ['월', '화', '수', '목', '금'];
+    selectedMenuDay = weekdays.includes(todayDay) ? todayDay : '월';
+
+    const tabs = document.getElementById('menu-day-tabs');
+    tabs.innerHTML = weekdays.map(day => `
+      <button class="menu-day-btn${day === selectedMenuDay ? ' active' : ''}${day === todayDay ? ' today' : ''}"
+        onclick="switchMenuDay('${day}',this)">${day}</button>
+    `).join('');
+
+    renderMenuContent(selectedMenuDay, todayDay);
+
+    document.getElementById('hakshik-menu-loading').classList.add('hidden');
+    document.getElementById('hakshik-menu-content').classList.remove('hidden');
+
+    if (hakshikData.weekRange) {
+      document.getElementById('menu-updated').textContent = hakshikData.weekRange;
+    }
+  } catch (e) {
+    document.getElementById('hakshik-menu-loading').classList.add('hidden');
+    document.getElementById('hakshik-menu-error').classList.remove('hidden');
+  }
+}
+
+function switchMenuDay(day, btn) {
+  selectedMenuDay = day;
+  document.querySelectorAll('.menu-day-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  const DAY_NAMES = ['일', '월', '화', '수', '목', '금', '토'];
+  renderMenuContent(day, DAY_NAMES[new Date().getDay()]);
+}
+
+function renderMenuContent(day, todayDay) {
+  const content = document.getElementById('menu-day-content');
+  if (!hakshikData) return;
+  const menu = hakshikData.student?.menu?.[day] || [];
+  const isToday = day === todayDay;
+  if (!menu.length) {
+    content.innerHTML = '<div class="menu-weekend">이날은 학식 운영이 없어요 🏠</div>';
+    return;
+  }
+  content.innerHTML = `
+    <div class="menu-card${isToday ? ' today-menu' : ''}">
+      ${isToday ? '<div class="menu-today-badge">오늘의 학식</div>' : ''}
+      <div class="menu-corner">${hakshikData.student?.corner || 'Little Kitchen'} · ${(hakshikData.student?.price || 6000).toLocaleString()}원</div>
+      <div class="menu-items">
+        ${menu.map((item, i) => `<div class="menu-item${i === 0 ? ' main-item' : ''}">${i === 0 ? '🍱 ' : '· '}${item}</div>`).join('')}
+      </div>
+    </div>`;
+}
+
 // ─── 생존 탭 ───
 function renderSurvival() {
   const d = getData();
