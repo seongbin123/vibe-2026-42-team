@@ -619,6 +619,147 @@ function renderMenuContent(day, todayDay) {
     </div>`;
 }
 
+// ─── 맛집 추천 알고리즘 ───
+function getDateSeed(dateStr) {
+  let h = 0;
+  for (let i = 0; i < dateStr.length; i++) h = (Math.imul(31, h) + dateStr.charCodeAt(i)) | 0;
+  return Math.abs(h);
+}
+
+function seededRandom(seed, index) {
+  let s = ((seed + index * 2654435761) >>> 0);
+  s ^= s << 13; s ^= s >> 17; s ^= s << 5;
+  return (s >>> 0) / 0xFFFFFFFF;
+}
+
+function getRecHistory() {
+  try { return JSON.parse(localStorage.getItem('rec_history') || '[]'); } catch { return []; }
+}
+
+function saveRecHistory(history) {
+  const cutoff = new Date(); cutoff.setDate(cutoff.getDate() - 7);
+  const cutoffStr = toDateStr(cutoff);
+  localStorage.setItem('rec_history', JSON.stringify(history.filter(h => h.date >= cutoffStr)));
+}
+
+function getSkipIds() {
+  return getRecHistory().flatMap(h => [h.lunchId, h.dinnerId].filter(Boolean));
+}
+
+function getRecentCategories() {
+  const history = getRecHistory();
+  const cutoff = new Date(); cutoff.setDate(cutoff.getDate() - 3);
+  const cutoffStr = toDateStr(cutoff);
+  return history
+    .filter(h => h.date >= cutoffStr)
+    .flatMap(h => [h.lunchId, h.dinnerId].filter(Boolean))
+    .map(id => RESTAURANTS.find(r => r.id === id)?.category)
+    .filter(Boolean);
+}
+
+function pickRec(pool, seed, offset) {
+  if (!pool.length) return null;
+  const recentCats = getRecentCategories();
+  const preferred = pool.filter(r => !recentCats.includes(r.category));
+  const candidates = preferred.length ? preferred : pool;
+  return candidates[Math.floor(seededRandom(seed, offset) * candidates.length)];
+}
+
+function getRecommendations(dateStr, skipIds) {
+  const seed = getDateSeed(dateStr);
+  const skip = skipIds ?? getSkipIds();
+  const lunchPool = RESTAURANTS.filter(r => r.mealType.includes('lunch') && !REC_MEAL_CATS.has(r.category) && !skip.includes(r.id) && r.priceMin <= 15000);
+  const dinnerPool = RESTAURANTS.filter(r => r.mealType.includes('dinner') && !REC_MEAL_CATS.has(r.category) && !skip.includes(r.id));
+  return { lunch: pickRec(lunchPool, seed, 0), dinner: pickRec(dinnerPool, seed, 1) };
+}
+
+function getAlternative(dateStr, mealType, excludeId, skipIds) {
+  const seed = getDateSeed(dateStr);
+  const pool = RESTAURANTS.filter(r =>
+    r.mealType.includes(mealType) &&
+    !REC_MEAL_CATS.has(r.category) &&
+    r.id !== excludeId &&
+    !skipIds.includes(r.id) &&
+    (mealType === 'lunch' ? r.priceMin <= 15000 : true)
+  );
+  if (!pool.length) return RESTAURANTS.find(r => r.mealType.includes(mealType) && r.id !== excludeId) || RESTAURANTS[0];
+  for (let i = 0; i < 5; i++) {
+    const r = pool[Math.floor(seededRandom(seed, 10 + i * 7) * pool.length)];
+    if (r.id !== excludeId) return r;
+  }
+  return pool[0];
+}
+
+let _recState = { lunch: null, dinner: null };
+
+function renderDailyRecommendation() {
+  const dateStr = toDateStr(new Date());
+  const history = getRecHistory();
+  const todayRec = history.find(h => h.date === dateStr);
+
+  if (todayRec) {
+    _recState.lunch  = RESTAURANTS.find(r => r.id === todayRec.lunchId)  || null;
+    _recState.dinner = RESTAURANTS.find(r => r.id === todayRec.dinnerId) || null;
+  } else {
+    const rec = getRecommendations(dateStr);
+    _recState.lunch  = rec.lunch;
+    _recState.dinner = rec.dinner;
+    history.push({ date: dateStr, lunchId: rec.lunch?.id, dinnerId: rec.dinner?.id });
+    saveRecHistory(history);
+  }
+
+  renderRecCard('lunch');
+  renderRecCard('dinner');
+}
+
+function renderRecCard(mealType) {
+  const r = _recState[mealType];
+  const el = document.getElementById('rec-' + mealType);
+  if (!el) return;
+  if (!r) { el.innerHTML = '<div style="color:var(--text2);font-size:13px;padding:8px 0">추천할 식당이 없어요</div>'; return; }
+
+  const localBadge = r.isLocal
+    ? '<span class="rec-local-badge local">★ 로컬</span>'
+    : '<span class="rec-local-badge franchise">☆ 프랜차이즈</span>';
+  const noteTxt = r.note ? `<div class="rec-note">${r.note}</div>` : '';
+  const label = mealType === 'lunch' ? '🌞 점심 추천' : '🌙 저녁 추천';
+
+  el.innerHTML = `
+    <div class="rec-meal-label">${label}</div>
+    <div class="rec-main">
+      <div class="rec-info">
+        <div class="rec-name">${r.name}</div>
+        <div class="rec-badges">
+          <span class="rec-cat-badge">${r.category}</span>
+          ${localBadge}
+        </div>
+        <div class="rec-menu">${r.mainMenu}</div>
+        ${noteTxt}
+      </div>
+      <div class="rec-price">${r.price}</div>
+    </div>
+    <button class="rec-refresh-btn" onclick="refreshRecommendation('${mealType}')">다른 거 추천해줘 🔄</button>
+  `;
+}
+
+function refreshRecommendation(mealType) {
+  const dateStr = toDateStr(new Date());
+  const currentId = _recState[mealType]?.id;
+  const otherId   = _recState[mealType === 'lunch' ? 'dinner' : 'lunch']?.id;
+  const skipIds   = [...getSkipIds(), currentId, otherId].filter(Boolean);
+  const alt = getAlternative(dateStr, mealType, currentId, skipIds);
+  _recState[mealType] = alt;
+
+  const history = getRecHistory();
+  const key = mealType === 'lunch' ? 'lunchId' : 'dinnerId';
+  const idx  = history.findIndex(h => h.date === dateStr);
+  if (idx !== -1) history[idx][key] = alt.id;
+  else history.push({ date: dateStr, [key]: alt.id });
+  saveRecHistory(history);
+
+  renderRecCard(mealType);
+}
+
 // ─── 생존 탭 ───
 function renderSurvival() {
   const d = getData();
