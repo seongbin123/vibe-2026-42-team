@@ -458,6 +458,140 @@ function expenseItemHTML(e) {
 
 // ─── 지출 내역 탭 ───
 let currentFilter = 'all';
+// ─── 지출 달력 ───
+let _expCalYear = new Date().getFullYear();
+let _expCalMonth = new Date().getMonth();
+let _expCalSelected = null;
+
+function moveExpCal(delta) {
+  _expCalMonth += delta;
+  if (_expCalMonth > 11) { _expCalMonth = 0; _expCalYear++; }
+  if (_expCalMonth < 0)  { _expCalMonth = 11; _expCalYear--; }
+  _expCalSelected = null;
+  renderExpCal();
+  renderExpCalDetail();
+}
+
+function selectExpCalDay(dateStr) {
+  _expCalSelected = _expCalSelected === dateStr ? null : dateStr;
+  renderExpCal();
+  renderExpCalDetail();
+}
+
+function fmtShort(n) {
+  if (n >= 10000) return (n / 10000).toFixed(n % 10000 === 0 ? 0 : 1) + '만';
+  if (n >= 1000)  return Math.floor(n / 1000) + '천';
+  return n + '';
+}
+
+function renderExpCal() {
+  const MONTHS = ['1월','2월','3월','4월','5월','6월','7월','8월','9월','10월','11월','12월'];
+  const titleEl = document.getElementById('exp-cal-title');
+  if (!titleEl) return;
+  titleEl.textContent = `${_expCalYear}년 ${MONTHS[_expCalMonth]}`;
+
+  const d = getData();
+  const today = new Date();
+  const todayStr = toDateStr(today);
+
+  // 날짜별 지출 합계
+  const dailyTotals = {};
+  d.expenses.forEach(e => {
+    const ed = new Date(e.date);
+    if (ed.getFullYear() === _expCalYear && ed.getMonth() === _expCalMonth) {
+      dailyTotals[e.date] = (dailyTotals[e.date] || 0) + e.amount;
+    }
+  });
+
+  // 구독 결제일 (해당 월)
+  const subDays = new Set();
+  d.subscriptions.forEach(sub => {
+    if (sub.billingDate && sub.billingDate.day) subDays.add(sub.billingDate.day);
+  });
+
+  const firstDay = new Date(_expCalYear, _expCalMonth, 1).getDay();
+  const daysInMonth = new Date(_expCalYear, _expCalMonth + 1, 0).getDate();
+  const grid = document.getElementById('exp-cal-grid');
+  if (!grid) return;
+
+  let html = '';
+  for (let i = 0; i < firstDay; i++) html += '<div class="exp-cal-day empty"></div>';
+
+  for (let day = 1; day <= daysInMonth; day++) {
+    const dateStr = `${_expCalYear}-${String(_expCalMonth+1).padStart(2,'0')}-${String(day).padStart(2,'0')}`;
+    const dow = new Date(_expCalYear, _expCalMonth, day).getDay();
+    const isToday = dateStr === todayStr;
+    const isSelected = dateStr === _expCalSelected;
+    const total = dailyTotals[dateStr] || 0;
+    const hasSub = subDays.has(day);
+
+    let cls = 'exp-cal-day';
+    if (isToday) cls += ' today';
+    if (isSelected) cls += ' selected';
+
+    let numCls = 'exp-cal-num';
+    if (dow === 0) numCls += ' sunday';
+    else if (dow === 6) numCls += ' saturday';
+
+    let inner = `<span class="${numCls}">${day}</span>`;
+    if (total > 0 || hasSub) {
+      inner += '<div class="exp-cal-dots">';
+      if (total > 0) inner += `<span class="exp-cal-exp-dot"></span>`;
+      if (hasSub)    inner += `<span class="exp-cal-sub-dot"></span>`;
+      inner += '</div>';
+      if (total > 0) inner += `<span class="exp-cal-amount">${fmtShort(total)}</span>`;
+    }
+
+    html += `<div class="${cls}" onclick="selectExpCalDay('${dateStr}')">${inner}</div>`;
+  }
+
+  grid.innerHTML = html;
+}
+
+function renderExpCalDetail() {
+  const el = document.getElementById('exp-cal-detail');
+  if (!el) return;
+  if (!_expCalSelected) { el.innerHTML = ''; return; }
+
+  const d = getData();
+  const dateObj = new Date(_expCalSelected + 'T00:00:00');
+  const dayOfMonth = dateObj.getDate();
+  const WDAY = ['일','월','화','수','목','금','토'];
+  const dow = WDAY[dateObj.getDay()];
+  const month = dateObj.getMonth() + 1;
+  const day = dateObj.getDate();
+
+  const dayExps = d.expenses.filter(e => e.date === _expCalSelected);
+  const dayTotal = dayExps.reduce((s,e)=>s+e.amount,0);
+  const daySubs = d.subscriptions.filter(s => s.billingDate && s.billingDate.day === dayOfMonth);
+
+  if (!dayExps.length && !daySubs.length) {
+    el.innerHTML = `<div class="exp-cal-detail"><div class="exp-cal-detail-empty">${month}월 ${day}일(${dow}) · 지출 없음</div></div>`;
+    return;
+  }
+
+  let html = `<div class="exp-cal-detail">
+    <div class="exp-cal-detail-header">
+      <span>${month}월 ${day}일(${dow})</span>
+      ${dayTotal ? `<span style="font-size:13px;color:var(--accent)">${fmt(dayTotal)}</span>` : ''}
+    </div>`;
+
+  daySubs.forEach(sub => {
+    html += `<div class="exp-cal-detail-sub-row">
+      <div class="exp-cal-detail-sub-icon">📱</div>
+      <span class="exp-cal-detail-sub-name">${sub.name} 결제일</span>
+      <span class="exp-cal-detail-sub-amt">${fmt(sub.amount)}</span>
+    </div>`;
+  });
+
+  dayExps.slice().reverse().forEach(e => {
+    html += expenseItemHTML(e);
+  });
+
+  html += '</div>';
+  el.innerHTML = html;
+}
+
 function renderExpenseList() {
   const d = getData();
   const list = document.getElementById('full-expense-list');
