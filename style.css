@@ -553,7 +553,7 @@ input::placeholder { color: var(--ink-4); }
 }
 .sub-presets button:active { background: var(--line); }
 
-.category-chart { display: flex; flex-direction: column; gap: 10px; margin-bottom: 12px; }
+.category-chart { display: flex; flex-direction: column; gap: 0; margin-bottom: 14px; background: var(--surface); border-radius: 20px; padding: 14px 16px; box-shadow: var(--shadow-sm); }
 .chart-row { display: flex; align-items: center; gap: 10px; }
 .chart-label { font-size: 13px; width: 56px; flex-shrink: 0; color: var(--ink-2); font-weight: 600; }
 .chart-bar-wrap { flex: 1; background: var(--line); border-radius: 4px; height: 8px; }
