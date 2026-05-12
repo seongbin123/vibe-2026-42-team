@@ -430,7 +430,7 @@ function renderWarnings(d, remaining, daysLeft) {
 
   // 잔액 경고
   if (remaining < 50000 && daysLeft > 3) {
-    warnings.push({ type: 'red', msg: `${daysLeft}일 남았는데 ${fmt(remaining)}밖에 없어요. 한끼 탭에서 알뜰 식사를 확인해보세요!` });
+    warnings.push({ type: 'red', icon: '💸', title: `잔액 ${fmt(remaining)}`, sub: `${daysLeft}일이나 남았어요. 한끼 탭에서 알뜰 식사를 확인해보세요!` });
   }
 
   warnings.forEach(w => {
