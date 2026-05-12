@@ -127,7 +127,7 @@ const SURVIVAL_DIETS = [
 
 let selectedCat = '식비';
 let selectedFriendType = 'cafe';
-let friendPeople = 2;
+let friendPeople = 1;
 
 function load() { return JSON.parse(localStorage.getItem('suwon_planner') || '{}'); }
 function save(d) { localStorage.setItem('suwon_planner', JSON.stringify(d)); }
