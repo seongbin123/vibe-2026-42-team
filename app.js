@@ -921,6 +921,7 @@ function renderSurvival() {
     tip.textContent = `😊 하루 예산 ${fmt(dailyAllowance)} — 여유 있어요. 가끔 외식도 OK!`;
   }
 
+  renderRestaurantBrowser();
   renderDailyRecommendation();
   loadHakshikMenu();
 }
