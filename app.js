@@ -571,6 +571,7 @@ function renderSurvival() {
     </div>`).join('');
 
   updateFriendCalc();
+  loadHakshikMenu();
 }
 
 // ─── 지출 모달 ───
