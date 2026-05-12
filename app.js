@@ -748,8 +748,13 @@ function refreshRecommendation(mealType) {
   const dateStr = toDateStr(new Date());
   const currentId = _recState[mealType]?.id;
   const otherId   = _recState[mealType === 'lunch' ? 'dinner' : 'lunch']?.id;
-  const skipIds   = [...getSkipIds(), currentId, otherId].filter(Boolean);
-  const alt = getAlternative(dateStr, mealType, currentId, skipIds);
+
+  // 현재 식당을 세션 이력에 추가
+  if (currentId && !_shownIds[mealType].includes(currentId)) _shownIds[mealType].push(currentId);
+
+  // 이번 세션에 보여준 식당 + 다른 끼니 식당만 제외 (7일 이력은 제외 안 함)
+  const excludeIds = [..._shownIds[mealType], otherId].filter(Boolean);
+  const alt = getAlternative(dateStr, mealType, excludeIds, _shownIds[mealType].length);
   _recState[mealType] = alt;
 
   const history = getRecHistory();
