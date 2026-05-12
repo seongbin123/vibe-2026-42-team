@@ -27,7 +27,8 @@
       "Read(//home/jovyan/.ssh/**)",
       "Bash(xargs -I{} ssh-keygen -l -f {})",
       "Bash(crontab -l)",
-      "Bash(ssh -T git@github.com)"
+      "Bash(ssh -T git@github.com)",
+      "Bash(chmod +x *)"
     ]
   },
   "hooks": {
