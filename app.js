@@ -606,7 +606,7 @@ function renderMenuContent(day, todayDay) {
   content.innerHTML = `
     <div class="menu-card${isToday ? ' today-menu' : ''}">
       ${isToday ? '<div class="menu-today-badge">오늘의 학식</div>' : ''}
-      <div class="menu-corner">${hakshikData.student?.corner || 'Little Kitchen'} · ${(hakshikData.student?.price || 6000).toLocaleString()}원</div>
+      <div class="menu-corner">${hakshikData.student?.corner || 'Little Kitchen'} · ${(hakshikData.student?.price || 6500).toLocaleString()}원</div>
       <div class="menu-items">
         ${menu.map((item, i) => `<div class="menu-item${i === 0 ? ' main-item' : ''}">${i === 0 ? '🍱 ' : '· '}${item}</div>`).join('')}
       </div>
