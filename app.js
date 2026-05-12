@@ -425,7 +425,7 @@ function renderWarnings(d, remaining, daysLeft) {
   // 구독료 경고
   const totalSub = d.subscriptions.reduce((s, sub) => s + sub.amount, 0);
   if (totalSub > 0) {
-    warnings.push({ type: 'yellow', msg: `이번 달 구독료 합계가 ${fmt(totalSub)}이에요. 필요 없는 거 정리해봐요!` });
+    warnings.push({ type: 'yellow', icon: '📱', title: `구독료 ${fmt(totalSub)}/월`, sub: `필요 없는 구독은 정리해봐요!` });
   }
 
   // 잔액 경고
