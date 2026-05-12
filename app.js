@@ -1413,7 +1413,7 @@ function openSettings() {
   document.getElementById('settings-budget').value = d.budget;
   const btn = document.getElementById('settings-payday-btn');
   if (d.payday) {
-    btn.textContent = `📅 ${d.payday}일`;
+    btn.textContent = `${d.payday}일`;
     btn.dataset.payday = d.payday;
     btn.classList.add('selected');
   }
