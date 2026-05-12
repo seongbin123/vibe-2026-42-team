@@ -197,14 +197,18 @@
         </div>
       </div>
 
-      <!-- 수원대 학식 메뉴 -->
-      <div class="section-title">수원대 학식 메뉴 정보 🍱</div>
-      <div class="hakshik-info">
-        <div class="hakshik-item"><span>일반식</span><span class="price">6,000원</span></div>
-        <div class="hakshik-item"><span>특선</span><span class="price">9,000원</span></div>
-        <div class="hakshik-item"><span>분식코너</span><span class="price">2,000~3,000원</span></div>
-        <div class="hakshik-item"><span>편의점 도시락</span><span class="price">3,500~5,500원</span></div>
-        <div class="hakshik-tip">💡 학식 3끼 = 하루 약 18,000원으로 해결!</div>
+      <!-- 수원대 학식 실시간 메뉴 -->
+      <div class="section-title">이번 주 학식 메뉴 🍱 <span id="menu-updated" class="menu-badge"></span></div>
+      <div id="hakshik-menu-wrap">
+        <div id="hakshik-menu-loading" class="menu-loading">🔄 메뉴 불러오는 중...</div>
+        <div id="hakshik-menu-content" class="hidden">
+          <div class="menu-day-tabs" id="menu-day-tabs"></div>
+          <div id="menu-day-content"></div>
+        </div>
+        <div id="hakshik-menu-error" class="menu-error hidden">
+          <p>메뉴를 불러오지 못했어요 😢</p>
+          <p style="font-size:12px;margin-top:4px;color:var(--text2)">수원대 홈페이지에서 직접 확인해보세요</p>
+        </div>
       </div>
     </section>
 

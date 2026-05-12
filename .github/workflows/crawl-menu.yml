@@ -1,0 +1,33 @@
+name: 학식 메뉴 자동 업데이트
+
+on:
+  schedule:
+    - cron: '0 22 * * 0'  # 매주 일요일 22:00 UTC = 월요일 07:00 KST
+  workflow_dispatch:        # 수동 실행도 가능
+
+jobs:
+  crawl:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Python 설정
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: 패키지 설치
+        run: pip install requests beautifulsoup4
+
+      - name: 메뉴 크롤링
+        run: python crawl_menu.py
+
+      - name: 커밋 & 푸시
+        run: |
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git config user.name "github-actions[bot]"
+          git add menu.json
+          git diff --cached --quiet || git commit -m "🍱 학식 메뉴 자동 업데이트 $(date +'%Y-%m-%d')"
+          git push
