@@ -598,7 +598,7 @@ function renderExpCalDetail() {
 
   daySubs.forEach(sub => {
     html += `<div class="exp-cal-detail-sub-row">
-      <div class="exp-cal-detail-sub-icon">📱</div>
+      <div class="exp-cal-detail-sub-icon"><svg width="14" height="14" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="2" width="10" height="16" rx="2"/><circle cx="10" cy="15.5" r="0.8" fill="currentColor" stroke="none"/></svg></div>
       <span class="exp-cal-detail-sub-name">${sub.name} 결제일</span>
       <span class="exp-cal-detail-sub-amt">${fmt(sub.amount)}</span>
     </div>`;
