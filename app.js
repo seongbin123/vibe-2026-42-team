@@ -790,7 +790,7 @@ function renderSurvival() {
   const outsideCard = document.getElementById('meal-outside');
   const tip = document.getElementById('meal-tip');
 
-  if (dailyAllowance < 8000) {
+  if (dailyAllowance < 10000) {
     hakshikCard.classList.add('recommended');
     outsideCard.classList.remove('recommended');
     document.getElementById('hakshik-tag').className = 'meal-tag';
