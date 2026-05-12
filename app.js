@@ -389,7 +389,7 @@ function renderHome() {
   const todayCats = document.getElementById('today-cats');
   todayCats.innerHTML = cats.map(cat => {
     const sum = todayExp.filter(e => e.cat === cat).reduce((s,e)=>s+e.amount,0);
-    return `<div class="cat-stat"><span>${EMOJIS[cat]} ${cat}</span><span>${fmt(sum)}</span></div>`;
+    return `<div class="cat-stat">${catIconBox(cat,'cat-stat-icon')}<span class="cat-stat-name">${cat}</span><span class="cat-stat-amount">${fmt(sum)}</span></div>`;
   }).join('');
 
   renderWarnings(d, remaining, daysLeft);
