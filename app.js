@@ -773,31 +773,6 @@ function resetAll() {
   }
 }
 
-// ─── 친구 약속 ───
-function selectFriend(btn) {
-  document.querySelectorAll('.friend-btn').forEach(b => b.classList.remove('active'));
-  btn.classList.add('active');
-  selectedFriendType = btn.dataset.type;
-  updateFriendCalc();
-}
-function changePeople(delta) {
-  friendPeople = Math.max(1, Math.min(10, friendPeople + delta));
-  document.getElementById('people-count').textContent = friendPeople;
-  updateFriendCalc();
-}
-function updateFriendCalc() {
-  const c = FRIEND_COSTS[selectedFriendType];
-  const minTotal = c.min * friendPeople;
-  const maxTotal = c.max * friendPeople;
-  document.getElementById('friend-cost').textContent = `${fmt(minTotal)} ~ ${fmt(maxTotal)}`;
-  const d = getData();
-  const totalSpent = d.expenses.reduce((s,e)=>s+e.amount,0);
-  const remaining = d.budget - totalSpent;
-  const comment = remaining < minTotal
-    ? `⚠️ 현재 잔액(${fmt(remaining)})으로 부족할 수 있어요`
-    : `✅ 잔액 ${fmt(remaining)} — 충분해요!`;
-  document.getElementById('friend-comment').textContent = comment;
-}
 
 // ─── 탭 전환 ───
 function switchTab(tab, btn) {
