@@ -216,6 +216,40 @@ const RESTAURANTS = [
   { id:100,name:'미니스톱 봉담점',        category:'베이커리·편의점',     mainMenu:'소프트 아이스크림',   price:'800원',     priceMin:800,   isLocal:false, note:'24시간',               mealType:['both'] },
 ];
 
+const RESTAURANT_CATEGORIES = [
+  { key: 'all',     ko: '전체' },
+  { key: 'kor',     ko: '한식·국수' },
+  { key: 'soup',    ko: '해장·탕' },
+  { key: 'meat',    ko: '구이·고기' },
+  { key: 'jp',      ko: '일식·초밥' },
+  { key: 'cn',      ko: '중식' },
+  { key: 'sea',     ko: '분식·해산물' },
+  { key: 'night',   ko: '족발·야식' },
+  { key: 'west',    ko: '양식·피자' },
+  { key: 'chicken', ko: '치킨' },
+  { key: 'burger',  ko: '햄버거' },
+  { key: 'tteok',   ko: '떡볶이·김밥' },
+  { key: 'cafe',    ko: '카페·디저트' },
+  { key: 'cvs',     ko: '편의점·도시락' },
+];
+
+const CAT_KEY_MAP = {
+  '한식·한정식·국수':   'kor',
+  '해장·탕·찌개':       'soup',
+  '구이·고기·샤브샤브': 'meat',
+  '일식·초밥·덮밥':     'jp',
+  '중식·양꼬치':        'cn',
+  '분식·해산물·볶음':   'sea',
+  '족발·야식·포차':     'night',
+  '양식·피자':          'west',
+  '치킨':               'chicken',
+  '햄버거·패스트푸드':  'burger',
+  '분식_프랜차이즈':    'tteok',
+  '카페·디저트':        'cafe',
+  '베이커리·편의점':    'cvs',
+  '기타·도시락':        'cvs',
+};
+
 const REC_MEAL_CATS = new Set(['카페·디저트','베이커리·편의점']);
 
 let selectedCat = '식비';
