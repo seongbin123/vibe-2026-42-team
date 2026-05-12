@@ -1047,7 +1047,7 @@ function renderRecCard(mealType) {
       </div>
       <div class="rec-price">${r.price}</div>
     </div>
-    <button class="rec-refresh-btn" onclick="refreshRecommendation('${mealType}')">다른 거 추천해줘 🔄</button>
+    <button class="rec-refresh-btn" onclick="refreshRecommendation('${mealType}')">다른 거 추천해줘</button>
   `;
 }
 
