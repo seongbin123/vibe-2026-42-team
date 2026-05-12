@@ -436,7 +436,12 @@ function renderWarnings(d, remaining, daysLeft) {
   warnings.forEach(w => {
     const el = document.createElement('div');
     el.className = 'warning-card' + (w.type === 'yellow' ? ' yellow' : '');
-    el.textContent = w.msg;
+    el.innerHTML = `
+      <div class="warning-icon">${w.icon}</div>
+      <div>
+        <div class="warning-card-title">${w.title}</div>
+        <div class="warning-card-sub">${w.sub}</div>
+      </div>`;
     zone.appendChild(el);
   });
 }
