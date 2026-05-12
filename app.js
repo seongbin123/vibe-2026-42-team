@@ -784,16 +784,25 @@ function renderCategoryChart(expenses) {
   expenses.forEach(e => { totals[e.cat] = (totals[e.cat]||0) + e.amount; });
   const max = Math.max(...Object.values(totals), 1);
   const chart = document.getElementById('category-chart');
+  const total = Object.values(totals).reduce((s, v) => s + v, 0);
   chart.innerHTML = Object.entries(totals)
     .sort((a,b) => b[1]-a[1])
-    .map(([cat, amt]) => `
-    <div class="chart-row">
-      <div class="chart-label">${EMOJIS[cat]||''} ${cat}</div>
-      <div class="chart-bar-wrap">
-        <div class="chart-bar-fill" style="width:${(amt/max*100).toFixed(1)}%;background:${CAT_COLORS[cat]||'#7C6CF4'}"></div>
-      </div>
-      <div class="chart-amount">${fmt(amt)}</div>
-    </div>`).join('') || '<div style="color:var(--text2);font-size:13px;padding:8px 0">지출 데이터가 없어요</div>';
+    .map(([cat, amt]) => {
+      const barPct = (amt / max * 100).toFixed(1);
+      const sharePct = total > 0 ? Math.round(amt / total * 100) : 0;
+      return `<div class="chart-row">
+        <div class="chart-top">
+          <span class="chart-label">${cat}</span>
+          <span class="chart-amount">${fmt(amt)}</span>
+        </div>
+        <div class="chart-bar-row">
+          <div class="chart-bar-wrap">
+            <div class="chart-bar-fill" style="width:${barPct}%;background:${CAT_COLORS[cat]||'#7C6CF4'}"></div>
+          </div>
+          <span class="chart-pct">${sharePct}%</span>
+        </div>
+      </div>`;
+    }).join('') || '<div style="color:var(--ink-4);font-size:13px;padding:8px 0">지출 데이터가 없어요</div>';
 }
 
 // ─── 학식 메뉴 ───
