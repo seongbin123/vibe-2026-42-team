@@ -308,7 +308,6 @@ input::placeholder { color: var(--ink-4); }
 .today-cats, .today-list {
   background: var(--surface);
   border-radius: 18px;
-  overflow: hidden;
   box-shadow: var(--shadow-sm);
 }
 .today-empty {
