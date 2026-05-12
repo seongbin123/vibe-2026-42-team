@@ -1165,6 +1165,9 @@ function renderSurvival() {
   const daysLeft = getDaysLeft(new Date(), d.payday);
   const dailyAllowance = daysLeft > 0 ? Math.floor(remaining / daysLeft) : 0;
 
+  const subEl = document.getElementById('hankki-daily-sub');
+  if (subEl) subEl.textContent = `오늘 ${fmt(dailyAllowance)}원으로 버텨야 해요`;
+
   // 학식 vs 외식
   const hakshikCard = document.getElementById('meal-hakshik');
   const outsideCard = document.getElementById('meal-outside');
