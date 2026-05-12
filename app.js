@@ -773,7 +773,7 @@ function renderSubscriptions() {
         </div>
       </div>
       <div style="display:flex;align-items:center;gap:10px">
-        <span class="sub-amount">-${fmt(sub.amount)}/월</span>
+        <span class="sub-amount">${fmt(sub.amount)}/월</span>
         <button class="sub-delete" onclick="deleteSub('${sub.id}')">×</button>
       </div>
     </div>`).join('');
