@@ -808,6 +808,7 @@ function renderSurvival() {
       <div class="diet-cost">하루 ${fmt(item.cost)}</div>
     </div>`).join('');
 
+  renderDailyRecommendation();
   loadHakshikMenu();
 }
 
