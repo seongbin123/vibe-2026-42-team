@@ -27,6 +27,16 @@
   --shadow-md: 0 2px 8px rgba(17,24,39,.05), 0 4px 16px rgba(17,24,39,.04);
   --nav-height: 70px;
 
+  /* category icon colors */
+  --cat-food:      #E6F7EF; --cat-food-ink:  #1A7A52;
+  --cat-cafe:      #FFF3DB; --cat-cafe-ink:  #A86500;
+  --cat-trans:     #E1EDFF; --cat-trans-ink: #2563C8;
+  --cat-drink:     #FFE8EC; --cat-drink-ink: #C0364F;
+  --cat-sub:       #EDE9FF; --cat-sub-ink:   #5B45D0;
+  --cat-shop:      #FFE8F4; --cat-shop-ink:  #B52880;
+  --cat-hosp:      #E3F8F5; --cat-hosp-ink:  #0E8F7F;
+  --cat-etc:       #ECEFF1; --cat-etc-ink:   #546E7A;
+
   /* compat aliases */
   --primary: var(--accent);
   --primary-dark: var(--accent-ink);
