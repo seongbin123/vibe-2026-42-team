@@ -19,7 +19,8 @@
       "Bash(npm install *)",
       "Bash(bash -c 'cd /home/jovyan/work && git diff --quiet && git diff --cached --quiet || \\(git add -A && git commit -m \"Auto-save\" && git push origin main\\)')",
       "Bash(echo \"exit: $?\")",
-      "Bash(grep -v \"^$\")"
+      "Bash(grep -v \"^$\")",
+      "Bash(bash -c 'git diff --quiet && git diff --cached --quiet || \\(git add -A && git commit -m \"Auto-save\" && git push origin main\\)')"
     ]
   },
   "hooks": {
