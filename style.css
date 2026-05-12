@@ -289,11 +289,18 @@ input::placeholder { color: var(--ink-4); }
 }
 
 /* ─── 오늘 지출 카테고리 ─── */
-.today-cats {
+.today-cats, .today-list {
   background: var(--surface);
   border-radius: 18px;
   overflow: hidden;
   box-shadow: var(--shadow-sm);
+}
+.today-empty {
+  padding: 24px 16px;
+  text-align: center;
+  font-size: 13.5px;
+  color: var(--ink-3);
+  font-weight: 500;
 }
 .cat-stat {
   display: flex;
