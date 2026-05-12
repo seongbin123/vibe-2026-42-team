@@ -76,16 +76,21 @@
           <span id="remaining-amount">0원</span>
           <button class="add-budget-btn" onclick="openAddBudgetModal()">+ 용돈</button>
         </div>
-        <div class="daily-box">
-          <span class="daily-label">오늘 쓸 수 있는 돈</span>
-          <span class="daily-amount" id="daily-amount">0원</span>
-        </div>
         <div class="progress-bar-wrap">
           <div class="progress-bar" id="progress-bar"></div>
         </div>
         <div class="progress-labels">
           <span id="spent-pct">0% 사용</span>
-          <span id="days-left">D-?</span>
+        </div>
+        <div class="daily-box">
+          <div>
+            <div class="daily-label">오늘 쓸 수 있는 돈</div>
+            <div class="daily-amount" id="daily-amount">0원</div>
+          </div>
+          <div style="text-align:right">
+            <div class="daily-dday-label">월급까지</div>
+            <div class="daily-dday" id="days-left">D-?</div>
+          </div>
         </div>
       </div>
 
