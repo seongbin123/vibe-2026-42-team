@@ -414,7 +414,7 @@ function expenseItemHTML(e) {
     </div>
     <div class="expense-right">
       <div class="expense-amount">-${fmt(e.amount)}</div>
-      <div class="expense-date">${e.date}</div>
+      <div class="expense-date">${e.date}${e.time ? ` · ${e.time}` : ''}</div>
     </div>
     <div class="expense-menu-wrap">
       <button class="expense-menu-btn"
