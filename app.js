@@ -798,7 +798,10 @@ function renderCategoryChart(expenses) {
       const barPct = (amt / max * 100).toFixed(1);
       const sharePct = total > 0 ? Math.round(amt / total * 100) : 0;
       return `<div class="chart-row">
-        <span class="chart-label">${cat}</span>
+        <div class="chart-label-row">
+          <span class="chart-label">${cat}</span>
+          ${catIconMini(cat)}
+        </div>
         <div class="chart-bar-row">
           <div class="chart-bar-wrap">
             <div class="chart-bar-fill" style="width:${barPct}%;background:${CAT_COLORS[cat]||'#7C6CF4'}"></div>
