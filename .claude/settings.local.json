@@ -25,7 +25,9 @@
       "Bash(ssh-keygen -l -f ~/.ssh/id_rsa.pub)",
       "Bash(ssh-keygen -l -f ~/.ssh/id_ed25519.pub)",
       "Read(//home/jovyan/.ssh/**)",
-      "Bash(xargs -I{} ssh-keygen -l -f {})"
+      "Bash(xargs -I{} ssh-keygen -l -f {})",
+      "Bash(crontab -l)",
+      "Bash(ssh -T git@github.com)"
     ]
   },
   "hooks": {
