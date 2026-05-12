@@ -437,7 +437,7 @@ function renderWarnings(d, remaining, daysLeft) {
     const el = document.createElement('div');
     el.className = 'warning-card' + (w.type === 'yellow' ? ' yellow' : '');
     el.innerHTML = `
-      <div class="warning-icon">${w.icon}</div>
+      <div class="warning-icon" style="display:grid;place-items:center;width:32px;height:32px;border-radius:9px;background:rgba(0,0,0,0.06);flex-shrink:0">${w.icon}</div>
       <div>
         <div class="warning-card-title">${w.title}</div>
         <div class="warning-card-sub">${w.sub}</div>
