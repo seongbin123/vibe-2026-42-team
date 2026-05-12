@@ -808,17 +808,6 @@ function renderSurvival() {
     tip.textContent = `😊 하루 예산 ${fmt(dailyAllowance)} — 여유 있어요. 가끔 외식도 OK!`;
   }
 
-  // 생존 식단
-  const diet = document.getElementById('survival-diet');
-  diet.innerHTML = SURVIVAL_DIETS.map(item => `
-    <div class="diet-item">
-      <div>
-        <div style="font-weight:600">${item.name}</div>
-        <div style="font-size:12px;color:var(--text2);margin-top:3px">${item.tip}</div>
-      </div>
-      <div class="diet-cost">하루 ${fmt(item.cost)}</div>
-    </div>`).join('');
-
   renderDailyRecommendation();
   loadHakshikMenu();
 }
