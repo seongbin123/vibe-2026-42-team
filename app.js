@@ -806,6 +806,85 @@ function refreshRecommendation(mealType) {
 }
 
 // ─── 생존 탭 ───
+// ─── 봉담 맛집 100 ───
+let _restCat = 'all';
+let _restBudgetOnly = false;
+
+function getCatKey(r) { return CAT_KEY_MAP[r.category] || 'cvs'; }
+
+function toggleRestBudget() {
+  _restBudgetOnly = !_restBudgetOnly;
+  renderRestaurantBrowser();
+}
+
+function setRestCat(key) {
+  _restCat = key;
+  renderRestaurantBrowser();
+}
+
+function renderRestaurantBrowser() {
+  const d = getData();
+  const totalSpent = d.expenses.reduce((s, e) => s + e.amount, 0);
+  const remaining = d.budget - totalSpent;
+  const daysLeft = getDaysLeft(new Date(), d.payday);
+  const dailyAllowance = daysLeft > 0 ? Math.floor(remaining / daysLeft) : 0;
+
+  const localCount = RESTAURANTS.filter(r => r.isLocal).length;
+  const statEl = document.getElementById('rest-header-stat');
+  if (statEl) statEl.textContent = `★ 로컬 ${localCount} · ☆ 프차 ${RESTAURANTS.length - localCount}`;
+
+  const counts = { all: RESTAURANTS.length };
+  RESTAURANTS.forEach(r => {
+    const k = getCatKey(r);
+    counts[k] = (counts[k] || 0) + 1;
+  });
+
+  const chipsEl = document.getElementById('rest-chips');
+  if (chipsEl) {
+    chipsEl.innerHTML = RESTAURANT_CATEGORIES.map(c => {
+      const n = counts[c.key] || 0;
+      const active = c.key === _restCat;
+      return `<button class="chip-btn${active ? ' active' : ''}" onclick="setRestCat('${c.key}')">
+        ${c.ko} <span class="chip-count">${n}</span>
+      </button>`;
+    }).join('');
+  }
+
+  const possibleCount = RESTAURANTS.filter(r => r.priceMin <= dailyAllowance).length;
+  const budgetBtn = document.getElementById('rest-budget-btn');
+  if (budgetBtn) {
+    budgetBtn.className = 'rest-budget-btn' + (_restBudgetOnly ? ' active' : '');
+    budgetBtn.innerHTML = `<span>⚡ 오늘 예산(${fmt(dailyAllowance)}) 안에 가능</span>
+      <span class="rest-budget-badge">${_restBudgetOnly ? 'ON' : possibleCount + '곳'}</span>`;
+  }
+
+  let items = RESTAURANTS;
+  if (_restCat !== 'all') items = items.filter(r => getCatKey(r) === _restCat);
+  if (_restBudgetOnly) items = items.filter(r => r.priceMin <= dailyAllowance);
+
+  const listEl = document.getElementById('rest-list');
+  if (listEl) {
+    if (items.length === 0) {
+      listEl.innerHTML = '<div class="rest-empty">조건에 맞는 식당이 없어요</div>';
+    } else {
+      listEl.innerHTML = items.map(r => {
+        const inBudget = r.priceMin <= dailyAllowance;
+        return `<div class="rest-row">
+          <span class="rest-local-badge ${r.isLocal ? 'local' : 'franchise'}">${r.isLocal ? '★' : '☆'}</span>
+          <div class="rest-info">
+            <div class="rest-name">${r.name}</div>
+            <div class="rest-dish">${r.mainMenu}${r.note ? ' · ' + r.note : ''}</div>
+          </div>
+          <div class="rest-price-wrap">
+            <div class="rest-price ${inBudget ? 'ok' : 'over'}">${r.price}</div>
+            ${inBudget ? '<div class="rest-ok-label">오늘 가능</div>' : ''}
+          </div>
+        </div>`;
+      }).join('');
+    }
+  }
+}
+
 function renderSurvival() {
   const d = getData();
   const totalSpent = d.expenses.reduce((s, e) => s + e.amount, 0);
