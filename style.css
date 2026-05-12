@@ -342,7 +342,8 @@ input::placeholder { color: var(--ink-4); }
   border-bottom: 1px solid var(--line);
 }
 .expense-item:last-child { border-bottom: none; }
-.expense-emoji { font-size: 22px; width: 36px; text-align: center; }
+.expense-emoji { width: 36px; height: 36px; border-radius: 10px; display: grid; place-items: center; flex-shrink: 0; }
+.cat-stat-icon { width: 36px; height: 36px; border-radius: 10px; display: grid; place-items: center; flex-shrink: 0; }
 .expense-info { flex: 1; min-width: 0; }
 .expense-cat { font-size: 15px; font-weight: 600; color: var(--ink); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .expense-note { font-size: 13px; color: var(--ink-3); margin-top: 2px; }
