@@ -191,8 +191,8 @@ input::placeholder { color: var(--ink-4); }
   color: var(--ink-2); box-shadow: var(--shadow-sm);
 }
 .add-btn {
-  background: var(--accent);
-  color: white;
+  background: transparent;
+  color: #C0705A;
   border: none;
   border-radius: 9999px;
   padding: 5px 12px;
