@@ -724,7 +724,7 @@ function renderAnalysis() {
   const now = new Date();
   const weekAgo = new Date(now); weekAgo.setDate(now.getDate() - 7);
   const weekTotals = {};
-  d.expenses.filter(e => new Date(e.date) >= weekAgo).forEach(e => {
+  onlyExpenses(d.expenses).filter(e => new Date(e.date) >= weekAgo).forEach(e => {
     weekTotals[e.cat] = (weekTotals[e.cat] || 0) + e.amount;
   });
 
