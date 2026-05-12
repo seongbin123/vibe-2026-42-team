@@ -497,6 +497,10 @@ input::placeholder { color: var(--ink-4); }
 .analysis-value { font-size: 22px; font-weight: 800; margin-bottom: 8px; color: var(--ink); }
 .top-cat-row { display: flex; align-items: baseline; gap: 8px; }
 .top-cat-amount { font-size: 12.5px; color: var(--ink-4); font-weight: 600; }
+.cat-rank-list { margin-top: 12px; display: flex; flex-direction: column; gap: 7px; }
+.cat-rank-row { display: flex; align-items: center; gap: 10px; }
+.cat-rank-amount { font-size: 13px; font-weight: 700; color: var(--ink-2); min-width: 72px; text-align: right; flex-shrink: 0; }
+.cat-rank-name { font-size: 13px; font-weight: 600; color: var(--ink); }
 .analysis-bar-wrap { background: var(--line); border-radius: 4px; height: 6px; }
 .analysis-bar { height: 100%; border-radius: 4px; transition: width .5s ease; }
 .coffee-bar { background: linear-gradient(90deg, var(--accent), #FF4040); }
