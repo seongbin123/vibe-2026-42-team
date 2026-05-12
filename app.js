@@ -425,7 +425,7 @@ function renderWarnings(d, remaining, daysLeft) {
   // 구독료 경고
   const totalSub = d.subscriptions.reduce((s, sub) => s + sub.amount, 0);
   if (totalSub > 0) {
-    warnings.push({ type: 'yellow', icon: '📱', title: `구독료 ${fmt(totalSub)}/월`, sub: `필요 없는 구독은 정리해봐요!` });
+    warnings.push({ type: 'yellow', icon: '<svg width="18" height="18" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="2" width="10" height="16" rx="2"/><circle cx="10" cy="15.5" r="0.8" fill="currentColor" stroke="none"/></svg>', title: `구독료 ${fmt(totalSub)}/월`, sub: `필요 없는 구독은 정리해봐요!` });
   }
 
   // 잔액 경고
