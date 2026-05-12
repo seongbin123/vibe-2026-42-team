@@ -388,7 +388,7 @@ function renderHome() {
     label.textContent = '주의 — 절약 필요';
   } else {
     card.classList.add('safe-mode');
-    label.textContent = '🟢 안전';
+    label.textContent = '안전';
   }
 
   // 오늘 카테고리 합계 (전체)
