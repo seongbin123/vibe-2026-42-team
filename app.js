@@ -396,7 +396,7 @@ function renderHome() {
   const todayExp = d.expenses.filter(e => e.date === todayStr).reverse();
   const todayCats = document.getElementById('today-cats');
   if (todayExp.length === 0) {
-    todayCats.innerHTML = `<div class="today-empty">오늘 지출이 없어요 🎉</div>`;
+    todayCats.innerHTML = `<div class="today-empty">오늘 지출이 없어요</div>`;
   } else {
     todayCats.innerHTML = todayExp.map(e => expenseItemHTML(e)).join('');
   }
