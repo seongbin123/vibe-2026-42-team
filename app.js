@@ -981,7 +981,9 @@ function addExpense() {
     }
     editingExpenseId = null;
   } else {
-    d.expenses.push({ id: Date.now().toString(), cat: selectedCat, amount, note, date: toDateStr(new Date()) });
+    const now = new Date();
+    const time = `${String(now.getHours()).padStart(2,'0')}:${String(now.getMinutes()).padStart(2,'0')}`;
+    d.expenses.push({ id: Date.now().toString(), cat: selectedCat, amount, note, date: toDateStr(now), time });
   }
   save(d);
   closeExpenseModal();
