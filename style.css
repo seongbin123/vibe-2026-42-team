@@ -375,7 +375,6 @@ input::placeholder { color: var(--ink-4); }
 .expense-day-card {
   background: var(--surface);
   border-radius: 18px;
-  overflow: hidden;
   box-shadow: var(--shadow-sm);
 }
 .expense-divider { height: 1px; background: var(--line); margin-left: 64px; }
