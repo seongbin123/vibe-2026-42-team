@@ -1228,7 +1228,7 @@ function toggleExpenseMenu(event, id) {
   // touch 기기에서는 ontouchend로만 처리, ghost click(click 이벤트) 차단
   if (event.type === 'click' && navigator.maxTouchPoints > 0) return;
   if (Date.now() < menuAllowedAfter) return;
-  const popup = document.getElementById('menu-' + id);
+  const popup = event.currentTarget.closest('.expense-menu-wrap').querySelector('.expense-menu-popup');
   const isHidden = popup.classList.contains('hidden');
   document.querySelectorAll('.expense-menu-popup').forEach(p => p.classList.add('hidden'));
   if (isHidden) popup.classList.remove('hidden');
