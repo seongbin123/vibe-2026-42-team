@@ -30,7 +30,9 @@
       "Bash(ssh -T git@github.com)",
       "Bash(chmod +x *)",
       "WebSearch",
-      "WebFetch(domain:www.suwon.ac.kr)"
+      "WebFetch(domain:www.suwon.ac.kr)",
+      "Bash(mkdir -p /home/jovyan/work/.github/workflows)",
+      "Bash(pip install *)"
     ]
   },
   "hooks": {
