@@ -1200,6 +1200,14 @@ function selectCat(btn, showRecent = true) {
   document.querySelectorAll('.cat-btn').forEach(b => b.classList.remove('active'));
   btn.classList.add('active');
   selectedCat = btn.dataset.cat;
+  const etcWrap = document.getElementById('etc-name-wrap');
+  if (selectedCat === '기타') {
+    etcWrap.classList.remove('hidden');
+    document.getElementById('etc-name').focus();
+  } else {
+    etcWrap.classList.add('hidden');
+    document.getElementById('etc-name').value = '';
+  }
   if (showRecent) renderRecentAmounts(selectedCat);
 }
 function addExpense() {
