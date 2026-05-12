@@ -1213,7 +1213,8 @@ function selectCat(btn, showRecent = true) {
 function addExpense() {
   const amount = parseInt(document.getElementById('expense-amount').value);
   if (!amount || amount <= 0) { alert('금액을 입력해주세요'); return; }
-  const note = document.getElementById('expense-note').value.trim();
+  const etcName = document.getElementById('etc-name').value.trim();
+  const note = selectedCat === '기타' && etcName ? etcName : document.getElementById('expense-note').value.trim();
   const d = getData();
   if (editingExpenseId) {
     const idx = d.expenses.findIndex(e => e.id === editingExpenseId);
