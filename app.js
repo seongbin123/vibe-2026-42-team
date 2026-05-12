@@ -367,7 +367,7 @@ function renderHome() {
   const dailyAllowance = daysLeft > 0 ? Math.floor(remaining / daysLeft) : 0;
   const pct = Math.min(100, Math.round((totalSpent / d.budget) * 100));
 
-  document.getElementById('greeting').textContent = `안녕하세요, ${d.name}님 👋`;
+  document.getElementById('header-name').textContent = `${d.name}님`;
   document.getElementById('remaining-amount').textContent = fmt(remaining);
   document.getElementById('remaining-sub').textContent = '남은 생활비';
   document.getElementById('daily-amount').textContent = fmt(Math.max(0, dailyAllowance));
