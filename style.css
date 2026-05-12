@@ -402,12 +402,12 @@ input::placeholder { color: var(--ink-4); }
   font-size: 20px; cursor: pointer; padding: 4px 8px; line-height: 1;
 }
 .expense-menu-popup {
-  position: fixed;
+  position: absolute; right: 0; top: 32px;
   background: var(--surface);
   border: 1.5px solid var(--line);
   border-radius: 16px;
   overflow: hidden;
-  z-index: 999;
+  z-index: 200;
   min-width: 130px;
   box-shadow: var(--shadow-md);
 }
