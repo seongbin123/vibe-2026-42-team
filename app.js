@@ -913,7 +913,7 @@ function renderMenuContent(day, todayDay) {
   const menu = hakshikData.student?.menu?.[day] || [];
   const isToday = day === todayDay;
   if (!menu.length) {
-    content.innerHTML = '<div class="menu-weekend">이날은 학식 운영이 없어요 🏠</div>';
+    content.innerHTML = '<div class="menu-weekend">이날은 학식 운영이 없어요</div>';
     return;
   }
   content.innerHTML = `
