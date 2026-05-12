@@ -110,6 +110,34 @@ function initDragInputs() {
 const EMOJIS = { 식비:'🍚', 카페:'☕', 교통:'🚌', 술자리:'🍺', 구독:'📱', 쇼핑:'🛍️', 병원:'🏥', 기타:'💸' };
 const CAT_COLORS = { 식비:'#7C6CF4', 카페:'#FFB347', 교통:'#4ADE80', 술자리:'#FF5A5A', 구독:'#00D4FF', 쇼핑:'#FF69B4', 병원:'#FF6EB4', 기타:'#9090A8' };
 
+const CAT_ICON_STYLE = {
+  '식비':   'background:var(--cat-food);color:var(--cat-food-ink)',
+  '카페':   'background:var(--cat-cafe);color:var(--cat-cafe-ink)',
+  '교통':   'background:var(--cat-trans);color:var(--cat-trans-ink)',
+  '술자리': 'background:var(--cat-drink);color:var(--cat-drink-ink)',
+  '구독':   'background:var(--cat-sub);color:var(--cat-sub-ink)',
+  '쇼핑':   'background:var(--cat-shop);color:var(--cat-shop-ink)',
+  '병원':   'background:var(--cat-hosp);color:var(--cat-hosp-ink)',
+  '기타':   'background:var(--cat-etc);color:var(--cat-etc-ink)',
+};
+
+const CAT_ICONS_SVG = {
+  '식비':   `<svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M7 2v4a2 2 0 004 0V2"/><line x1="9" y1="8" x2="9" y2="18"/><line x1="14" y1="2" x2="14" y2="18"/></svg>`,
+  '카페':   `<svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 7h9l-1.2 8H5.2L4 7z"/><path d="M13 9h2a2 2 0 010 4h-2"/><line x1="5" y1="17" x2="11" y2="17"/></svg>`,
+  '교통':   `<svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="14" height="10" rx="2"/><line x1="3" y1="9" x2="17" y2="9"/><line x1="7" y1="14" x2="7" y2="17"/><line x1="13" y1="14" x2="13" y2="17"/><circle cx="7" cy="17" r="1"/><circle cx="13" cy="17" r="1"/></svg>`,
+  '술자리': `<svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M6 3h8l-1.5 10H7.5L6 3z"/><line x1="6.5" y1="8" x2="13.5" y2="8"/><line x1="10" y1="13" x2="10" y2="17"/><line x1="7" y1="17" x2="13" y2="17"/></svg>`,
+  '구독':   `<svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="2" width="10" height="16" rx="2"/><circle cx="10" cy="15.5" r="0.8" fill="currentColor" stroke="none"/></svg>`,
+  '쇼핑':   `<svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 7h12l-1.5 10H5.5L4 7z"/><path d="M7 7V5a3 3 0 016 0v2"/></svg>`,
+  '병원':   `<svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="14" height="14" rx="2"/><line x1="10" y1="7" x2="10" y2="13"/><line x1="7" y1="10" x2="13" y2="10"/></svg>`,
+  '기타':   `<svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="10" cy="10" r="7"/><circle cx="7" cy="10" r="0.8" fill="currentColor" stroke="none"/><circle cx="10" cy="10" r="0.8" fill="currentColor" stroke="none"/><circle cx="13" cy="10" r="0.8" fill="currentColor" stroke="none"/></svg>`,
+};
+
+function catIconBox(cat, cls) {
+  const style = CAT_ICON_STYLE[cat] || CAT_ICON_STYLE['기타'];
+  const svg = CAT_ICONS_SVG[cat] || CAT_ICONS_SVG['기타'];
+  return `<div class="${cls}" style="${style}">${svg}</div>`;
+}
+
 
 
 // ─── 수원대 주변 식당 데이터 ───
