@@ -64,7 +64,7 @@ function selectCalDay(day) {
     : calContext === 'settings' ? 'settings-payday-btn'
     : 'sub-date-btn';
   const btn = document.getElementById(btnId);
-  btn.textContent = `📅 ${calMonth + 1}월 ${day}일`;
+  btn.textContent = `${calMonth + 1}월 ${day}일`;
   btn.classList.add('selected');
   btn.dataset.payday = day;
   btn.dataset.month = calMonth + 1;
