@@ -362,7 +362,7 @@ function renderAll() {
 function renderHome() {
   const d = getData();
   const today = new Date();
-  const totalSpent = d.expenses.reduce((s, e) => s + e.amount, 0);
+  const totalSpent = onlyExpenses(d.expenses).reduce((s, e) => s + e.amount, 0);
   const remaining = d.budget - totalSpent;
   const daysLeft = getDaysLeft(today, d.payday);
   const dailyAllowance = daysLeft > 0 ? Math.floor(remaining / daysLeft) : 0;
