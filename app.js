@@ -593,6 +593,8 @@ function renderExpCalDetail() {
 }
 
 function renderExpenseList() {
+  renderExpCal();
+  renderExpCalDetail();
   const d = getData();
   const list = document.getElementById('full-expense-list');
   let expenses = [...d.expenses].reverse();
