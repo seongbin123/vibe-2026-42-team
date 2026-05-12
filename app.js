@@ -703,6 +703,18 @@ function renderAnalysis() {
     ? '이번 주 지출 내역이 없어요'
     : `전체 지출의 ${sharePct}%`;
 
+  const rankEl = document.getElementById('cat-rank-list');
+  if (rankEl) {
+    const sorted = Object.entries(weekTotals).sort((a, b) => b[1] - a[1]);
+    rankEl.innerHTML = sorted.length === 0 ? '' :
+      `<div class="cat-rank-list">${sorted.map(([cat, amt]) =>
+        `<div class="cat-rank-row">
+          <span class="cat-rank-amount">${fmt(amt)}</span>
+          <span class="cat-rank-name">${cat}</span>
+        </div>`
+      ).join('')}</div>`;
+  }
+
   renderSubscriptions();
   renderCategoryChart(d.expenses);
 
