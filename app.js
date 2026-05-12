@@ -107,6 +107,7 @@ function initDragInputs() {
 }
 
 // ─── 데이터 ───
+const onlyExpenses = exps => exps.filter(e => e.type !== 'income');
 const EMOJIS = { 식비:'🍚', 카페:'☕', 교통:'🚌', 술자리:'🍺', 구독:'📱', 쇼핑:'🛍️', 병원:'🏥', 기타:'💸' };
 const CAT_COLORS = { 식비:'#7C6CF4', 카페:'#FFB347', 교통:'#4ADE80', 술자리:'#FF5A5A', 구독:'#00D4FF', 쇼핑:'#FF69B4', 병원:'#FF6EB4', 기타:'#9090A8' };
 
