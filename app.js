@@ -805,8 +805,8 @@ function renderAnalysis() {
 
   const diff = projectedTotal - d.budget;
   document.getElementById('pace-comment').textContent = diff > 0
-    ? `⚠️ 이 페이스면 ${fmt(diff)} 초과 예상이에요`
-    : `✅ 이 페이스면 ${fmt(Math.abs(diff))} 남을 것 같아요`;
+    ? `이 페이스면 ${fmt(diff)} 초과 예상이에요`
+    : `이 페이스면 ${fmt(Math.abs(diff))} 남을 것 같아요`;
 }
 
 function renderSubscriptions() {
