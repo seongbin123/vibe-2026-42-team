@@ -688,8 +688,8 @@ function renderAnalysis() {
 
   const iconEl = document.getElementById('top-cat-icon');
   iconEl.innerHTML = topCat ? catIconBox(topCat, 'analysis-cat-icon') : '📊';
-  document.getElementById('coffee-weekly').textContent = topCat || '-';
-  document.getElementById('top-cat-amount').textContent = topCat ? fmt(topAmount) : '';
+  document.getElementById('coffee-weekly').textContent = topCat ? fmt(topAmount) : '-';
+  document.getElementById('top-cat-amount').textContent = topCat || '';
   document.getElementById('coffee-bar').style.width = barPct + '%';
   document.getElementById('coffee-comment').textContent = totalWeek === 0
     ? '이번 주 지출 내역이 없어요'
