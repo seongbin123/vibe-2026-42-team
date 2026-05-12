@@ -756,7 +756,7 @@ function renderAnalysis() {
 
   // 이번 달 실제 지출
   const thisMonthStr = `${today.getFullYear()}-${String(today.getMonth()+1).padStart(2,'0')}`;
-  const thisMonthSpent = d.expenses
+  const thisMonthSpent = onlyExpenses(d.expenses)
     .filter(e => e.date.startsWith(thisMonthStr))
     .reduce((s, e) => s + e.amount, 0);
 
