@@ -819,7 +819,7 @@ function renderSubscriptions() {
   list.innerHTML = d.subscriptions.map(sub => `
     <div class="sub-item">
       <div class="sub-info">
-        <div style="width:38px;height:38px;border-radius:12px;background:var(--cat-sub);color:var(--cat-sub-ink);display:grid;place-items:center;flex-shrink:0;font-size:20px">${sub.emoji||'📱'}</div>
+        <div style="width:38px;height:38px;border-radius:12px;background:var(--cat-sub);color:var(--cat-sub-ink);display:grid;place-items:center;flex-shrink:0;font-size:18px">${sub.emoji||'<svg width="18" height="18" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="2" width="10" height="16" rx="2"/><circle cx="10" cy="15.5" r="0.8" fill="currentColor" stroke="none"/></svg>'}</div>
         <div>
           <div class="sub-name">${sub.name}</div>
           ${sub.billingDate ? `<div class="sub-billing">매월 ${sub.billingDate.day}일 결제</div>` : ''}
