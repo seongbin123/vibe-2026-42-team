@@ -554,11 +554,16 @@ input::placeholder { color: var(--ink-4); }
 .sub-presets button:active { background: var(--line); }
 
 .category-chart { display: flex; flex-direction: column; gap: 0; margin-bottom: 14px; background: var(--surface); border-radius: 20px; padding: 14px 16px; box-shadow: var(--shadow-sm); }
-.chart-row { display: flex; align-items: center; gap: 10px; }
-.chart-label { font-size: 13px; width: 56px; flex-shrink: 0; color: var(--ink-2); font-weight: 600; }
-.chart-bar-wrap { flex: 1; background: var(--line); border-radius: 4px; height: 8px; }
+.chart-row { display: flex; flex-direction: column; gap: 5px; padding: 10px 0; border-bottom: 1px solid var(--line); }
+.chart-row:last-child { border-bottom: none; padding-bottom: 0; }
+.chart-row:first-child { padding-top: 0; }
+.chart-top { display: flex; align-items: baseline; justify-content: space-between; }
+.chart-label { font-size: 13px; color: var(--ink-2); font-weight: 600; }
+.chart-amount { font-size: 13px; color: var(--ink-2); font-weight: 700; }
+.chart-bar-row { display: flex; align-items: center; gap: 8px; }
+.chart-bar-wrap { flex: 1; background: var(--line); border-radius: 4px; height: 7px; }
 .chart-bar-fill { height: 100%; border-radius: 4px; transition: width .6s ease; }
-.chart-amount { font-size: 12px; color: var(--ink-3); width: 65px; text-align: right; flex-shrink: 0; font-weight: 600; }
+.chart-pct { font-size: 11px; color: var(--ink-4); font-weight: 600; flex-shrink: 0; min-width: 30px; }
 
 /* ─── 생존 탭 ─── */
 .meal-compare { display: grid; grid-template-columns: 1fr auto 1fr; gap: 10px; align-items: stretch; margin-bottom: 10px; }
