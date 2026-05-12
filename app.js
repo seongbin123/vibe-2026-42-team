@@ -1256,8 +1256,14 @@ function editExpense(id) {
   document.querySelectorAll('.expense-menu-popup').forEach(p => p.classList.add('hidden'));
   openExpenseModal();
   document.getElementById('expense-amount').value = e.amount;
-  document.getElementById('expense-note').value = e.note || '';
   selectedCat = e.cat;
+  if (e.cat === '기타') {
+    document.getElementById('etc-name').value = e.note || '';
+    document.getElementById('etc-name-wrap').classList.remove('hidden');
+    document.getElementById('expense-note').value = '';
+  } else {
+    document.getElementById('expense-note').value = e.note || '';
+  }
   document.querySelectorAll('.cat-btn').forEach(b => {
     b.classList.toggle('active', b.dataset.cat === e.cat);
   });
