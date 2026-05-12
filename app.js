@@ -1031,7 +1031,7 @@ function renderRecCard(mealType) {
     ? '<span class="rec-local-badge local">★ 로컬</span>'
     : '<span class="rec-local-badge franchise">☆ 프랜차이즈</span>';
   const noteTxt = r.note ? `<div class="rec-note">${r.note}</div>` : '';
-  const label = mealType === 'lunch' ? '🌞 점심 추천' : '🌙 저녁 추천';
+  const label = mealType === 'lunch' ? '점심 추천' : '저녁 추천';
 
   el.innerHTML = `
     <div class="rec-meal-label">${label}</div>
