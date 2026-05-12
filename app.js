@@ -639,7 +639,7 @@ function renderExpenseList() {
       const dt = new Date(date + 'T00:00:00');
       label = `${dt.getMonth()+1}월 ${dt.getDate()}일 (${DAY_KO[dt.getDay()]})`;
     }
-    const dayTotal = items.reduce((s, e) => s + e.amount, 0);
+    const dayTotal = onlyExpenses(items).reduce((s, e) => s + e.amount, 0);
     return `
       <div class="expense-date-divider">
         <span class="expense-date-label">${label}</span>
