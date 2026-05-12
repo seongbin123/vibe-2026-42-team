@@ -445,12 +445,11 @@ function expenseItemHTML(e) {
   return `<div class="expense-item">
     ${catIconBox(e.cat, 'expense-emoji')}
     <div class="expense-info">
-      <div class="expense-cat">${e.cat}</div>
-      ${e.note ? `<div class="expense-note">${e.note}</div>` : ''}
+      <div class="expense-cat">${e.note || e.cat}</div>
+      <div class="expense-note">${e.cat}${e.time ? ` · ${e.time}` : ''}</div>
     </div>
     <div class="expense-right">
       <div class="expense-amount">-${fmt(e.amount)}</div>
-      <div class="expense-date">${e.cat}${e.time ? ` · ${e.time}` : ''}</div>
     </div>
     <div class="expense-menu-wrap">
       <button class="expense-menu-btn"
