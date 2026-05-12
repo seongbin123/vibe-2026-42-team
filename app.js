@@ -671,6 +671,14 @@ function renderAnalysis() {
   renderWeeklyChart();
   const d = getData();
 
+  // 부제: "이번 달, 5월 1일부터 오늘까지"
+  const _now = new Date();
+  const MONTHS = ['1월','2월','3월','4월','5월','6월','7월','8월','9월','10월','11월','12월'];
+  const periodEl = document.getElementById('analysis-period');
+  if (periodEl) {
+    periodEl.textContent = `이번 달, ${MONTHS[_now.getMonth()]} 1일부터 오늘까지`;
+  }
+
   // 이번 주 카테고리별 합산
   const now = new Date();
   const weekAgo = new Date(now); weekAgo.setDate(now.getDate() - 7);
