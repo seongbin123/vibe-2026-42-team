@@ -110,6 +110,21 @@
     <!-- 지출 탭 -->
     <section class="tab-content" id="tab-expense">
       <div class="page-header">지출 내역 📋</div>
+
+      <!-- 달력 -->
+      <div class="exp-cal-wrap">
+        <div class="exp-cal-header">
+          <button class="exp-cal-nav" onclick="moveExpCal(-1)">‹</button>
+          <span class="exp-cal-title" id="exp-cal-title"></span>
+          <button class="exp-cal-nav" onclick="moveExpCal(1)">›</button>
+        </div>
+        <div class="exp-cal-weekdays">
+          <span>일</span><span>월</span><span>화</span><span>수</span><span>목</span><span>금</span><span>토</span>
+        </div>
+        <div class="exp-cal-grid" id="exp-cal-grid"></div>
+      </div>
+      <div id="exp-cal-detail"></div>
+
       <div class="filter-row">
         <button class="filter-btn active" onclick="filterExpenses('all', this)">전체</button>
         <button class="filter-btn" onclick="filterExpenses('식비', this)">🍚</button>
