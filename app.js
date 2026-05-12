@@ -806,7 +806,7 @@ function renderSubscriptions() {
   list.innerHTML = d.subscriptions.map(sub => `
     <div class="sub-item">
       <div class="sub-info">
-        <span style="font-size:20px">${sub.emoji||'📱'}</span>
+        <div style="width:38px;height:38px;border-radius:12px;background:var(--cat-sub);color:var(--cat-sub-ink);display:grid;place-items:center;flex-shrink:0;font-size:20px">${sub.emoji||'📱'}</div>
         <div>
           <div class="sub-name">${sub.name}</div>
           ${sub.billingDate ? `<div class="sub-billing">매월 ${sub.billingDate.day}일 결제</div>` : ''}
