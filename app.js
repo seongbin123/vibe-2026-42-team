@@ -1331,7 +1331,7 @@ function deleteExpense(id) {
 // ─── 구독 모달 ───
 function openSubModal() {
   const btn = document.getElementById('sub-date-btn');
-  btn.textContent = '📅 결제일 선택';
+  btn.textContent = '결제일 선택';
   btn.classList.remove('selected');
   btn.dataset.payday = '';
   btn.dataset.month = '';
