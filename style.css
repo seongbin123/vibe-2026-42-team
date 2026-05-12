@@ -691,10 +691,14 @@ input::placeholder { color: var(--ink-4); }
 .rest-list-wrap {
   background: var(--surface);
   border-radius: 22px;
-  overflow: hidden;
+  overflow-y: auto;
+  overflow-x: hidden;
   box-shadow: var(--shadow-sm);
   margin-bottom: 8px;
+  max-height: 420px;
+  scrollbar-width: none;
 }
+.rest-list-wrap::-webkit-scrollbar { display: none; }
 .rest-row {
   padding: 14px 18px;
   border-bottom: 1px solid var(--line);
