@@ -372,7 +372,7 @@ function renderHome() {
   document.getElementById('remaining-sub').textContent = '남은 생활비';
   document.getElementById('daily-amount').textContent = fmt(Math.max(0, dailyAllowance));
   document.getElementById('progress-bar').style.width = pct + '%';
-  document.getElementById('spent-pct').textContent = pct + '% 사용';
+  document.getElementById('spent-pct').textContent = `${pct}% 사용 · 잔액 ${fmt(remaining)}`;
   document.getElementById('days-left').textContent = `D-${daysLeft}`;
 
   const card = document.getElementById('survival-card');
