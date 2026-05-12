@@ -1283,10 +1283,25 @@ function toggleExpenseMenu(event, id) {
   // touch 기기에서는 ontouchend로만 처리, ghost click(click 이벤트) 차단
   if (event.type === 'click' && navigator.maxTouchPoints > 0) return;
   if (Date.now() < menuAllowedAfter) return;
-  const popup = event.currentTarget.closest('.expense-menu-wrap').querySelector('.expense-menu-popup');
+  const wrap = event.currentTarget.closest('.expense-menu-wrap');
+  const popup = wrap.querySelector('.expense-menu-popup');
   const isHidden = popup.classList.contains('hidden');
-  document.querySelectorAll('.expense-menu-popup').forEach(p => p.classList.add('hidden'));
-  if (isHidden) popup.classList.remove('hidden');
+  document.querySelectorAll('.expense-menu-popup').forEach(p => {
+    p.classList.add('hidden');
+    p.style.top = '';
+    p.style.bottom = '';
+  });
+  if (isHidden) {
+    popup.classList.remove('hidden');
+    const rect = popup.getBoundingClientRect();
+    if (rect.bottom > window.innerHeight - 16) {
+      popup.style.top = 'auto';
+      popup.style.bottom = '28px';
+    } else {
+      popup.style.top = '28px';
+      popup.style.bottom = 'auto';
+    }
+  }
 }
 document.addEventListener('click', (e) => {
   if (!e.target.closest('.expense-menu-wrap')) {
