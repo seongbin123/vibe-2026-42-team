@@ -673,24 +673,22 @@ function getRecommendations(dateStr, skipIds) {
   return { lunch: pickRec(lunchPool, seed, 0), dinner: pickRec(dinnerPool, seed, 1) };
 }
 
-function getAlternative(dateStr, mealType, excludeId, skipIds) {
-  const seed = getDateSeed(dateStr);
-  const pool = RESTAURANTS.filter(r =>
+function getAlternative(dateStr, mealType, excludeIds, clickCount) {
+  const seed = (getDateSeed(dateStr) ^ (clickCount * 99991)) >>> 0;
+  const basePool = RESTAURANTS.filter(r =>
     r.mealType.includes(mealType) &&
     !REC_MEAL_CATS.has(r.category) &&
-    r.id !== excludeId &&
-    !skipIds.includes(r.id) &&
     (mealType === 'lunch' ? r.priceMin <= 15000 : true)
   );
-  if (!pool.length) return RESTAURANTS.find(r => r.mealType.includes(mealType) && r.id !== excludeId) || RESTAURANTS[0];
-  for (let i = 0; i < 5; i++) {
-    const r = pool[Math.floor(seededRandom(seed, 10 + i * 7) * pool.length)];
-    if (r.id !== excludeId) return r;
-  }
-  return pool[0];
+  // 이미 보여준 식당 제외, 풀이 너무 작으면 제외 완화
+  const pool = basePool.filter(r => !excludeIds.includes(r.id));
+  const candidates = pool.length >= 3 ? pool : basePool.filter(r => r.id !== excludeIds[0]);
+  if (!candidates.length) return basePool[0] || RESTAURANTS[0];
+  return candidates[Math.floor(seededRandom(seed, 1) * candidates.length)];
 }
 
 let _recState = { lunch: null, dinner: null };
+let _shownIds = { lunch: [], dinner: [] };
 
 function renderDailyRecommendation() {
   const dateStr = toDateStr(new Date());
@@ -707,6 +705,10 @@ function renderDailyRecommendation() {
     history.push({ date: dateStr, lunchId: rec.lunch?.id, dinnerId: rec.dinner?.id });
     saveRecHistory(history);
   }
+
+  // 세션 내 표시 이력 초기화 (이미 없는 경우에만 추가)
+  if (_recState.lunch?.id  && !_shownIds.lunch.includes(_recState.lunch.id))   _shownIds.lunch.push(_recState.lunch.id);
+  if (_recState.dinner?.id && !_shownIds.dinner.includes(_recState.dinner.id)) _shownIds.dinner.push(_recState.dinner.id);
 
   renderRecCard('lunch');
   renderRecCard('dinner');
