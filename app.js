@@ -1323,6 +1323,10 @@ function editExpense(id) {
 let editingExpenseId = null;
 function deleteExpense(id) {
   const d = getData();
+  const target = d.expenses.find(e => e.id === id);
+  if (target && target.type === 'income') {
+    d.budget -= target.amount;
+  }
   d.expenses = d.expenses.filter(e => e.id !== id);
   save(d);
   renderAll();
