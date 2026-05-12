@@ -1189,10 +1189,10 @@ function renderSurvival() {
   } else if (dailyAllowance < 15000) {
     hakshikCard.classList.add('recommended');
     outsideCard.classList.remove('recommended');
-    document.getElementById('hakshik-tag').textContent = '✅ 추천';
+    document.getElementById('hakshik-tag').textContent = '추천';
     document.getElementById('outside-tag').className = 'meal-tag warning';
-    document.getElementById('outside-tag').textContent = '⚠️ 가끔만';
-    tip.textContent = `💡 하루 예산 ${fmt(dailyAllowance)} — 학식 위주로, 외식은 가끔만!`;
+    document.getElementById('outside-tag').textContent = '가끔만';
+    tip.textContent = `하루 예산 ${fmt(dailyAllowance)} — 학식 위주로, 외식은 가끔만!`;
   } else {
     hakshikCard.classList.remove('recommended');
     outsideCard.classList.remove('recommended');
