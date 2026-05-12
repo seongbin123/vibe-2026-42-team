@@ -21,7 +21,11 @@
       "Bash(echo \"exit: $?\")",
       "Bash(grep -v \"^$\")",
       "Bash(bash -c 'git diff --quiet && git diff --cached --quiet || \\(git add -A && git commit -m \"Auto-save\" && git push origin main\\)')",
-      "Bash(ssh-keygen -t ed25519 -C \"limdygemini@gmail.com\" -f ~/.ssh/id_ed25519 -N \"\")"
+      "Bash(ssh-keygen -t ed25519 -C \"limdygemini@gmail.com\" -f ~/.ssh/id_ed25519 -N \"\")",
+      "Bash(ssh-keygen -l -f ~/.ssh/id_rsa.pub)",
+      "Bash(ssh-keygen -l -f ~/.ssh/id_ed25519.pub)",
+      "Read(//home/jovyan/.ssh/**)",
+      "Bash(xargs -I{} ssh-keygen -l -f {})"
     ]
   },
   "hooks": {
