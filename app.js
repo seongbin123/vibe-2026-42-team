@@ -620,7 +620,7 @@ function renderExpenseList() {
   let expenses = [...d.expenses].reverse();
   if (currentFilter !== 'all') expenses = expenses.filter(e => e.cat === currentFilter);
   if (!expenses.length) {
-    list.innerHTML = '<div class="empty-state"><div class="emoji">📋</div>내역이 없어요</div>';
+    list.innerHTML = '<div class="empty-state"><div class="emoji"><svg width="32" height="32" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="2" width="12" height="16" rx="2"/><line x1="7" y1="7" x2="13" y2="7"/><line x1="7" y1="10.5" x2="13" y2="10.5"/><line x1="7" y1="14" x2="10.5" y2="14"/></svg></div>내역이 없어요</div>';
     return;
   }
 
