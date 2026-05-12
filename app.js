@@ -791,15 +791,15 @@ function renderCategoryChart(expenses) {
       const barPct = (amt / max * 100).toFixed(1);
       const sharePct = total > 0 ? Math.round(amt / total * 100) : 0;
       return `<div class="chart-row">
-        <div class="chart-top">
-          <span class="chart-label">${cat}</span>
-          <span class="chart-amount">${fmt(amt)}</span>
-        </div>
+        <span class="chart-label">${cat}</span>
         <div class="chart-bar-row">
           <div class="chart-bar-wrap">
             <div class="chart-bar-fill" style="width:${barPct}%;background:${CAT_COLORS[cat]||'#7C6CF4'}"></div>
           </div>
-          <span class="chart-pct">${sharePct}%</span>
+          <div class="chart-right">
+            <span class="chart-amount">${fmt(amt)}</span>
+            <span class="chart-pct">${sharePct}%</span>
+          </div>
         </div>
       </div>`;
     }).join('') || '<div style="color:var(--ink-4);font-size:13px;padding:8px 0">지출 데이터가 없어요</div>';
