@@ -635,6 +635,7 @@ input::placeholder { color: var(--ink-4); }
   padding: 4px 10px; border-radius: 9999px;
   font-size: 11.5px; font-weight: 700;
   display: inline-block;
+  background: var(--accent-soft); color: var(--accent-ink);
 }
 .meal-tag.price-diff { background: #FFF3CC; color: #B07800; border-radius: 10px; }
 .vs-badge {
