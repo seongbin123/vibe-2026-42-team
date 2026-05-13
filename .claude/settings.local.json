@@ -36,7 +36,9 @@
       "WebFetch(domain:api.anthropic.com)",
       "Bash(cp \"/home/jovyan/.claude/projects/-home-jovyan-work/f6f91c69-0999-4baa-b3bd-45ed0b89d38c/tool-results/webfetch-1778588505665-vonela.bin\" /tmp/design.gz)",
       "Bash(gunzip -c /tmp/design.gz)",
-      "Read(//tmp/**)"
+      "Read(//tmp/**)",
+      "Bash(node --input-type=module)",
+      "Bash(node *)"
     ]
   },
   "hooks": {
