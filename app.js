@@ -1540,7 +1540,6 @@ function renderNotifPanel() {
   const list = document.getElementById('notif-panel-list');
   if (!list) return;
 
-  // 7일 내 결제 예정 구독 정렬
   const upcoming = d.subscriptions
     .filter(s => s.billingDate)
     .map(s => {
@@ -1558,18 +1557,21 @@ function renderNotifPanel() {
     return;
   }
 
-  list.innerHTML = upcoming.map(s => {
+  list.innerHTML = upcoming.map((s, i) => {
     const label = s.daysUntil === 0 ? '오늘 결제!' : s.daysUntil === 1 ? '내일 결제 D-1 🔔' : `${s.daysUntil}일 후 결제`;
-    const isTomorrow = s.daysUntil === 1;
+    const isTomorrow = s.daysUntil <= 1;
+    const divider = i < upcoming.length - 1 ? '<div class="settings-divider"></div>' : '';
     return `
-      <div class="notif-item">
-        <div class="notif-item-icon">${s.emoji || '💳'}</div>
-        <div class="notif-item-body">
-          <div class="notif-item-name">${s.name}</div>
-          <div class="notif-item-date ${isTomorrow ? 'notif-item-tomorrow' : ''}">${label}</div>
+      <div class="settings-row">
+        <div style="display:flex;align-items:center;gap:12px;flex:1;min-width:0">
+          <div class="notif-item-icon">${s.emoji || '💳'}</div>
+          <div>
+            <div class="settings-label" style="margin:0;color:var(--ink)">${s.name}</div>
+            <div style="font-size:12.5px;font-weight:600;color:${isTomorrow ? 'var(--danger)' : 'var(--ink-3)'};margin-top:2px">${label}</div>
+          </div>
         </div>
-        <div class="notif-item-amt">${fmt(s.amount)}</div>
-      </div>`;
+        <div style="font-size:14px;font-weight:800;color:var(--ink);white-space:nowrap">${fmt(s.amount)}</div>
+      </div>${divider}`;
   }).join('');
 }
 
