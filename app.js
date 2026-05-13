@@ -1194,7 +1194,7 @@ function renderRestaurantBrowser() {
   if (budgetBtn) {
     budgetBtn.className = 'rest-budget-btn' + (_restBudgetOnly ? ' active' : '');
     budgetBtn.innerHTML = `<span>오늘 예산(${fmt(dailyAllowance)}) 안에 가능</span>
-      <span class="rest-budget-badge">${_restBudgetOnly ? 'ON' : possibleCount + '곳'}</span>`;
+      <span class="rest-budget-badge">${_restBudgetOnly ? 'ON' : possibleCount + 'off'}</span>`;
   }
 
   let items = RESTAURANTS;
