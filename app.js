@@ -413,7 +413,7 @@ function renderWarnings(d, remaining, daysLeft) {
   const now2 = new Date();
   const weekAgo2 = new Date(now2); weekAgo2.setDate(now2.getDate() - 7);
   const wTotals = {};
-  d.expenses.filter(e => new Date(e.date) >= weekAgo2).forEach(e => { wTotals[e.cat] = (wTotals[e.cat]||0) + e.amount; });
+  onlyExpenses(d.expenses).filter(e => new Date(e.date) >= weekAgo2).forEach(e => { wTotals[e.cat] = (wTotals[e.cat]||0) + e.amount; });
   const topW = Object.keys(wTotals).sort((a,b) => wTotals[b]-wTotals[a])[0];
   if (topW) {
     const limit2 = CAT_LIMITS[topW] || 30000;
