@@ -192,7 +192,7 @@ input::placeholder { color: var(--ink-4); }
 }
 .add-btn {
   background: transparent;
-  color: #C0705A;
+  color: var(--accent);
   border: none;
   border-radius: 9999px;
   padding: 5px 12px;
