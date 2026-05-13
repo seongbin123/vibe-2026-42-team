@@ -1727,8 +1727,8 @@ function toggleNotif() {
   d.notif = !(d.notif !== false);
   save(d);
   const tog = document.getElementById('notif-toggle');
-  tog.textContent = d.notif ? 'ON' : 'OFF';
-  tog.classList.toggle('off', !d.notif);
+  if (tog) { tog.textContent = d.notif ? 'ON' : 'OFF'; tog.classList.toggle('off', !d.notif); }
+  updateNotifEnableBtn();
 }
 function deleteAccount() {
   if (confirm('회원 탈퇴 시 모든 데이터가 삭제됩니다.\n정말 탈퇴하시겠어요?')) {
