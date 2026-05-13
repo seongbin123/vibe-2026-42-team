@@ -1504,10 +1504,27 @@ function openSettings() {
     btn.dataset.payday = d.payday;
     btn.classList.add('selected');
   }
+  // restore accent active dot
+  const savedColor = d.accentColor || '#FF6B35';
+  document.querySelectorAll('.settings-color-dot').forEach(dot => {
+    dot.classList.toggle('active', dot.dataset.color === savedColor);
+  });
+  // restore mode buttons
+  const isDark = d.darkMode || false;
+  document.getElementById('mode-light').classList.toggle('active', !isDark);
+  document.getElementById('mode-dark').classList.toggle('active', isDark);
+  // restore notif toggle
+  const notifOn = d.notif !== false;
+  const tog = document.getElementById('notif-toggle');
+  tog.textContent = notifOn ? 'ON' : 'OFF';
+  tog.classList.toggle('off', !notifOn);
   document.getElementById('settings-overlay').classList.remove('hidden');
 }
 function closeSettings() {
   document.getElementById('settings-overlay').classList.add('hidden');
+}
+function closeSettingsOutside(event) {
+  if (event.target === document.getElementById('settings-overlay')) closeSettings();
 }
 function saveSettings() {
   const d = getData();
@@ -1518,11 +1535,60 @@ function saveSettings() {
   closeSettings();
   renderAll();
 }
+function setAccentColor(accent, light, soft, ink) {
+  const root = document.documentElement;
+  root.style.setProperty('--accent', accent);
+  root.style.setProperty('--accent-light', light);
+  root.style.setProperty('--accent-soft', soft);
+  root.style.setProperty('--accent-ink', ink);
+  document.querySelectorAll('.settings-color-dot').forEach(dot => {
+    dot.classList.toggle('active', dot.dataset.color === accent);
+  });
+  const d = getData();
+  d.accentColor = accent;
+  d.accentLight = light;
+  d.accentSoft = soft;
+  d.accentInk = ink;
+  save(d);
+}
+function setDarkMode(isDark) {
+  document.body.classList.toggle('dark', isDark);
+  document.getElementById('mode-light').classList.toggle('active', !isDark);
+  document.getElementById('mode-dark').classList.toggle('active', isDark);
+  const d = getData();
+  d.darkMode = isDark;
+  save(d);
+}
+function toggleNotif() {
+  const d = getData();
+  d.notif = !(d.notif !== false);
+  save(d);
+  const tog = document.getElementById('notif-toggle');
+  tog.textContent = d.notif ? 'ON' : 'OFF';
+  tog.classList.toggle('off', !d.notif);
+}
+function deleteAccount() {
+  if (confirm('회원 탈퇴 시 모든 데이터가 삭제됩니다.\n정말 탈퇴하시겠어요?')) {
+    localStorage.removeItem('suwon_planner');
+    location.reload();
+  }
+}
 function resetAll() {
   if (confirm('정말 모든 데이터를 초기화할까요?')) {
     localStorage.removeItem('suwon_planner');
     location.reload();
   }
+}
+function applyStoredTheme() {
+  const d = getData();
+  if (d.accentColor) {
+    const root = document.documentElement;
+    root.style.setProperty('--accent', d.accentColor);
+    if (d.accentLight) root.style.setProperty('--accent-light', d.accentLight);
+    if (d.accentSoft) root.style.setProperty('--accent-soft', d.accentSoft);
+    if (d.accentInk) root.style.setProperty('--accent-ink', d.accentInk);
+  }
+  if (d.darkMode) document.body.classList.add('dark');
 }
 
 
