@@ -1110,3 +1110,54 @@ input::placeholder { color: var(--ink-4); }
 .settings-ver { font-size: 14px; color: var(--ink-4); font-weight: 500; }
 .settings-danger { color: #E5484D !important; }
 .dark .settings-mode-btn.active { background: var(--accent); color: #fff; }
+
+/* ─── 알림 ─── */
+.header-actions { display: flex; align-items: center; gap: 8px; position: relative; }
+.notif-btn { position: relative; }
+.notif-badge {
+  position: absolute; top: 4px; right: 4px;
+  width: 8px; height: 8px; border-radius: 50%;
+  background: var(--danger); border: 1.5px solid var(--bg);
+  pointer-events: none;
+}
+.notif-panel {
+  position: absolute; top: 68px; right: 16px; left: 16px;
+  background: var(--surface);
+  border-radius: 20px;
+  box-shadow: var(--shadow-md);
+  z-index: 50;
+  overflow: hidden;
+  animation: fadeUp .2s ease;
+}
+.notif-panel-header {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 14px 16px 10px;
+  border-bottom: 1px solid var(--line);
+}
+.notif-panel-title { font-size: 15px; font-weight: 800; color: var(--ink); }
+.notif-enable-btn {
+  font-size: 12.5px; font-weight: 700;
+  padding: 5px 12px; border-radius: 99px; border: none;
+  background: var(--accent); color: #fff; cursor: pointer;
+}
+.notif-enable-btn.granted { background: var(--success-soft); color: var(--success); }
+.notif-item {
+  display: flex; align-items: center; gap: 12px;
+  padding: 13px 16px;
+  border-bottom: 1px solid var(--line);
+}
+.notif-item:last-child { border-bottom: none; }
+.notif-item-icon {
+  width: 36px; height: 36px; border-radius: 12px; flex-shrink: 0;
+  background: var(--cat-sub); color: var(--cat-sub-ink);
+  display: grid; place-items: center; font-size: 17px;
+}
+.notif-item-body { flex: 1; min-width: 0; }
+.notif-item-name { font-size: 14px; font-weight: 700; color: var(--ink); }
+.notif-item-date { font-size: 12.5px; color: var(--ink-3); margin-top: 2px; font-weight: 500; }
+.notif-item-amt { font-size: 14px; font-weight: 800; color: var(--ink); white-space: nowrap; }
+.notif-item-tomorrow { color: var(--danger); }
+.notif-empty {
+  padding: 28px 16px; text-align: center;
+  font-size: 13.5px; color: var(--ink-3); font-weight: 500;
+}
