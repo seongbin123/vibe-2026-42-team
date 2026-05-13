@@ -776,7 +776,7 @@ function renderAnalysis() {
 
 
   renderSubscriptions();
-  renderCategoryChart(d.expenses);
+  renderCategoryChart(onlyExpenses(d.expenses));
 
   // 예상 월 지출 (구독 결제일 반영)
   const today = new Date();
