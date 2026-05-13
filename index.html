@@ -308,12 +308,18 @@
   <div id="notif-overlay" class="overlay hidden" onclick="closeNotifOutside(event)">
     <div class="modal-sheet notif-sheet">
       <div class="modal-handle"></div>
-      <div class="notif-panel-header">
-        <span class="notif-panel-title">결제 알림</span>
-        <button class="notif-enable-btn" id="notif-enable-btn" onclick="requestNotifPermission()">알림 켜기</button>
+      <div class="settings-section-title" style="padding-top:6px">결제 알림</div>
+      <div class="settings-card" id="notif-panel-list">
+        <div class="notif-empty">등록된 구독이 없어요</div>
       </div>
-      <div id="notif-panel-list"></div>
-      <div style="height:8px"></div>
+      <div class="settings-section-title">알림 설정</div>
+      <div class="settings-card">
+        <div class="settings-row">
+          <span class="settings-label">구독 결제 하루 전 알림</span>
+          <button class="notif-enable-btn" id="notif-enable-btn" onclick="requestNotifPermission()">알림 켜기</button>
+        </div>
+      </div>
+      <div style="height:16px"></div>
     </div>
   </div>
 
