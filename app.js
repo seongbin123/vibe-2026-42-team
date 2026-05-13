@@ -1262,13 +1262,17 @@ function renderSurvival() {
   const tip = document.getElementById('meal-tip');
 
 
+  const hakshikPrice = hakshikData?.jonggang?.price || 6500;
+  const outsideAvg = 10000;
+  const priceDiff = outsideAvg - hakshikPrice;
+
   if (dailyAllowance < 10000) {
     hakshikCard.classList.add('recommended');
     outsideCard.classList.remove('recommended');
     document.getElementById('hakshik-tag').className = 'meal-tag';
     document.getElementById('hakshik-tag').textContent = '추천';
-    document.getElementById('outside-tag').className = 'meal-tag danger';
-    document.getElementById('outside-tag').textContent = '위험';
+    document.getElementById('outside-tag').className = 'meal-tag price-diff';
+    document.getElementById('outside-tag').textContent = `+${fmt(priceDiff)}`;
     tip.innerHTML = `<span>${SPARKLE_ICON}하루 예산 ${fmt(dailyAllowance)} — 학식만 먹어야 살아남아요!</span>`;
   } else if (dailyAllowance < 15000) {
     hakshikCard.classList.add('recommended');
