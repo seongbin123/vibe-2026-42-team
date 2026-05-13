@@ -1508,18 +1508,30 @@ function registerSW() {
 function updateNotifEnableBtn() {
   const btn = document.getElementById('notif-enable-btn');
   if (!btn) return;
-  const perm = Notification?.permission;
-  if (perm === 'granted') {
-    btn.textContent = '알림 켜짐 ✓';
-    btn.classList.add('granted');
-  } else if (perm === 'denied') {
-    btn.textContent = '차단됨';
-    btn.classList.add('granted');
-    btn.style.background = 'var(--line)';
-    btn.style.color = 'var(--ink-3)';
-  } else {
-    btn.textContent = '알림 켜기';
-    btn.classList.remove('granted');
+  const d = getData();
+  const on = d.notif !== false;
+  btn.textContent = on ? 'ON' : 'OFF';
+  btn.classList.toggle('off', !on);
+}
+
+async function toggleNotifFromPanel() {
+  const d = getData();
+  const currentOn = d.notif !== false;
+  if (!currentOn) {
+    // 켜려는 경우 → 권한 먼저 요청
+    if ('Notification' in window && Notification.permission === 'default') {
+      const perm = await Notification.requestPermission();
+      if (perm === 'granted') registerSW();
+    }
+  }
+  d.notif = !currentOn;
+  save(d);
+  updateNotifEnableBtn();
+  // 설정 모달의 토글도 동기화
+  const settingsTog = document.getElementById('notif-toggle');
+  if (settingsTog) {
+    settingsTog.textContent = d.notif ? 'ON' : 'OFF';
+    settingsTog.classList.toggle('off', !d.notif);
   }
 }
 
