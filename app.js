@@ -390,7 +390,7 @@ function renderHome() {
     label.innerHTML = '<span class="survival-label-dot"></span> 주의';
   } else {
     card.classList.add('safe-mode');
-    label.textContent = '안전';
+    label.innerHTML = '<span class="survival-label-dot"></span> 안전';
   }
 
   // 오늘 카테고리 합계 (전체)
