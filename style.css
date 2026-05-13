@@ -1057,14 +1057,12 @@ input::placeholder { color: var(--ink-4); }
   letter-spacing: 0.04em; text-transform: uppercase;
   padding: 18px 4px 6px;
 }
-.settings-name-header {
-  display: flex; align-items: center; justify-content: space-between;
-  padding: 18px 4px 6px; gap: 12px;
-}
 .settings-name-input {
+  display: block; width: 100%;
   background: transparent; border: none; outline: none;
-  font-size: 15px; font-weight: 700; color: var(--ink);
-  text-align: right; flex: 1; min-width: 0;
+  font-size: 22px; font-weight: 800; color: var(--ink);
+  padding: 0 4px 10px;
+  letter-spacing: -0.02em;
 }
 .settings-card {
   background: var(--surface); border-radius: 18px;
