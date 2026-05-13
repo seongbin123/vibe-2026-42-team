@@ -1283,7 +1283,7 @@ function renderSurvival() {
     document.getElementById('hakshik-tag').textContent = '추천';
     document.getElementById('outside-tag').className = 'meal-tag';
     document.getElementById('outside-tag').textContent = '가능';
-    tip.innerHTML = `${sparkle} 하루 예산 ${fmt(dailyAllowance)} — 여유 있어요. 가끔 외식도 OK!`;
+    tip.innerHTML = `<span>${SPARKLE_ICON}하루 예산 ${fmt(dailyAllowance)} — 여유 있어요. 가끔 외식도 OK!</span>`;
   }
 
   renderRestaurantBrowser();
