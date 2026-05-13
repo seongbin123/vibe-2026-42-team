@@ -400,6 +400,9 @@ function renderHome() {
   // 오늘 카테고리 합계 (전체)
   const todayStr = toDateStr(today);
   const todayExp = d.expenses.filter(e => e.date === todayStr).reverse();
+  const todayTotal = onlyExpenses(todayExp).reduce((s, e) => s + e.amount, 0);
+  const todayTotalLabel = document.getElementById('today-total-label');
+  if (todayTotalLabel) todayTotalLabel.textContent = todayTotal > 0 ? `· ${fmt(todayTotal)}` : '';
   const todayCats = document.getElementById('today-cats');
   if (todayExp.length === 0) {
     todayCats.innerHTML = `<div class="today-empty">오늘 지출이 없어요</div>`;
