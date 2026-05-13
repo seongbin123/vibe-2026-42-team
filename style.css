@@ -1046,7 +1046,9 @@ input::placeholder { color: var(--ink-4); }
 /* ─── 설정 ─── */
 .settings-section { margin-bottom: 8px; }
 .settings-sheet {
-  max-height: 92svh; overflow-y: auto;
+  min-height: 92svh;
+  max-height: 92svh;
+  overflow-y: auto;
   scrollbar-width: none;
 }
 .settings-sheet::-webkit-scrollbar { display: none; }
