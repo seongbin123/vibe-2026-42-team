@@ -1679,6 +1679,9 @@ function checkAndSendNotifications() {
 
   if (dueTomorrow.length > 0) {
     localStorage.setItem(notifiedKey, JSON.stringify([...alreadyNotified]));
+    // 알림 보냈으니 seen 초기화 → 배지 다시 표시
+    localStorage.removeItem('notif_badge_seen');
+    renderNotifBadge();
   }
 }
 
