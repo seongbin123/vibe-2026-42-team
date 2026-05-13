@@ -350,12 +350,10 @@
           <button class="settings-date-btn" id="settings-payday-btn" onclick="openCalendar('settings')">날짜 선택</button>
         </div>
         <div class="settings-divider"></div>
-        <div class="settings-row">
+        <div class="settings-row settings-link" onclick="openSocialLogin()">
           <span class="settings-label">연동 계정</span>
-          <div class="settings-account-btns">
-            <span class="settings-account-chip kakao">카카오</span>
-            <span class="settings-account-chip google">구글</span>
-            <span class="settings-account-chip email">이메일</span>
+          <div class="settings-account-btns" id="linked-chips">
+            <span class="settings-account-chip add-chip">+ 연동하기</span>
           </div>
         </div>
       </div>
