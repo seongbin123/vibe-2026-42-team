@@ -331,6 +331,7 @@ function getData() {
 
 // ─── 초기화 ───
 window.onload = () => {
+  applyStoredTheme();
   initDragInputs();
   const d = getData();
   if (!d.budget) {
