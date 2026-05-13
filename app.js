@@ -1274,7 +1274,7 @@ function openExpenseModal() {
   document.getElementById('expense-amount').value = '';
   document.getElementById('expense-note').value = '';
   document.getElementById('etc-name').value = '';
-  document.getElementById('etc-name-wrap').classList.add('hidden');
+  document.getElementById('etc-name').placeholder = '지출 이름 (예: 아아+베이글, 편의점)';
   document.getElementById('recent-amounts').innerHTML = '';
   selectedCat = '식비';
   document.querySelectorAll('.cat-btn').forEach(b => b.classList.remove('active'));
