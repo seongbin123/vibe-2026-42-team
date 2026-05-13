@@ -561,6 +561,7 @@ function renderExpCal() {
     const isSelected = dateStr === _expCalSelected;
     const total = dailyTotals[dateStr] || 0;
     const hasSub = subDays.has(day);
+    const hasIncome = incomeDays.has(dateStr);
 
     let cls = 'exp-cal-day';
     if (isToday) cls += ' today';
@@ -571,10 +572,11 @@ function renderExpCal() {
     else if (dow === 6) numCls += ' saturday';
 
     let inner = `<span class="${numCls}">${day}</span>`;
-    if (total > 0 || hasSub) {
+    if (total > 0 || hasSub || hasIncome) {
       inner += '<div class="exp-cal-dots">';
-      if (total > 0) inner += `<span class="exp-cal-exp-dot"></span>`;
-      if (hasSub)    inner += `<span class="exp-cal-sub-dot"></span>`;
+      if (total > 0)   inner += `<span class="exp-cal-exp-dot"></span>`;
+      if (hasSub)      inner += `<span class="exp-cal-sub-dot"></span>`;
+      if (hasIncome)   inner += `<span class="exp-cal-inc-dot"></span>`;
       inner += '</div>';
       if (total > 0) inner += `<span class="exp-cal-amount">${fmtShort(total)}</span>`;
     }
