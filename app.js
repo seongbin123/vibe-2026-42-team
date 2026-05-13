@@ -1686,6 +1686,70 @@ function checkAndSendNotifications() {
   }
 }
 
+// ─── 소셜 로그인 ───
+const SOCIAL_INFO = {
+  kakao: { label: '카카오', chip: 'kakao', color: '#FEE500', ink: '#191919' },
+  google: { label: 'Google', chip: 'google', color: '#fff', ink: '#191919' },
+  naver:  { label: '네이버', chip: 'naver',  color: '#03C75A', ink: '#fff' },
+  email:  { label: '이메일', chip: 'email',  color: '#F0F0F0', ink: '#333' },
+};
+
+function openSocialLogin() {
+  const status = document.getElementById('social-status');
+  status.classList.add('hidden');
+  document.getElementById('social-overlay').classList.remove('hidden');
+}
+function closeSocialLogin() {
+  document.getElementById('social-overlay').classList.add('hidden');
+}
+function closeSocialOutside(e) {
+  if (e.target === document.getElementById('social-overlay')) closeSocialLogin();
+}
+
+function connectSocial(provider) {
+  const info = SOCIAL_INFO[provider];
+  const status = document.getElementById('social-status');
+  const icon   = document.getElementById('social-status-icon');
+  const text   = document.getElementById('social-status-text');
+
+  // 로딩 상태
+  status.classList.remove('hidden');
+  icon.innerHTML = '<div class="social-spinner"></div>';
+  text.textContent = `${info.label} 계정에 연결하는 중...`;
+  status.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+
+  // 실제 배포 시 OAuth 연동 예정 — 지금은 1.5초 후 완료 상태 연출
+  setTimeout(() => {
+    icon.innerHTML = '✅';
+    text.textContent = `${info.label} 계정 연동이 준비됐어요!\n실제 로그인은 앱 배포 후 사용 가능해요.`;
+    text.style.whiteSpace = 'pre-line';
+
+    // 연동됨 칩 추가
+    const d = getData();
+    if (!d.linkedAccounts) d.linkedAccounts = [];
+    if (!d.linkedAccounts.includes(provider)) d.linkedAccounts.push(provider);
+    save(d);
+    renderLinkedChips();
+
+    setTimeout(closeSocialLogin, 1800);
+  }, 1500);
+}
+
+function renderLinkedChips() {
+  const wrap = document.getElementById('linked-chips');
+  if (!wrap) return;
+  const d = getData();
+  const linked = d.linkedAccounts || [];
+  if (!linked.length) {
+    wrap.innerHTML = '<span class="settings-account-chip add-chip">+ 연동하기</span>';
+    return;
+  }
+  const labels = { kakao:'카카오', google:'Google', naver:'네이버', email:'이메일' };
+  wrap.innerHTML = linked.map(p =>
+    `<span class="settings-account-chip ${p === 'google' ? 'google' : p === 'naver' ? '' : p} linked" style="${p === 'naver' ? 'background:#03C75A;color:#fff' : ''}">${labels[p]}</span>`
+  ).join('');
+}
+
 // ─── 설정 ───
 function openSettings() {
   const d = getData();
