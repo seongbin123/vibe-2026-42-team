@@ -933,7 +933,7 @@ input::placeholder { color: var(--ink-4); }
   margin-bottom: 20px;
   border: 2px solid transparent;
   box-shadow: var(--shadow-sm);
-  height: 260px;
+  min-height: 300px;
   display: flex;
   flex-direction: column;
 }
@@ -942,14 +942,8 @@ input::placeholder { color: var(--ink-4); }
   grid-template-columns: 1fr 1px 1fr;
   gap: 12px;
   flex: 1;
-  overflow: hidden;
 }
-.menu-col {
-  overflow-y: auto;
-  scrollbar-width: none;
-  min-height: 0;
-}
-.menu-col::-webkit-scrollbar { display: none; }
+.menu-col { }
 .menu-col-divider {
   background: var(--line);
   border-radius: 1px;
