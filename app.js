@@ -1283,8 +1283,9 @@ function renderSurvival() {
   } else {
     hakshikCard.classList.remove('recommended');
     outsideCard.classList.remove('recommended');
+    document.getElementById('hakshik-tag').className = 'meal-tag success';
     document.getElementById('hakshik-tag').textContent = '추천';
-    document.getElementById('outside-tag').className = 'meal-tag';
+    document.getElementById('outside-tag').className = 'meal-tag neutral';
     document.getElementById('outside-tag').textContent = '가능';
     tip.innerHTML = `<span>${SPARKLE_ICON}하루 예산 <strong>${fmt(dailyAllowance)}</strong> — 여유 있어요. 가끔 외식도 OK!</span>`;
   }
