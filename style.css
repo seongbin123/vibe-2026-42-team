@@ -633,6 +633,7 @@ input::placeholder { color: var(--ink-4); }
   display: inline-block;
   background: #E6F9EC; color: #1E7A3E;
 }
+.meal-tag.danger { background: var(--danger-soft); color: var(--danger); }
 .meal-tag.price-diff { background: #FFF3CC; color: #B07800; border-radius: 10px; }
 .vs-badge {
   display: grid; place-items: center; align-self: center;
