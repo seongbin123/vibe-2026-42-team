@@ -1494,6 +1494,149 @@ function applyAddBudget() {
   renderAll();
 }
 
+// ─── 알림 ───
+let _swReg = null;
+
+function registerSW() {
+  if (!('serviceWorker' in navigator)) return;
+  navigator.serviceWorker.register('/sw.js').then(reg => { _swReg = reg; });
+}
+
+function updateNotifEnableBtn() {
+  const btn = document.getElementById('notif-enable-btn');
+  if (!btn) return;
+  const perm = Notification?.permission;
+  if (perm === 'granted') {
+    btn.textContent = '알림 켜짐 ✓';
+    btn.classList.add('granted');
+  } else if (perm === 'denied') {
+    btn.textContent = '차단됨';
+    btn.classList.add('granted');
+    btn.style.background = 'var(--line)';
+    btn.style.color = 'var(--ink-3)';
+  } else {
+    btn.textContent = '알림 켜기';
+    btn.classList.remove('granted');
+  }
+}
+
+function renderNotifBadge() {
+  const badge = document.getElementById('notif-badge');
+  if (!badge) return;
+  const d = getData();
+  const tomorrow = new Date();
+  tomorrow.setDate(tomorrow.getDate() + 1);
+  const tomorrowDay = tomorrow.getDate();
+  const hasTomorrow = d.subscriptions.some(s => s.billingDate && s.billingDate.day === tomorrowDay);
+  badge.classList.toggle('hidden', !hasTomorrow);
+}
+
+function renderNotifPanel() {
+  const d = getData();
+  const today = new Date();
+  const list = document.getElementById('notif-panel-list');
+  if (!list) return;
+
+  // 7일 내 결제 예정 구독 정렬
+  const upcoming = d.subscriptions
+    .filter(s => s.billingDate)
+    .map(s => {
+      const billDay = s.billingDate.day;
+      const todayDay = today.getDate();
+      let daysUntil = billDay - todayDay;
+      if (daysUntil < 0) daysUntil += new Date(today.getFullYear(), today.getMonth() + 1, 0).getDate();
+      return { ...s, daysUntil };
+    })
+    .filter(s => s.daysUntil <= 7)
+    .sort((a, b) => a.daysUntil - b.daysUntil);
+
+  if (!upcoming.length) {
+    list.innerHTML = '<div class="notif-empty">7일 내 결제 예정 구독이 없어요 🎉</div>';
+    return;
+  }
+
+  list.innerHTML = upcoming.map(s => {
+    const label = s.daysUntil === 0 ? '오늘 결제!' : s.daysUntil === 1 ? '내일 결제 D-1 🔔' : `${s.daysUntil}일 후 결제`;
+    const isTomorrow = s.daysUntil === 1;
+    return `
+      <div class="notif-item">
+        <div class="notif-item-icon">${s.emoji || '💳'}</div>
+        <div class="notif-item-body">
+          <div class="notif-item-name">${s.name}</div>
+          <div class="notif-item-date ${isTomorrow ? 'notif-item-tomorrow' : ''}">${label}</div>
+        </div>
+        <div class="notif-item-amt">${fmt(s.amount)}</div>
+      </div>`;
+  }).join('');
+}
+
+let _notifPanelOpen = false;
+function toggleNotifPanel() {
+  const panel = document.getElementById('notif-panel');
+  _notifPanelOpen = !_notifPanelOpen;
+  panel.classList.toggle('hidden', !_notifPanelOpen);
+  if (_notifPanelOpen) {
+    renderNotifPanel();
+    updateNotifEnableBtn();
+  }
+}
+
+function closeNotifPanel() {
+  const panel = document.getElementById('notif-panel');
+  if (panel) panel.classList.add('hidden');
+  _notifPanelOpen = false;
+}
+
+async function requestNotifPermission() {
+  if (!('Notification' in window)) { alert('이 브라우저는 알림을 지원하지 않아요'); return; }
+  const perm = await Notification.requestPermission();
+  if (perm === 'granted') {
+    registerSW();
+    checkAndSendNotifications();
+  }
+  updateNotifEnableBtn();
+}
+
+function checkAndSendNotifications() {
+  const d = getData();
+  if (d.notif === false) return;
+  if (!('Notification' in window) || Notification.permission !== 'granted') return;
+
+  const tomorrow = new Date();
+  tomorrow.setDate(tomorrow.getDate() + 1);
+  const tomorrowDay = tomorrow.getDate();
+  const todayStr = new Date().toISOString().slice(0, 10);
+
+  const notifiedKey = `notified_${todayStr}`;
+  const alreadyNotified = new Set(JSON.parse(localStorage.getItem(notifiedKey) || '[]'));
+
+  const dueTomorrow = d.subscriptions.filter(s => s.billingDate && s.billingDate.day === tomorrowDay);
+
+  dueTomorrow.forEach(sub => {
+    if (alreadyNotified.has(sub.id)) return;
+    alreadyNotified.add(sub.id);
+    const amt = sub.amount.toLocaleString('ko-KR');
+    const messages = [
+      `내일 "${sub.name}" ${amt}원이 빠져나가요 💳 잔액 미리 확인해두세요!`,
+      `📅 ${sub.name} 결제 D-1! ${amt}원 준비됐나요?`,
+      `💸 내일 ${sub.name} ${amt}원 자동결제 예정이에요. 생활비 잔액 체크!`,
+    ];
+    const body = messages[Math.floor(Math.random() * messages.length)];
+
+    if (_swReg) {
+      _swReg.showNotification('구독 결제 하루 전 알림 🔔', {
+        body, tag: `sub-${sub.id}-${tomorrowDay}`, renotify: false,
+      });
+    } else {
+      new Notification('구독 결제 하루 전 알림 🔔', { body });
+    }
+  });
+
+  if (dueTomorrow.length > 0) {
+    localStorage.setItem(notifiedKey, JSON.stringify([...alreadyNotified]));
+  }
+}
+
 // ─── 설정 ───
 function openSettings() {
   const d = getData();
