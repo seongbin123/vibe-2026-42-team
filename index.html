@@ -314,6 +314,11 @@
           <span class="settings-label">구독 결제 하루 전 알림</span>
           <button class="settings-toggle" id="notif-enable-btn" onclick="toggleNotifFromPanel()">ON</button>
         </div>
+        <div class="settings-divider"></div>
+        <div class="settings-row" id="notif-perm-row">
+          <span class="settings-label" style="font-size:13px;color:var(--ink-3)">브라우저 알림 권한</span>
+          <button class="settings-date-btn" onclick="requestNotifPermissionOnly()">권한 허용</button>
+        </div>
       </div>
       <div class="settings-section-title">결제 알림</div>
       <div class="settings-card" id="notif-panel-list">
