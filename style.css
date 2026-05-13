@@ -600,9 +600,11 @@ input::placeholder { color: var(--ink-4); }
 .sub-presets button:active { background: var(--line); }
 
 .category-chart { display: flex; flex-direction: column; gap: 0; margin-bottom: 14px; background: var(--surface); border-radius: 20px; padding: 14px 16px; box-shadow: var(--shadow-sm); }
-.chart-row { display: flex; flex-direction: column; gap: 5px; padding: 10px 0; border-bottom: 1px solid var(--line); }
+.chart-row { padding: 10px 0; border-bottom: 1px solid var(--line); }
 .chart-row:last-child { border-bottom: none; padding-bottom: 0; }
 .chart-row:first-child { padding-top: 0; }
+.chart-row-inner { display: flex; align-items: center; gap: 10px; }
+.chart-bar-col { display: flex; flex-direction: column; gap: 5px; flex: 1; }
 .chart-label { font-size: 13px; color: var(--ink-2); font-weight: 600; }
 .chart-label-row { display: flex; align-items: center; gap: 6px; margin-bottom: 5px; }
 .chart-bar-row { display: flex; align-items: center; gap: 8px; }
