@@ -1261,7 +1261,6 @@ function renderSurvival() {
   const outsideAvg = 10000;
   const priceDiff = outsideAvg - hakshikPrice;
 
-  outsideCard.classList.remove('possible');
   if (dailyAllowance <= 0) {
     hakshikCard.classList.add('recommended');
     outsideCard.classList.remove('recommended');
