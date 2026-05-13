@@ -510,7 +510,7 @@ input::placeholder { color: var(--ink-4); }
 .cat-btn.active { border-color: var(--accent); background: var(--accent-soft); color: var(--accent-ink); }
 
 /* ─── 최근 7일 차트 ─── */
-.weekly-chart-card { background: var(--surface); border-radius: 20px; padding: 18px 16px 14px; box-shadow: var(--shadow-sm); margin-bottom: 14px; }
+.weekly-chart-card { background: var(--surface); border-radius: 20px; padding: 18px 16px 14px; box-shadow: var(--shadow-sm); margin-bottom: 14px; overflow: visible; }
 .weekly-chart-top { display: flex; align-items: flex-start; justify-content: space-between; margin-bottom: 18px; }
 .weekly-chart-meta { }
 .weekly-chart-sublabel { font-size: 11.5px; color: var(--ink-3); font-weight: 600; margin-bottom: 4px; }
