@@ -68,7 +68,22 @@
           <p class="greeting">오늘 하루 수고했어요</p>
           <p class="header-sub" id="header-name">수원대생님 👋</p>
         </div>
-        <button class="icon-btn" onclick="openSettings()"><svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="10" cy="7" r="3.2"/><path d="M3 17c0-3.3 3.1-6 7-6s7 2.7 7 6"/></svg></button>
+        <div class="header-actions">
+          <button class="icon-btn notif-btn" id="notif-bell-btn" onclick="toggleNotifPanel()">
+            <svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M10 2.5a5.5 5.5 0 015.5 5.5c0 3 .8 4.5 1.5 5.5H3c.7-1 1.5-2.5 1.5-5.5A5.5 5.5 0 0110 2.5z"/><path d="M8 17.5a2 2 0 004 0"/></svg>
+            <span class="notif-badge hidden" id="notif-badge"></span>
+          </button>
+          <button class="icon-btn" onclick="openSettings()"><svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="10" cy="7" r="3.2"/><path d="M3 17c0-3.3 3.1-6 7-6s7 2.7 7 6"/></svg></button>
+        </div>
+      </div>
+
+      <!-- 알림 패널 -->
+      <div class="notif-panel hidden" id="notif-panel">
+        <div class="notif-panel-header">
+          <span class="notif-panel-title">결제 알림</span>
+          <button class="notif-enable-btn" id="notif-enable-btn" onclick="requestNotifPermission()">알림 켜기</button>
+        </div>
+        <div id="notif-panel-list"></div>
       </div>
 
       <!-- 메인 카드 -->
