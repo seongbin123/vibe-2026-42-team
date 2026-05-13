@@ -601,10 +601,11 @@ function renderExpCalDetail() {
   const day = dateObj.getDate();
 
   const dayExps = onlyExpenses(d.expenses).filter(e => e.date === _expCalSelected);
+  const dayIncomes = d.expenses.filter(e => e.type === 'income' && e.date === _expCalSelected);
   const dayTotal = dayExps.reduce((s,e)=>s+e.amount,0);
   const daySubs = d.subscriptions.filter(s => s.billingDate && s.billingDate.day === dayOfMonth);
 
-  if (!dayExps.length && !daySubs.length) {
+  if (!dayExps.length && !dayIncomes.length && !daySubs.length) {
     el.innerHTML = `<div class="exp-cal-detail"><div class="exp-cal-detail-empty">${month}월 ${day}일(${dow}) · 지출 없음</div></div>`;
     return;
   }
