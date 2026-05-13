@@ -439,8 +439,10 @@ function renderWarnings(d, remaining, daysLeft) {
   }
 
   // 잔액 경고
-  if (remaining < 50000 && daysLeft > 3) {
-    warnings.push({ type: 'red', icon: '<svg width="18" height="18" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="5" width="16" height="11" rx="2"/><line x1="2" y1="9" x2="18" y2="9"/></svg>', title: `잔액 ${fmt(remaining)}`, sub: `${daysLeft}일이나 남았어요. 한끼 탭에서 알뜰 식사를 확인해보세요!` });
+  if (remaining < 0) {
+    warnings.push({ type: 'red', icon: '<svg width="18" height="18" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="5" width="16" height="11" rx="2"/><line x1="2" y1="9" x2="18" y2="9"/></svg>', title: `예산 초과 ${fmt(Math.abs(remaining))}`, sub: `이번 달 예산을 넘어섰어요. 지출을 멈춰야 할 때예요.` });
+  } else if (remaining < 50000 && daysLeft > 3) {
+    warnings.push({ type: 'red', icon: '<svg width="18" height="18" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="5" width="16" height="11" rx="2"/><line x1="2" y1="9" x2="18" y2="9"/></svg>', title: `잔액 ${fmt(remaining)}`, sub: `${daysLeft}일 남았어요. 한끼 탭에서 알뜰 식사를 확인해보세요!` });
   }
 
   warnings.forEach(w => {
