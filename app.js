@@ -624,6 +624,10 @@ function renderExpCalDetail() {
     </div>`;
   });
 
+  dayIncomes.slice().reverse().forEach(e => {
+    html += expenseItemHTML(e);
+  });
+
   dayExps.slice().reverse().forEach(e => {
     html += expenseItemHTML(e);
   });
