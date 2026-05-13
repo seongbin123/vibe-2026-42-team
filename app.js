@@ -1552,15 +1552,18 @@ function renderNotifBadge() {
   const badge = document.getElementById('notif-badge');
   if (!badge) return;
   const d = getData();
+  const todayDay = new Date().getDate();
   const tomorrow = new Date();
   tomorrow.setDate(tomorrow.getDate() + 1);
   const tomorrowDay = tomorrow.getDate();
-  const hasTomorrow = d.subscriptions.some(s => s.billingDate && s.billingDate.day === tomorrowDay);
-  if (!hasTomorrow) { badge.classList.add('hidden'); return; }
-  // 내일 결제 있음 → 오늘 패널 열었으면 숨김, 아니면 표시
-  const today = new Date().toISOString().slice(0, 10);
+  const hasAlert = d.subscriptions.some(s =>
+    s.billingDate && (s.billingDate.day === todayDay || s.billingDate.day === tomorrowDay)
+  );
+  if (!hasAlert) { badge.classList.add('hidden'); return; }
+  // 결제일/전날 구독 있음 → 패널 열어서 확인했으면 숨김
+  const todayStr = new Date().toISOString().slice(0, 10);
   const seen = localStorage.getItem('notif_badge_seen');
-  badge.classList.toggle('hidden', seen === today);
+  badge.classList.toggle('hidden', seen === todayStr);
 }
 
 function renderNotifPanel() {
