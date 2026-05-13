@@ -1267,7 +1267,7 @@ function renderSurvival() {
   } else if (dailyAllowance < 10000) {
     hakshikCard.classList.add('recommended');
     outsideCard.classList.remove('recommended');
-    document.getElementById('hakshik-tag').className = 'meal-tag';
+    document.getElementById('hakshik-tag').className = 'meal-tag success';
     document.getElementById('hakshik-tag').textContent = '추천';
     document.getElementById('outside-tag').className = 'meal-tag price-diff';
     document.getElementById('outside-tag').textContent = `+${fmt(priceDiff)}`;
