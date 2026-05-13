@@ -398,7 +398,10 @@ input::placeholder { color: var(--ink-4); }
   display: flex;
   align-items: center;
   gap: 12px;
+  width: 100%;
+  box-sizing: border-box;
 }
+.expense-emoji svg { display: block; }
 .expense-item:last-child { border-bottom: none; }
 .expense-emoji { width: 36px; height: 36px; border-radius: 10px; display: flex; align-items: center; justify-content: center; flex: 0 0 36px; }
 .cat-stat-icon { width: 36px; height: 36px; border-radius: 10px; display: grid; place-items: center; flex-shrink: 0; }
