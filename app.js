@@ -696,7 +696,7 @@ function renderWeeklyChart() {
     const date = new Date(today);
     date.setDate(today.getDate() - i);
     const dateStr = toDateStr(date);
-    const total = d.expenses.filter(e => e.date === dateStr).reduce((s, e) => s + e.amount, 0);
+    const total = onlyExpenses(d.expenses).filter(e => e.date === dateStr).reduce((s, e) => s + e.amount, 0);
     const m = date.getMonth() + 1, dy = date.getDate();
     days.push({ dateStr, total, isToday: i === 0, label: i === 0 ? '오늘' : `${m}/${dy}` });
   }
