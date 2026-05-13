@@ -362,6 +362,7 @@ function renderAll() {
   renderExpenseList();
   renderAnalysis();
   renderSurvival();
+  renderNotifBadge();
 }
 
 // ─── 홈 ───
