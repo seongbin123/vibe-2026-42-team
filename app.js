@@ -1536,10 +1536,9 @@ function saveSettings() {
   closeSettings();
   renderAll();
 }
-function setAccentColor(accent, light, soft, ink) {
+function setAccentColor(accent, _light, soft, ink) {
   const root = document.documentElement;
   root.style.setProperty('--accent', accent);
-  root.style.setProperty('--accent-light', light);
   root.style.setProperty('--accent-soft', soft);
   root.style.setProperty('--accent-ink', ink);
   document.querySelectorAll('.settings-color-dot').forEach(dot => {
@@ -1547,7 +1546,6 @@ function setAccentColor(accent, light, soft, ink) {
   });
   const d = getData();
   d.accentColor = accent;
-  d.accentLight = light;
   d.accentSoft = soft;
   d.accentInk = ink;
   save(d);
