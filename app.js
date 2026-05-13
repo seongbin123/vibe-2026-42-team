@@ -1518,23 +1518,33 @@ function toggleNotifFromPanel() {
   const d = getData();
   d.notif = !(d.notif !== false);
   save(d);
-  // UI 즉시 업데이트
   updateNotifEnableBtn();
   const settingsTog = document.getElementById('notif-toggle');
   if (settingsTog) {
     settingsTog.textContent = d.notif ? 'ON' : 'OFF';
     settingsTog.classList.toggle('off', !d.notif);
   }
-  // 권한 요청은 백그라운드 (UI 블로킹 없음)
-  if (d.notif && 'Notification' in window && Notification.permission === 'default') {
-    Notification.requestPermission().then(perm => {
-      if (perm === 'granted') registerSW();
-      else if (perm === 'denied') {
-        d.notif = false; save(d);
-        updateNotifEnableBtn();
-        if (settingsTog) { settingsTog.textContent = 'OFF'; settingsTog.classList.add('off'); }
-      }
-    });
+}
+
+function requestNotifPermissionOnly() {
+  if (!('Notification' in window)) { alert('이 브라우저는 알림을 지원하지 않아요'); return; }
+  if (Notification.permission === 'granted') { alert('이미 알림이 허용되어 있어요 ✓'); return; }
+  Notification.requestPermission().then(perm => {
+    if (perm === 'granted') { registerSW(); updateNotifPermUI(); }
+    else updateNotifPermUI();
+  });
+}
+
+function updateNotifPermUI() {
+  const row = document.getElementById('notif-perm-row');
+  if (!row) return;
+  const perm = Notification?.permission ?? 'default';
+  if (perm === 'granted') {
+    row.style.display = 'none';
+  } else if (perm === 'denied') {
+    row.innerHTML = '<div class="notif-perm-hint">브라우저에서 알림이 차단됐어요. 브라우저 설정에서 허용해주세요.</div>';
+  } else {
+    row.style.display = '';
   }
 }
 
