@@ -1706,11 +1706,6 @@ function openSettings() {
   const isDark = d.darkMode || false;
   document.getElementById('mode-light').classList.toggle('active', !isDark);
   document.getElementById('mode-dark').classList.toggle('active', isDark);
-  // restore notif toggle
-  const notifOn = d.notif !== false;
-  const tog = document.getElementById('notif-toggle');
-  tog.textContent = notifOn ? 'ON' : 'OFF';
-  tog.classList.toggle('off', !notifOn);
   document.getElementById('settings-overlay').classList.remove('hidden');
 }
 function closeSettings() {
