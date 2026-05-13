@@ -1551,6 +1551,9 @@ function updateNotifPermUI() {
 function renderNotifBadge() {
   const badge = document.getElementById('notif-badge');
   if (!badge) return;
+  const today = new Date().toISOString().slice(0, 10);
+  const seen = localStorage.getItem('notif_badge_seen');
+  if (seen === today) { badge.classList.add('hidden'); return; }
   const d = getData();
   const tomorrow = new Date();
   tomorrow.setDate(tomorrow.getDate() + 1);
