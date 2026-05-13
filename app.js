@@ -1390,6 +1390,9 @@ document.addEventListener('click', (e) => {
   if (!e.target.closest('.expense-menu-wrap')) {
     document.querySelectorAll('.expense-menu-popup').forEach(p => p.classList.add('hidden'));
   }
+  if (_notifPanelOpen && !e.target.closest('.notif-btn') && !e.target.closest('.notif-panel')) {
+    closeNotifPanel();
+  }
 });
 function editExpense(id) {
   const d = getData();
