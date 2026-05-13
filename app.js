@@ -1578,19 +1578,23 @@ function renderNotifPanel() {
 
 let _notifPanelOpen = false;
 function toggleNotifPanel() {
-  const panel = document.getElementById('notif-panel');
-  _notifPanelOpen = !_notifPanelOpen;
-  panel.classList.toggle('hidden', !_notifPanelOpen);
-  if (_notifPanelOpen) {
-    renderNotifPanel();
-    updateNotifEnableBtn();
-  }
+  _notifPanelOpen ? closeNotifPanel() : openNotifPanel();
+}
+
+function openNotifPanel() {
+  renderNotifPanel();
+  updateNotifEnableBtn();
+  document.getElementById('notif-overlay').classList.remove('hidden');
+  _notifPanelOpen = true;
 }
 
 function closeNotifPanel() {
-  const panel = document.getElementById('notif-panel');
-  if (panel) panel.classList.add('hidden');
+  document.getElementById('notif-overlay').classList.add('hidden');
   _notifPanelOpen = false;
+}
+
+function closeNotifOutside(event) {
+  if (event.target === document.getElementById('notif-overlay')) closeNotifPanel();
 }
 
 async function requestNotifPermission() {
