@@ -649,6 +649,7 @@ input::placeholder { color: var(--ink-4); }
   display: inline-block;
 }
 .meal-tag.success  { background: #E6F9EC; color: #1E7A3E; }
+.meal-card.possible { background: #FFF3CC; }
 .meal-tag.neutral  { background: #F3EDE6; color: #7A4E1E; }
 .meal-tag.warning  { background: #FFF3CC; color: #B07800; }
 .meal-tag.danger   { background: var(--danger-soft); color: var(--danger); }
