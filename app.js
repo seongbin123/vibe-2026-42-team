@@ -1608,6 +1608,10 @@ function toggleNotifPanel() {
 function openNotifPanel() {
   renderNotifPanel();
   updateNotifEnableBtn();
+  updateNotifPermUI();
+  // 오늘 확인했으니 빨간 배지 숨김
+  localStorage.setItem('notif_badge_seen', new Date().toISOString().slice(0, 10));
+  renderNotifBadge();
   document.getElementById('notif-overlay').classList.remove('hidden');
   _notifPanelOpen = true;
 }
