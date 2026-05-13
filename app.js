@@ -1368,15 +1368,8 @@ function editExpense(id) {
   openExpenseModal();
   document.getElementById('expense-amount').value = e.amount;
   selectedCat = e.cat;
-  if (e.cat === '기타' || e.cat === '교통') {
-    const etcInput = document.getElementById('etc-name');
-    etcInput.placeholder = e.cat === '교통' ? '수단 입력 (예: 버스, 택시, 지하철)' : '지출 이름 입력 (예: 문구류, 택배)';
-    etcInput.value = e.note || '';
-    document.getElementById('etc-name-wrap').classList.remove('hidden');
-    document.getElementById('expense-note').value = '';
-  } else {
-    document.getElementById('expense-note').value = e.note || '';
-  }
+  document.getElementById('etc-name').value = e.note || '';
+  document.getElementById('expense-note').value = '';
   document.querySelectorAll('.cat-btn').forEach(b => {
     b.classList.toggle('active', b.dataset.cat === e.cat);
   });
