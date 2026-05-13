@@ -958,7 +958,7 @@ function renderMenuContent(day, todayDay) {
     const dinner = meals['석식'] || ['x'];
     content.innerHTML = `
       <div class="menu-card${isToday ? ' today-menu' : ''}">
-        ${isToday ? '<div class="menu-today-badge">오늘의 학식</div>' : ''}
+        <div class="menu-today-badge${isToday ? '' : ' invisible'}">오늘의 학식</div>
         <div class="menu-corner">${bld.corner} · ${(bld.price || 6500).toLocaleString()}원</div>
         <div class="menu-two-col">
           ${renderCol('중식', lunch)}
