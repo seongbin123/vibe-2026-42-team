@@ -1194,7 +1194,7 @@ function renderRestaurantBrowser() {
   const budgetBtn = document.getElementById('rest-budget-btn');
   if (budgetBtn) {
     budgetBtn.className = 'rest-budget-btn' + (_restBudgetOnly ? ' active' : '');
-    budgetBtn.innerHTML = `<span><svg style="display:inline;vertical-align:middle;margin-right:1px" width="11" height="11" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 2 L11.2 8.8 L18 10 L11.2 11.2 L10 18 L8.8 11.2 L2 10 L8.8 8.8 Z"/></svg><svg style="display:inline;vertical-align:middle;margin-right:3px" width="7" height="7" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 2 L11.2 8.8 L18 10 L11.2 11.2 L10 18 L8.8 11.2 L2 10 L8.8 8.8 Z"/></svg>오늘 예산(${fmt(dailyAllowance)}) 안에 가능</span>
+    budgetBtn.innerHTML = `<span>${SPARKLE_ICON}오늘 예산(${fmt(dailyAllowance)}) 안에 가능</span>
       <span class="rest-budget-badge">${_restBudgetOnly ? 'ON' : 'off'}</span>`;
   }
 
