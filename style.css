@@ -447,6 +447,7 @@ input::placeholder { color: var(--ink-4); }
 .exp-cal-dots { display: flex; gap: 2px; align-items: center; }
 .exp-cal-exp-dot { width: 4px; height: 4px; border-radius: 9999px; background: var(--accent); display: inline-block; }
 .exp-cal-sub-dot { width: 4px; height: 4px; border-radius: 9999px; background: var(--info); display: inline-block; }
+.exp-cal-inc-dot { width: 4px; height: 4px; border-radius: 9999px; background: var(--success); display: inline-block; }
 .exp-cal-detail { background: var(--surface); border-radius: 18px; overflow: hidden; box-shadow: var(--shadow-sm); margin-bottom: 14px; }
 .exp-cal-detail-header { padding: 12px 16px 8px; font-size: 13px; font-weight: 700; color: var(--ink-2); border-bottom: 1px solid var(--line); display: flex; align-items: center; justify-content: space-between; }
 .exp-cal-detail-sub-row { padding: 11px 16px; display: flex; align-items: center; gap: 10px; border-bottom: 1px solid var(--line); }
