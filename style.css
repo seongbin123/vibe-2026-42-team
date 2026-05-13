@@ -389,6 +389,7 @@ input::placeholder { color: var(--ink-4); }
   background: var(--surface);
   border-radius: 18px;
   box-shadow: var(--shadow-sm);
+  overflow: hidden;
 }
 .expense-divider { height: 1px; background: var(--line); margin-left: 64px; }
 .expense-item {
