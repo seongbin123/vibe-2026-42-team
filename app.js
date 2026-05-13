@@ -1302,12 +1302,18 @@ function selectCat(btn, showRecent = true) {
   btn.classList.add('active');
   selectedCat = btn.dataset.cat;
   const etcWrap = document.getElementById('etc-name-wrap');
+  const etcInput = document.getElementById('etc-name');
   if (selectedCat === '기타') {
+    etcInput.placeholder = '지출 이름 입력 (예: 문구류, 택배)';
     etcWrap.classList.remove('hidden');
-    document.getElementById('etc-name').focus();
+    etcInput.focus();
+  } else if (selectedCat === '교통') {
+    etcInput.placeholder = '수단 입력 (예: 버스, 택시, 지하철)';
+    etcWrap.classList.remove('hidden');
+    etcInput.focus();
   } else {
     etcWrap.classList.add('hidden');
-    document.getElementById('etc-name').value = '';
+    etcInput.value = '';
   }
   if (showRecent) renderRecentAmounts(selectedCat);
 }
