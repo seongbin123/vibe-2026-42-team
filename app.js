@@ -454,9 +454,7 @@ function expenseItemHTML(e) {
   const amountStr = isIncome
     ? `<div class="expense-amount" style="color:var(--success)">+${fmt(e.amount)}</div>`
     : `<div class="expense-amount">-${fmt(e.amount)}</div>`;
-  const iconHTML = isIncome
-    ? `<div class="expense-emoji" style="background:var(--success-soft);color:var(--success);display:grid;place-items:center"><svg width="18" height="18" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="10" y1="3" x2="10" y2="17"/><polyline points="5,8 10,3 15,8"/></svg></div>`
-    : catIconBox(e.cat, 'expense-emoji');
+  const iconHTML = catIconBox(isIncome ? '용돈' : e.cat, 'expense-emoji');
   return `<div class="expense-item">
     ${iconHTML}
     <div class="expense-info">
