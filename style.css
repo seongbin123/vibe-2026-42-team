@@ -1083,6 +1083,7 @@ input::placeholder { color: var(--ink-4); }
   text-align: right; width: 110px;
 }
 .settings-inline-input.num { width: 90px; }
+.settings-inline-input.num.wide { width: 140px; }
 .settings-inline-input-wrap { display: flex; align-items: center; gap: 4px; }
 .settings-unit { font-size: 14px; color: var(--ink-3); font-weight: 600; }
 .settings-date-btn {
