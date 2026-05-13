@@ -846,6 +846,9 @@ function renderAnalysis() {
 
 function renderSubscriptions() {
   const d = getData();
+  const totalSub = d.subscriptions.reduce((s, sub) => s + sub.amount, 0);
+  const titleEl = document.getElementById('sub-section-title');
+  if (titleEl) titleEl.textContent = totalSub > 0 ? `구독 서비스 · 월 ${fmt(totalSub)}` : '구독 서비스';
   const list = document.getElementById('subscription-list');
   if (!d.subscriptions.length) {
     list.innerHTML = '<div style="color:var(--text2);font-size:13px;padding:8px 0">등록된 구독이 없어요</div>';
