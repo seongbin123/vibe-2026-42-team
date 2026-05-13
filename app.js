@@ -384,7 +384,7 @@ function renderHome() {
   card.className = 'survival-card';
   if (pct >= 90 || remaining < 30000) {
     card.classList.add('danger-mode');
-    label.textContent = '위험 — 월말 생존 모드';
+    label.innerHTML = '<span class="survival-label-dot"></span> 위험';
   } else if (pct >= 70 || remaining < 80000) {
     card.classList.add('warning-mode');
     label.innerHTML = '<span class="survival-label-dot"></span> 주의';
