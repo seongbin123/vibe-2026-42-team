@@ -1260,7 +1260,7 @@ function renderSurvival() {
   const hakshikCard = document.getElementById('meal-hakshik');
   const outsideCard = document.getElementById('meal-outside');
   const tip = document.getElementById('meal-tip');
-  const sparkle = SPARKLE_ICON;
+
 
   if (dailyAllowance < 10000) {
     hakshikCard.classList.add('recommended');
