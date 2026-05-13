@@ -1551,15 +1551,16 @@ function updateNotifPermUI() {
 function renderNotifBadge() {
   const badge = document.getElementById('notif-badge');
   if (!badge) return;
-  const today = new Date().toISOString().slice(0, 10);
-  const seen = localStorage.getItem('notif_badge_seen');
-  if (seen === today) { badge.classList.add('hidden'); return; }
   const d = getData();
   const tomorrow = new Date();
   tomorrow.setDate(tomorrow.getDate() + 1);
   const tomorrowDay = tomorrow.getDate();
   const hasTomorrow = d.subscriptions.some(s => s.billingDate && s.billingDate.day === tomorrowDay);
-  badge.classList.toggle('hidden', !hasTomorrow);
+  if (!hasTomorrow) { badge.classList.add('hidden'); return; }
+  // 내일 결제 있음 → 오늘 패널 열었으면 숨김, 아니면 표시
+  const today = new Date().toISOString().slice(0, 10);
+  const seen = localStorage.getItem('notif_badge_seen');
+  badge.classList.toggle('hidden', seen === today);
 }
 
 function renderNotifPanel() {
