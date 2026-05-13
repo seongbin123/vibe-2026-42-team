@@ -61,6 +61,22 @@ body {
 }
 body::-webkit-scrollbar { display: none; }
 
+/* ─── 다크 모드 ─── */
+body.dark {
+  --bg: #0E0E10;
+  --surface: #1C1C1E;
+  --surface-2: #2C2C2E;
+  --ink: #F2F2F7;
+  --ink-2: #AEAEB2;
+  --ink-3: #8E8E93;
+  --ink-4: #636366;
+  --ink-5: #48484A;
+  --line: #2C2C2E;
+  --line-strong: #3A3A3C;
+  --shadow-sm: 0 1px 3px rgba(0,0,0,.3);
+  --shadow-md: 0 4px 16px rgba(0,0,0,.35);
+}
+
 /* ─── 애니메이션 ─── */
 @keyframes fadeUp { from { opacity:0; transform:translateY(8px); } to { opacity:1; transform:none; } }
 @keyframes slideUp { from { transform:translateY(100%); } to { transform:translateY(0); } }
