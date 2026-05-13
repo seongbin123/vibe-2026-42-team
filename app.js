@@ -1261,6 +1261,7 @@ function renderSurvival() {
   const outsideAvg = 10000;
   const priceDiff = outsideAvg - hakshikPrice;
 
+  outsideCard.classList.remove('possible');
   if (dailyAllowance <= 0) {
     hakshikCard.classList.add('recommended');
     outsideCard.classList.remove('recommended');
@@ -1287,7 +1288,7 @@ function renderSurvival() {
     tip.innerHTML = `<span>${SPARKLE_ICON}하루 예산 <strong>${fmt(dailyAllowance)}</strong> — 학식 위주로, 외식은 가끔만!</span>`;
   } else {
     hakshikCard.classList.remove('recommended');
-    outsideCard.classList.remove('recommended');
+    outsideCard.classList.add('possible');
     document.getElementById('hakshik-tag').className = 'meal-tag success';
     document.getElementById('hakshik-tag').textContent = '추천';
     document.getElementById('outside-tag').className = 'meal-tag neutral';
