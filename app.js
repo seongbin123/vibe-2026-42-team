@@ -924,18 +924,31 @@ function renderMenuContent(day, todayDay) {
   if (selectedBuilding === 'jonggang') {
     const bld = hakshikData.jonggang || hakshikData.student;
     const menu = bld?.menu?.[day] || [];
+    const faculty = hakshikData.faculty?.menu?.[day] || [];
     const isEmpty = !menu.length || (menu.length === 1 && menu[0] === 'x');
     if (isEmpty) {
       content.innerHTML = '<div class="menu-weekend">이날은 학식 운영이 없어요</div>';
       return;
     }
+    const facultyHTML = faculty.length
+      ? `<div class="menu-meal-section" style="margin-top:14px;padding-top:12px;border-top:1px solid var(--line)">
+           <div class="menu-meal-label">교직원 식단</div>
+           <div class="menu-items">
+             ${faculty.map((item, i) => `<div class="menu-item${i === 0 ? ' main-item' : ''}">${i === 0 ? '' : '· '}${item}</div>`).join('')}
+           </div>
+         </div>`
+      : '';
     content.innerHTML = `
       <div class="menu-card${isToday ? ' today-menu' : ''}">
         ${isToday ? '<div class="menu-today-badge">오늘의 학식</div>' : ''}
         <div class="menu-corner">${bld.corner} · ${(bld.price || 6000).toLocaleString()}원</div>
-        <div class="menu-items">
-          ${menu.map((item, i) => `<div class="menu-item${i === 0 ? ' main-item' : ''}">${i === 0 ? '' : '· '}${item}</div>`).join('')}
+        <div class="menu-meal-section">
+          <div class="menu-meal-label">학생 식단</div>
+          <div class="menu-items">
+            ${menu.map((item, i) => `<div class="menu-item${i === 0 ? ' main-item' : ''}">${i === 0 ? '' : '· '}${item}</div>`).join('')}
+          </div>
         </div>
+        ${facultyHTML}
       </div>`;
   } else {
     const bld = hakshikData.amaranth;
