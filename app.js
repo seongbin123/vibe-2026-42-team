@@ -333,12 +333,14 @@ function getData() {
 window.onload = () => {
   applyStoredTheme();
   initDragInputs();
+  registerSW();
   const d = getData();
   if (!d.budget) {
     document.getElementById('setup-overlay').style.display = 'flex';
   } else {
     document.getElementById('setup-overlay').style.display = 'none';
     renderAll();
+    setTimeout(checkAndSendNotifications, 1500);
   }
 };
 
