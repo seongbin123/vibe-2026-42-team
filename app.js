@@ -1256,7 +1256,15 @@ function renderSurvival() {
   const outsideAvg = 10000;
   const priceDiff = outsideAvg - hakshikPrice;
 
-  if (dailyAllowance < 10000) {
+  if (dailyAllowance <= 0) {
+    hakshikCard.classList.add('recommended');
+    outsideCard.classList.remove('recommended');
+    document.getElementById('hakshik-tag').className = 'meal-tag danger';
+    document.getElementById('hakshik-tag').textContent = '위기';
+    document.getElementById('outside-tag').className = 'meal-tag danger';
+    document.getElementById('outside-tag').textContent = '불가';
+    tip.innerHTML = `<span>${SPARKLE_ICON}예산이 초과됐어요. 지출을 멈추고 버텨야 해요!</span>`;
+  } else if (dailyAllowance < 10000) {
     hakshikCard.classList.add('recommended');
     outsideCard.classList.remove('recommended');
     document.getElementById('hakshik-tag').className = 'meal-tag';
