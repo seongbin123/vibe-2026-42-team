@@ -1127,8 +1127,8 @@ input::placeholder { color: var(--ink-4); }
   pointer-events: none;
 }
 .notif-sheet {
-  min-height: 55svh;
-  max-height: calc(100svh - 60px);
+  min-height: 92svh;
+  max-height: 92svh;
   overflow-y: auto;
   scrollbar-width: none;
   animation: slideUp .15s cubic-bezier(.22,1,.36,1);
