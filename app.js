@@ -1749,8 +1749,6 @@ function toggleNotif() {
   const d = getData();
   d.notif = !(d.notif !== false);
   save(d);
-  const tog = document.getElementById('notif-toggle');
-  if (tog) { tog.textContent = d.notif ? 'ON' : 'OFF'; tog.classList.toggle('off', !d.notif); }
   updateNotifEnableBtn();
 }
 function deleteAccount() {
