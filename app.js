@@ -382,14 +382,18 @@ function renderHome() {
   const card = document.getElementById('survival-card');
   const label = document.getElementById('survival-label');
   card.className = 'survival-card';
+  label.className = 'survival-label';
   if (pct >= 90 || remaining < 30000) {
     card.classList.add('danger-mode');
+    label.classList.add('danger');
     label.innerHTML = '<span class="survival-label-dot"></span> 위험';
   } else if (pct >= 70 || remaining < 80000) {
     card.classList.add('warning-mode');
+    label.classList.add('caution');
     label.innerHTML = '<span class="survival-label-dot"></span> 주의';
   } else {
     card.classList.add('safe-mode');
+    label.classList.add('safe');
     label.innerHTML = '<span class="survival-label-dot"></span> 안전';
   }
 
