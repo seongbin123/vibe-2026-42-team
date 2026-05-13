@@ -666,7 +666,7 @@ function renderExpenseList() {
     return `
       <div class="expense-date-divider">
         <span class="expense-date-label">${label}</span>
-        <span class="expense-date-total">-${fmt(dayTotal)}</span>
+        <span class="expense-date-total">${fmt(dayTotal)}</span>
       </div>
       <div class="expense-day-card">
         ${items.map((e, i) => `
