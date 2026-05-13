@@ -120,6 +120,7 @@ const CAT_ICON_STYLE = {
   '쇼핑':   'background:var(--cat-shop);color:var(--cat-shop-ink)',
   '병원':   'background:var(--cat-hosp);color:var(--cat-hosp-ink)',
   '기타':   'background:var(--cat-etc);color:var(--cat-etc-ink)',
+  '용돈':   'background:var(--success-soft);color:var(--success)',
 };
 
 const CAT_ICONS_SVG = {
