@@ -1246,21 +1246,21 @@ function renderSurvival() {
     document.getElementById('hakshik-tag').textContent = '추천';
     document.getElementById('outside-tag').className = 'meal-tag danger';
     document.getElementById('outside-tag').textContent = '위험';
-    tip.textContent = `하루 예산 ${fmt(dailyAllowance)} — 학식만 먹어야 살아남아요!`;
+    tip.innerHTML = `${sparkle} 하루 예산 ${fmt(dailyAllowance)} — 학식만 먹어야 살아남아요!`;
   } else if (dailyAllowance < 15000) {
     hakshikCard.classList.add('recommended');
     outsideCard.classList.remove('recommended');
     document.getElementById('hakshik-tag').textContent = '추천';
     document.getElementById('outside-tag').className = 'meal-tag warning';
     document.getElementById('outside-tag').textContent = '가끔만';
-    tip.textContent = `하루 예산 ${fmt(dailyAllowance)} — 학식 위주로, 외식은 가끔만!`;
+    tip.innerHTML = `${sparkle} 하루 예산 ${fmt(dailyAllowance)} — 학식 위주로, 외식은 가끔만!`;
   } else {
     hakshikCard.classList.remove('recommended');
     outsideCard.classList.remove('recommended');
     document.getElementById('hakshik-tag').textContent = '추천';
     document.getElementById('outside-tag').className = 'meal-tag';
     document.getElementById('outside-tag').textContent = '가능';
-    tip.textContent = `하루 예산 ${fmt(dailyAllowance)} — 여유 있어요. 가끔 외식도 OK!`;
+    tip.innerHTML = `${sparkle} 하루 예산 ${fmt(dailyAllowance)} — 여유 있어요. 가끔 외식도 OK!`;
   }
 
   renderRestaurantBrowser();
