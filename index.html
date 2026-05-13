@@ -299,22 +299,98 @@
   </div>
 
   <!-- 설정 모달 -->
-  <div id="settings-overlay" class="overlay hidden">
-    <div class="modal-sheet">
+  <div id="settings-overlay" class="overlay hidden" onclick="closeSettingsOutside(event)">
+    <div class="modal-sheet settings-sheet">
       <div class="modal-handle"></div>
-      <h3>설정</h3>
-      <label>이름</label>
-      <input type="text" id="settings-name" maxlength="10">
-      <label>이번 달 생활비</label>
-      <div class="input-wrap">
-        <input type="number" id="settings-budget" inputmode="numeric">
-        <span class="unit">원</span>
+
+      <!-- 내 정보 -->
+      <div class="settings-section-title">내 정보</div>
+      <div class="settings-card">
+        <div class="settings-row">
+          <span class="settings-label">닉네임</span>
+          <input type="text" id="settings-name" class="settings-inline-input" maxlength="10">
+        </div>
+        <div class="settings-divider"></div>
+        <div class="settings-row">
+          <span class="settings-label">이번 달 생활비</span>
+          <div class="settings-inline-input-wrap">
+            <input type="number" id="settings-budget" class="settings-inline-input num" inputmode="numeric">
+            <span class="settings-unit">원</span>
+          </div>
+        </div>
+        <div class="settings-divider"></div>
+        <div class="settings-row">
+          <span class="settings-label">용돈 받는 날</span>
+          <button class="settings-date-btn" id="settings-payday-btn" onclick="openCalendar('settings')">날짜 선택</button>
+        </div>
+        <div class="settings-divider"></div>
+        <div class="settings-row">
+          <span class="settings-label">연동 계정</span>
+          <div class="settings-account-btns">
+            <span class="settings-account-chip kakao">카카오</span>
+            <span class="settings-account-chip google">구글</span>
+            <span class="settings-account-chip email">이메일</span>
+          </div>
+        </div>
       </div>
-      <label>용돈 받는 날</label>
-      <button class="date-picker-btn" id="settings-payday-btn" onclick="openCalendar('settings')"><svg width="14" height="14" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="14" height="14" rx="2"/><line x1="3" y1="8" x2="17" y2="8"/><line x1="7" y1="2" x2="7" y2="6"/><line x1="13" y1="2" x2="13" y2="6"/></svg> 날짜 선택</button>
-      <button onclick="saveSettings()" class="btn-primary">저장</button>
-      <button onclick="resetAll()" class="btn-danger">전체 초기화</button>
-      <button onclick="closeSettings()" class="btn-ghost">닫기</button>
+      <button onclick="saveSettings()" class="btn-primary" style="margin-top:4px">저장</button>
+
+      <!-- 화면 설정 -->
+      <div class="settings-section-title">화면 설정</div>
+      <div class="settings-card">
+        <div class="settings-row">
+          <span class="settings-label">아이콘 색상</span>
+          <div class="settings-color-btns">
+            <button class="settings-color-dot" data-color="#FF6B35" style="background:#FF6B35" onclick="setAccentColor('#FF6B35','#FF8F5E','#FFF0EA','#7A2E00')" title="주황"></button>
+            <button class="settings-color-dot" data-color="#3B82F6" style="background:#3B82F6" onclick="setAccentColor('#3B82F6','#60A5FA','#EFF6FF','#1D3A6E')" title="파랑"></button>
+            <button class="settings-color-dot" data-color="#E5484D" style="background:#E5484D" onclick="setAccentColor('#E5484D','#F87171','#FEE2E2','#7F1D1D')" title="빨강"></button>
+            <button class="settings-color-dot" data-color="#16A34A" style="background:#16A34A" onclick="setAccentColor('#16A34A','#4ADE80','#DCFCE7','#14532D')" title="초록"></button>
+            <button class="settings-color-dot" data-color="#7C3AED" style="background:#7C3AED" onclick="setAccentColor('#7C3AED','#A78BFA','#EDE9FE','#3B0764')" title="보라"></button>
+            <button class="settings-color-dot" data-color="#18181B" style="background:#18181B" onclick="setAccentColor('#18181B','#52525B','#F4F4F5','#09090B')" title="검정"></button>
+          </div>
+        </div>
+        <div class="settings-divider"></div>
+        <div class="settings-row">
+          <span class="settings-label">화면 모드</span>
+          <div class="settings-mode-btns">
+            <button class="settings-mode-btn active" id="mode-light" onclick="setDarkMode(false)">라이트</button>
+            <button class="settings-mode-btn" id="mode-dark" onclick="setDarkMode(true)">다크</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- 알림 설정 -->
+      <div class="settings-section-title">알림 설정</div>
+      <div class="settings-card">
+        <div class="settings-row">
+          <span class="settings-label">구독 결제 하루 전 알림</span>
+          <button class="settings-toggle" id="notif-toggle" onclick="toggleNotif()">ON</button>
+        </div>
+      </div>
+
+      <!-- 이용 안내 -->
+      <div class="settings-section-title">이용 안내</div>
+      <div class="settings-card">
+        <div class="settings-row settings-link" onclick="alert('공지사항이 없어요.')"><span class="settings-label">공지사항</span><span class="settings-chevron">›</span></div>
+        <div class="settings-divider"></div>
+        <div class="settings-row settings-link" onclick="alert('문의: limdygemini@gmail.com')"><span class="settings-label">문의하기</span><span class="settings-chevron">›</span></div>
+        <div class="settings-divider"></div>
+        <div class="settings-row settings-link" onclick="alert('이용약관')"><span class="settings-label">이용약관</span><span class="settings-chevron">›</span></div>
+        <div class="settings-divider"></div>
+        <div class="settings-row settings-link" onclick="alert('개인정보 처리방침')"><span class="settings-label">개인정보 처리방침</span><span class="settings-chevron">›</span></div>
+        <div class="settings-divider"></div>
+        <div class="settings-row"><span class="settings-label">앱 버전</span><span class="settings-ver">v1.0.0</span></div>
+      </div>
+
+      <!-- 기타 -->
+      <div class="settings-section-title">기타</div>
+      <div class="settings-card">
+        <div class="settings-row settings-link" onclick="resetAll()"><span class="settings-label settings-danger">로그아웃</span></div>
+        <div class="settings-divider"></div>
+        <div class="settings-row settings-link" onclick="deleteAccount()"><span class="settings-label settings-danger">회원탈퇴</span></div>
+      </div>
+
+      <div style="height:24px"></div>
     </div>
   </div>
 
