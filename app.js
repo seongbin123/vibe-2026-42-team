@@ -1583,7 +1583,6 @@ function applyStoredTheme() {
   if (d.accentColor) {
     const root = document.documentElement;
     root.style.setProperty('--accent', d.accentColor);
-    if (d.accentLight) root.style.setProperty('--accent-light', d.accentLight);
     if (d.accentSoft) root.style.setProperty('--accent-soft', d.accentSoft);
     if (d.accentInk) root.style.setProperty('--accent-ink', d.accentInk);
   }
