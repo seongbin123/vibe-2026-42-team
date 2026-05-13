@@ -721,8 +721,8 @@ function renderWeeklyChart() {
       <div class="weekly-chart-meta">
         <div class="weekly-chart-sublabel">최근 7일 지출</div>
         <div class="weekly-chart-total">${fmt(total7)}</div>
-        <div class="weekly-chart-avg">일평균 ${fmt(avg7)}</div>
       </div>
+      <div class="weekly-chart-avg-badge">일평균 ${fmt(avg7)}</div>
     </div>
     <div class="weekly-chart-bars">${bars}</div>`;
 }
