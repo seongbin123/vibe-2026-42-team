@@ -207,6 +207,10 @@
 
       <!-- 수원대 학식 실시간 메뉴 -->
       <div class="section-title">이번 주 학식 메뉴 <span id="menu-updated" class="menu-badge"></span></div>
+      <div class="building-tabs">
+        <button class="building-tab active" id="tab-jonggang" onclick="switchBuilding('jonggang',this)">종합강의동</button>
+        <button class="building-tab" id="tab-amaranth" onclick="switchBuilding('amaranth',this)">아마랜스홀</button>
+      </div>
       <div id="hakshik-menu-wrap">
         <div id="hakshik-menu-loading" class="menu-loading">메뉴 불러오는 중...</div>
         <div id="hakshik-menu-content" class="hidden">
