@@ -531,6 +531,15 @@ function renderExpCal() {
     }
   });
 
+  // 날짜별 용돈 기록
+  const incomeDays = new Set();
+  d.expenses.filter(e => e.type === 'income').forEach(e => {
+    const ed = new Date(e.date);
+    if (ed.getFullYear() === _expCalYear && ed.getMonth() === _expCalMonth) {
+      incomeDays.add(e.date);
+    }
+  });
+
   // 구독 결제일 (해당 월)
   const subDays = new Set();
   d.subscriptions.forEach(sub => {
