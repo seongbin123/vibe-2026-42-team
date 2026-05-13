@@ -1045,7 +1045,11 @@ input::placeholder { color: var(--ink-4); }
 
 /* ─── 설정 ─── */
 .settings-section { margin-bottom: 8px; }
-.settings-sheet { max-height: 92svh; overflow-y: auto; }
+.settings-sheet {
+  max-height: 92svh; overflow-y: auto;
+  scrollbar-width: none;
+}
+.settings-sheet::-webkit-scrollbar { display: none; }
 .settings-section-title {
   font-size: 12px; font-weight: 700; color: var(--ink-4);
   letter-spacing: 0.04em; text-transform: uppercase;
