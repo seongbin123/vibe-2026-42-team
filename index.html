@@ -304,6 +304,19 @@
     </div>
   </div>
 
+  <!-- 알림 바텀시트 -->
+  <div id="notif-overlay" class="overlay hidden" onclick="closeNotifOutside(event)">
+    <div class="modal-sheet notif-sheet">
+      <div class="modal-handle"></div>
+      <div class="notif-panel-header">
+        <span class="notif-panel-title">결제 알림</span>
+        <button class="notif-enable-btn" id="notif-enable-btn" onclick="requestNotifPermission()">알림 켜기</button>
+      </div>
+      <div id="notif-panel-list"></div>
+      <div style="height:8px"></div>
+    </div>
+  </div>
+
   <!-- 설정 모달 -->
   <div id="settings-overlay" class="overlay hidden" onclick="closeSettingsOutside(event)">
     <div class="modal-sheet settings-sheet">
