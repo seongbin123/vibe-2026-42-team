@@ -1276,7 +1276,7 @@ function renderSurvival() {
     document.getElementById('hakshik-tag').textContent = '추천';
     document.getElementById('outside-tag').className = 'meal-tag warning';
     document.getElementById('outside-tag').textContent = '가끔만';
-    tip.innerHTML = `${sparkle} 하루 예산 ${fmt(dailyAllowance)} — 학식 위주로, 외식은 가끔만!`;
+    tip.innerHTML = `<span>${SPARKLE_ICON}하루 예산 ${fmt(dailyAllowance)} — 학식 위주로, 외식은 가끔만!</span>`;
   } else {
     hakshikCard.classList.remove('recommended');
     outsideCard.classList.remove('recommended');
