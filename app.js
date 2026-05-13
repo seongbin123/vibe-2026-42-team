@@ -1238,7 +1238,7 @@ function renderSurvival() {
   const hakshikCard = document.getElementById('meal-hakshik');
   const outsideCard = document.getElementById('meal-outside');
   const tip = document.getElementById('meal-tip');
-  const sparkle = `<svg style="display:inline;vertical-align:middle;margin-right:2px" width="14" height="14" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M10 2 L11.2 8.8 L18 10 L11.2 11.2 L10 18 L8.8 11.2 L2 10 L8.8 8.8 Z"/></svg>`;
+  const sparkle = `<svg style="display:inline;vertical-align:middle;margin-right:1px" width="11" height="11" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 2 L11.2 8.8 L18 10 L11.2 11.2 L10 18 L8.8 11.2 L2 10 L8.8 8.8 Z"/></svg><svg style="display:inline;vertical-align:middle;margin-right:3px" width="7" height="7" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 2 L11.2 8.8 L18 10 L11.2 11.2 L10 18 L8.8 11.2 L2 10 L8.8 8.8 Z"/></svg>`;
 
   if (dailyAllowance < 10000) {
     hakshikCard.classList.add('recommended');
