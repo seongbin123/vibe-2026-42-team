@@ -1287,10 +1287,10 @@ function renderSurvival() {
     tip.innerHTML = `<span>${SPARKLE_ICON}하루 예산 <strong>${fmt(dailyAllowance)}</strong> — 학식 위주로, 외식은 가끔만!</span>`;
   } else {
     hakshikCard.classList.remove('recommended');
-    outsideCard.classList.add('possible');
+    outsideCard.classList.remove('recommended');
     document.getElementById('hakshik-tag').className = 'meal-tag success';
     document.getElementById('hakshik-tag').textContent = '추천';
-    document.getElementById('outside-tag').className = 'meal-tag neutral';
+    document.getElementById('outside-tag').className = 'meal-tag warning';
     document.getElementById('outside-tag').textContent = '가능';
     tip.innerHTML = `<span>${SPARKLE_ICON}하루 예산 <strong>${fmt(dailyAllowance)}</strong> — 여유 있어요. 가끔 외식도 OK!</span>`;
   }
