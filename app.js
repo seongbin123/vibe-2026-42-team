@@ -623,6 +623,17 @@ function renderExpenseList() {
   renderExpCal();
   renderExpCalDetail();
   const d = getData();
+
+  // 이번 달 합계 요약
+  const now = new Date();
+  const thisMonth = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}`;
+  const monthExps = onlyExpenses(d.expenses).filter(e => e.date && e.date.startsWith(thisMonth));
+  const monthTotal = monthExps.reduce((s, e) => s + e.amount, 0);
+  const summaryEl = document.getElementById('expense-month-summary');
+  if (summaryEl) summaryEl.textContent = monthExps.length > 0
+    ? `이번 달 총 ${fmt(monthTotal)} · ${monthExps.length}건`
+    : '이번 달 지출이 없어요';
+
   const list = document.getElementById('full-expense-list');
   let expenses = [...d.expenses].reverse();
   if (currentFilter !== 'all') expenses = expenses.filter(e => e.cat === currentFilter);
