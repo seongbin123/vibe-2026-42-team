@@ -125,6 +125,21 @@
         <button class="filter-btn" onclick="filterExpenses('구독', this)"><svg width="15" height="15" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="2" width="10" height="16" rx="2"/></svg> 구독</button>
       </div>
       <div id="full-expense-list" class="recent-list"></div>
+
+      <!-- 달력 -->
+      <div class="exp-cal-wrap">
+        <div class="exp-cal-header">
+          <button class="exp-cal-nav" onclick="moveExpCal(-1)">‹</button>
+          <span class="exp-cal-title" id="exp-cal-title"></span>
+          <button class="exp-cal-nav" onclick="moveExpCal(1)">›</button>
+        </div>
+        <div class="exp-cal-weekdays">
+          <span>일</span><span>월</span><span>화</span><span>수</span><span>목</span><span>금</span><span>토</span>
+        </div>
+        <div class="exp-cal-grid" id="exp-cal-grid"></div>
+      </div>
+      <div id="exp-cal-detail"></div>
+
       <div class="fab" onclick="openExpenseModal()">+</div>
     </section>
 
