@@ -428,7 +428,7 @@ function renderWarnings(d, remaining, daysLeft) {
   if (topW) {
     const limit2 = CAT_LIMITS[topW] || 30000;
     const amt = wTotals[topW];
-    if (amt >= limit2) warnings.push({ type: 'red', icon: '<svg width="18" height="18" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M10 3L2 17h16L10 3z"/><line x1="10" y1="10" x2="10" y2="13"/><circle cx="10" cy="15.5" r="0.5" fill="currentColor" stroke="none"/></svg>', title: `${topW} 지출 초과!`, sub: `이번 주 ${fmt(amt)} 사용했어요. 한끼 탭에서 절약 식단을 확인해보세요.` });
+    if (amt >= limit2) warnings.push({ type: 'red', icon: '<svg width="18" height="18" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M10 3L2 17h16L10 3z"/><line x1="10" y1="10" x2="10" y2="13"/><circle cx="10" cy="15.5" r="0.5" fill="currentColor" stroke="none"/></svg>', title: `${topW} 지출 초과!`, sub: remaining < 0 ? `이번 주 ${fmt(amt)} 사용했어요.` : `이번 주 ${fmt(amt)} 사용했어요. 한끼 탭에서 절약 식단을 확인해보세요.` });
     else if (amt >= limit2 * 0.7) warnings.push({ type: 'yellow', icon: '<svg width="18" height="18" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M10 3L2 17h16L10 3z"/><line x1="10" y1="10" x2="10" y2="13"/><circle cx="10" cy="15.5" r="0.5" fill="currentColor" stroke="none"/></svg>', title: `${topW} 지출 주의`, sub: `이번 주 ${fmt(amt)} 사용. 슬슬 조심할 때예요.` });
   }
 
