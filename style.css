@@ -1124,15 +1124,11 @@ input::placeholder { color: var(--ink-4); }
   background: var(--danger); border: 1.5px solid var(--bg);
   pointer-events: none;
 }
-.notif-panel {
-  position: absolute; top: 68px; right: 16px; left: 16px;
-  background: var(--surface);
-  border-radius: 20px;
-  box-shadow: var(--shadow-md);
-  z-index: 50;
-  overflow: hidden;
-  animation: fadeUp .2s ease;
+.notif-sheet {
+  max-height: 80svh; overflow-y: auto;
+  scrollbar-width: none;
 }
+.notif-sheet::-webkit-scrollbar { display: none; }
 .notif-panel-header {
   display: flex; align-items: center; justify-content: space-between;
   padding: 14px 16px 10px;
