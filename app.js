@@ -1264,7 +1264,7 @@ function renderSurvival() {
   const tip = document.getElementById('meal-tip');
 
 
-  const hakshikPrice = hakshikData?.jonggang?.price || 6500;
+  const hakshikPrice = 6500;
   const outsideAvg = 10000;
   const priceDiff = outsideAvg - hakshikPrice;
 
