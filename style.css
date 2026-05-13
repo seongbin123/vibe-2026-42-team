@@ -400,7 +400,7 @@ input::placeholder { color: var(--ink-4); }
   gap: 12px;
 }
 .expense-item:last-child { border-bottom: none; }
-.expense-emoji { width: 36px; height: 36px; border-radius: 10px; display: grid; place-items: center; flex-shrink: 0; }
+.expense-emoji { width: 36px; height: 36px; border-radius: 10px; display: flex; align-items: center; justify-content: center; flex: 0 0 36px; }
 .cat-stat-icon { width: 36px; height: 36px; border-radius: 10px; display: grid; place-items: center; flex-shrink: 0; }
 .expense-info { flex: 1; min-width: 0; }
 .expense-cat { font-size: 15px; font-weight: 600; color: var(--ink); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
