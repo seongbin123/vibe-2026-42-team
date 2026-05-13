@@ -921,58 +921,50 @@ function renderMenuContent(day, todayDay) {
   if (!hakshikData) return;
   const isToday = day === todayDay;
 
+  const renderCol = (label, items) => {
+    const isEmpty = !items.length || (items.length === 1 && items[0] === 'x');
+    return `<div class="menu-col">
+      <div class="menu-meal-label">${label}</div>
+      ${isEmpty
+        ? `<div class="menu-meal-empty">운영 없음</div>`
+        : `<div class="menu-items">${items.map((item, i) => `<div class="menu-item${i === 0 ? ' main-item' : ''}">${i === 0 ? '' : '· '}${item}</div>`).join('')}</div>`
+      }
+    </div>`;
+  };
+
   if (selectedBuilding === 'jonggang') {
     const bld = hakshikData.jonggang || hakshikData.student;
     const menu = bld?.menu?.[day] || [];
     const faculty = hakshikData.faculty?.menu?.[day] || [];
     const isEmpty = !menu.length || (menu.length === 1 && menu[0] === 'x');
-    if (isEmpty) {
+    if (isEmpty && !faculty.length) {
       content.innerHTML = '<div class="menu-weekend">이날은 학식 운영이 없어요</div>';
       return;
     }
-    const facultyHTML = faculty.length
-      ? `<div class="menu-meal-section" style="margin-top:14px;padding-top:12px;border-top:1px solid var(--line)">
-           <div class="menu-meal-label">교직원 식단</div>
-           <div class="menu-items">
-             ${faculty.map((item, i) => `<div class="menu-item${i === 0 ? ' main-item' : ''}">${i === 0 ? '' : '· '}${item}</div>`).join('')}
-           </div>
-         </div>`
-      : '';
     content.innerHTML = `
       <div class="menu-card${isToday ? ' today-menu' : ''}">
         ${isToday ? '<div class="menu-today-badge">오늘의 학식</div>' : ''}
         <div class="menu-corner">${bld.corner} · ${(bld.price || 6000).toLocaleString()}원</div>
-        <div class="menu-meal-section">
-          <div class="menu-meal-label">학생 식단</div>
-          <div class="menu-items">
-            ${menu.map((item, i) => `<div class="menu-item${i === 0 ? ' main-item' : ''}">${i === 0 ? '' : '· '}${item}</div>`).join('')}
-          </div>
+        <div class="menu-two-col">
+          ${renderCol('학생 식단', menu)}
+          <div class="menu-col-divider"></div>
+          ${renderCol('교직원 식단', faculty)}
         </div>
-        ${facultyHTML}
       </div>`;
   } else {
     const bld = hakshikData.amaranth;
     const meals = bld?.menu?.[day] || {};
     const lunch = meals['중식'] || ['x'];
     const dinner = meals['석식'] || ['x'];
-    const lunchEmpty = lunch.length === 1 && lunch[0] === 'x';
-    const dinnerEmpty = dinner.length === 1 && dinner[0] === 'x';
-
-    const renderMeal = (label, items, empty) => empty
-      ? `<div class="menu-meal-section"><div class="menu-meal-label">${label}</div><div class="menu-meal-empty">x</div></div>`
-      : `<div class="menu-meal-section">
-           <div class="menu-meal-label">${label}</div>
-           <div class="menu-items">
-             ${items.map((item, i) => `<div class="menu-item${i === 0 ? ' main-item' : ''}">${i === 0 ? '' : '· '}${item}</div>`).join('')}
-           </div>
-         </div>`;
-
     content.innerHTML = `
       <div class="menu-card${isToday ? ' today-menu' : ''}">
         ${isToday ? '<div class="menu-today-badge">오늘의 학식</div>' : ''}
         <div class="menu-corner">${bld.corner} · ${(bld.price || 6500).toLocaleString()}원</div>
-        ${renderMeal('중식', lunch, lunchEmpty)}
-        ${renderMeal('석식', dinner, dinnerEmpty)}
+        <div class="menu-two-col">
+          ${renderCol('중식', lunch)}
+          <div class="menu-col-divider"></div>
+          ${renderCol('석식', dinner)}
+        </div>
       </div>`;
   }
 }
