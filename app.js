@@ -522,9 +522,9 @@ function renderExpCal() {
   const today = new Date();
   const todayStr = toDateStr(today);
 
-  // 날짜별 지출 합계
+  // 날짜별 지출 합계 (용돈 제외)
   const dailyTotals = {};
-  d.expenses.forEach(e => {
+  onlyExpenses(d.expenses).forEach(e => {
     const ed = new Date(e.date);
     if (ed.getFullYear() === _expCalYear && ed.getMonth() === _expCalMonth) {
       dailyTotals[e.date] = (dailyTotals[e.date] || 0) + e.amount;
