@@ -1514,24 +1514,27 @@ function updateNotifEnableBtn() {
   btn.classList.toggle('off', !on);
 }
 
-async function toggleNotifFromPanel() {
+function toggleNotifFromPanel() {
   const d = getData();
-  const currentOn = d.notif !== false;
-  if (!currentOn) {
-    // 켜려는 경우 → 권한 먼저 요청
-    if ('Notification' in window && Notification.permission === 'default') {
-      const perm = await Notification.requestPermission();
-      if (perm === 'granted') registerSW();
-    }
-  }
-  d.notif = !currentOn;
+  d.notif = !(d.notif !== false);
   save(d);
+  // UI 즉시 업데이트
   updateNotifEnableBtn();
-  // 설정 모달의 토글도 동기화
   const settingsTog = document.getElementById('notif-toggle');
   if (settingsTog) {
     settingsTog.textContent = d.notif ? 'ON' : 'OFF';
     settingsTog.classList.toggle('off', !d.notif);
+  }
+  // 권한 요청은 백그라운드 (UI 블로킹 없음)
+  if (d.notif && 'Notification' in window && Notification.permission === 'default') {
+    Notification.requestPermission().then(perm => {
+      if (perm === 'granted') registerSW();
+      else if (perm === 'denied') {
+        d.notif = false; save(d);
+        updateNotifEnableBtn();
+        if (settingsTog) { settingsTog.textContent = 'OFF'; settingsTog.classList.add('off'); }
+      }
+    });
   }
 }
 
