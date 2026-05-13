@@ -299,6 +299,7 @@ function save(d) { localStorage.setItem('suwon_planner', JSON.stringify(d)); }
 function getData() {
   const d = load();
   return {
+    ...d,
     name: d.name || '',
     budget: d.budget || 0,
     payday: d.payday || 1,
