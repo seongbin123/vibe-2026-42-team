@@ -1107,7 +1107,9 @@ input::placeholder { color: var(--ink-4); }
 .settings-toggle {
   padding: 6px 14px; border-radius: 99px; border: none;
   font-size: 13px; font-weight: 700; cursor: pointer;
-  background: var(--accent); color: #fff; transition: background 0.2s;
+  background: var(--accent); color: #fff;
+  transition: background 0.15s, color 0.15s;
+  min-width: 48px;
 }
 .settings-toggle.off { background: var(--line); color: var(--ink-3); }
 .settings-chevron { font-size: 20px; color: var(--ink-4); line-height: 1; }
