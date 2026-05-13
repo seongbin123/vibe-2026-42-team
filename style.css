@@ -1029,4 +1029,68 @@ input::placeholder { color: var(--ink-4); }
 
 /* ─── 설정 ─── */
 .settings-section { margin-bottom: 8px; }
-.settings-label { font-size: 13px; color: var(--ink-3); font-weight: 600; margin-bottom: 6px; }
+.settings-sheet { max-height: 92svh; overflow-y: auto; }
+.settings-section-title {
+  font-size: 12px; font-weight: 700; color: var(--ink-4);
+  letter-spacing: 0.04em; text-transform: uppercase;
+  padding: 18px 4px 6px;
+}
+.settings-card {
+  background: var(--surface); border-radius: 18px;
+  overflow: hidden; box-shadow: var(--shadow-sm);
+}
+.settings-row {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 14px 16px; gap: 12px; min-height: 52px;
+}
+.settings-row.settings-link { cursor: pointer; }
+.settings-row.settings-link:active { background: var(--surface-2); }
+.settings-divider { height: 1px; background: var(--line); margin: 0 16px; }
+.settings-label { font-size: 15px; color: var(--ink); font-weight: 500; flex: 1; }
+.settings-inline-input {
+  background: var(--surface-2); border: none; outline: none;
+  border-radius: 10px; padding: 7px 12px;
+  font-size: 15px; color: var(--ink); font-weight: 500;
+  text-align: right; width: 110px;
+}
+.settings-inline-input.num { width: 90px; }
+.settings-inline-input-wrap { display: flex; align-items: center; gap: 4px; }
+.settings-unit { font-size: 14px; color: var(--ink-3); font-weight: 600; }
+.settings-date-btn {
+  background: var(--surface-2); border: none; border-radius: 10px;
+  padding: 7px 14px; font-size: 14px; color: var(--ink); font-weight: 600;
+  cursor: pointer;
+}
+.settings-date-btn.selected { color: var(--accent); }
+.settings-account-btns { display: flex; gap: 6px; flex-wrap: wrap; justify-content: flex-end; }
+.settings-account-chip {
+  font-size: 12px; font-weight: 700; padding: 5px 10px; border-radius: 99px;
+  cursor: pointer;
+}
+.settings-account-chip.kakao { background: #FEE500; color: #3A1D1D; }
+.settings-account-chip.google { background: #F3F3F3; color: #444; border: 1px solid #DDD; }
+.settings-account-chip.email { background: var(--accent-soft); color: var(--accent-ink); }
+.settings-color-btns { display: flex; gap: 8px; }
+.settings-color-dot {
+  width: 26px; height: 26px; border-radius: 50%; border: 2.5px solid transparent;
+  cursor: pointer; transition: border-color 0.15s, transform 0.15s;
+}
+.settings-color-dot.active { border-color: var(--ink); transform: scale(1.15); }
+.settings-mode-btns { display: flex; gap: 6px; }
+.settings-mode-btn {
+  padding: 7px 16px; border-radius: 10px; border: none;
+  font-size: 13.5px; font-weight: 700; cursor: pointer;
+  background: var(--surface-2); color: var(--ink-3);
+  transition: background 0.15s, color 0.15s;
+}
+.settings-mode-btn.active { background: var(--ink); color: #fff; }
+.settings-toggle {
+  padding: 6px 14px; border-radius: 99px; border: none;
+  font-size: 13px; font-weight: 700; cursor: pointer;
+  background: var(--accent); color: #fff; transition: background 0.2s;
+}
+.settings-toggle.off { background: var(--line); color: var(--ink-3); }
+.settings-chevron { font-size: 20px; color: var(--ink-4); line-height: 1; }
+.settings-ver { font-size: 14px; color: var(--ink-4); font-weight: 500; }
+.settings-danger { color: #E5484D !important; }
+.dark .settings-mode-btn.active { background: var(--accent); color: #fff; }
