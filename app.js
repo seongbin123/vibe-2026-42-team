@@ -589,7 +589,7 @@ function renderExpCalDetail() {
   const month = dateObj.getMonth() + 1;
   const day = dateObj.getDate();
 
-  const dayExps = d.expenses.filter(e => e.date === _expCalSelected);
+  const dayExps = onlyExpenses(d.expenses).filter(e => e.date === _expCalSelected);
   const dayTotal = dayExps.reduce((s,e)=>s+e.amount,0);
   const daySubs = d.subscriptions.filter(s => s.billingDate && s.billingDate.day === dayOfMonth);
 
