@@ -360,9 +360,7 @@ window.onload = () => {
   });
   const d = getData();
   if (!d.budget) {
-    _isOnboarding = true;
-    document.getElementById('skip-social-btn').style.display = 'block';
-    document.getElementById('social-overlay').classList.remove('hidden');
+    document.getElementById('setup-overlay').style.display = 'flex';
   } else {
     document.getElementById('setup-overlay').style.display = 'none';
     renderAll();
