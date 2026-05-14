@@ -979,6 +979,16 @@ function switchMenuDay(day, btn) {
   renderMenuContent(day, DAY_NAMES[new Date().getDay()]);
 }
 
+function detectMainIdx(items) {
+  // 우선순위 1: *, /, + 기호 포함 항목
+  const symIdx = items.findIndex(item => /[*/+]/.test(item));
+  if (symIdx !== -1) return symIdx;
+  // 우선순위 2: 밥·국·김치·나물·무침·차·음료 제외 후 첫 번째
+  const excludeRe = /밥|국|김치|나물|무침|차|음료/;
+  const altIdx = items.findIndex(item => !excludeRe.test(item));
+  return altIdx !== -1 ? altIdx : 0;
+}
+
 function renderMenuContent(day, todayDay) {
   const content = document.getElementById('menu-day-content');
   if (!hakshikData) return;
@@ -986,11 +996,16 @@ function renderMenuContent(day, todayDay) {
 
   const renderCol = (label, items) => {
     const isEmpty = !items.length || (items.length === 1 && items[0] === 'x');
+    let ordered = items;
+    if (!isEmpty) {
+      const mainIdx = detectMainIdx(items);
+      if (mainIdx > 0) ordered = [items[mainIdx], ...items.filter((_, i) => i !== mainIdx)];
+    }
     return `<div class="menu-col">
       <div class="menu-meal-label">${label}</div>
       ${isEmpty
         ? `<div class="menu-meal-empty">운영 없음</div>`
-        : `<div class="menu-items">${items.map((item, i) => `<div class="menu-item${i === 0 ? ' main-item' : ''}">${i === 0 ? '' : '· '}${item}</div>`).join('')}</div>`
+        : `<div class="menu-items">${ordered.map((item, i) => `<div class="menu-item${i === 0 ? ' main-item' : ''}">${i === 0 ? '' : '· '}${item}</div>`).join('')}</div>`
       }
     </div>`;
   };
