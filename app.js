@@ -338,6 +338,9 @@ window.onload = () => {
   applyStoredTheme();
   initDragInputs();
   registerSW();
+  document.getElementById('expense-amount').addEventListener('input', function() {
+    this.value = this.value.replace(/[^0-9]/g, '');
+  });
   const d = getData();
   if (!d.budget) {
     document.getElementById('setup-overlay').style.display = 'flex';
