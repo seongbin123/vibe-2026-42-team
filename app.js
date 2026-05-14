@@ -1631,6 +1631,7 @@ function renderNotifPanel() {
 
 let _notifPanelOpen = false;
 function toggleNotifPanel() {
+  alert('버튼눌림');
   _notifPanelOpen ? closeNotifPanel() : openNotifPanel();
 }
 
