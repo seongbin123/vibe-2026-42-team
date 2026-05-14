@@ -1775,6 +1775,9 @@ function renderLinkedChips() {
 
 // ─── 설정 ───
 function openSettings() {
+  const settingsSheet = document.querySelector('#settings-overlay .settings-sheet');
+  settingsSheet.style.transform = '';
+  settingsSheet.style.transition = '';
   const d = getData();
   document.getElementById('settings-name').value = d.name;
   document.getElementById('settings-budget').value = d.budget;
