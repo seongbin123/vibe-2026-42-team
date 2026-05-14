@@ -1419,7 +1419,8 @@ function toggleExpenseMenu(event, id) {
   if (isHidden) {
     const btnRect = btn.getBoundingClientRect();
     const popupHeight = 100;
-    const openUpward = btnRect.bottom + popupHeight > window.innerHeight - 8;
+    const navH = (document.querySelector('.bottom-nav')?.clientHeight) || 70;
+    const openUpward = btnRect.bottom + popupHeight > window.innerHeight - navH;
     popup.style.position = 'fixed';
     popup.style.right = (window.innerWidth - btnRect.right) + 'px';
     if (openUpward) {
