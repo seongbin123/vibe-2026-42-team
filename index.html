@@ -66,7 +66,16 @@
       <div class="home-header">
         <div>
           <p class="greeting">오늘 하루 수고했어요</p>
-          <p class="header-sub" id="header-name">수원대생님 👋</p>
+          <div style="display:flex;align-items:center;gap:8px;">
+            <svg width="26" height="26" viewBox="0 0 26 26" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <rect width="26" height="26" rx="8" fill="var(--accent)"/>
+              <g transform="translate(5,5) scale(0.8)">
+                <path d="M2 8l8-4 8 4-8 4-8-4z" stroke="white" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M6 10v4c0 1.1 1.8 2 4 2s4-.9 4-2v-4" stroke="white" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
+              </g>
+            </svg>
+            <p class="header-sub" id="header-name">수원대생님 👋</p>
+          </div>
         </div>
         <div class="header-actions">
           <button class="icon-btn notif-btn" id="notif-bell-btn" onclick="toggleNotifPanel()">
