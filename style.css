@@ -1163,6 +1163,7 @@ input::placeholder { color: var(--ink-4); }
   background: var(--danger); border: 1.5px solid var(--bg);
   pointer-events: none;
 }
+#notif-overlay { align-items: flex-end; }
 .notif-sheet {
   min-height: 92svh;
   max-height: 92svh;
