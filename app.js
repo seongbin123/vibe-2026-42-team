@@ -1795,6 +1795,32 @@ function openSettings() {
 function closeSettings() {
   document.getElementById('settings-overlay').classList.add('hidden');
 }
+
+function initSwipeClose(sheetEl, closeFn) {
+  let startY = 0, startScrollTop = 0;
+  sheetEl.addEventListener('touchstart', function(e) {
+    startY = e.touches[0].clientY;
+    startScrollTop = sheetEl.scrollTop;
+    sheetEl.style.transition = 'none';
+  }, { passive: true });
+  sheetEl.addEventListener('touchmove', function(e) {
+    const dy = e.touches[0].clientY - startY;
+    if (dy > 0 && startScrollTop <= 0) {
+      sheetEl.style.transform = `translateX(-50%) translateY(${dy}px)`;
+    }
+  }, { passive: true });
+  sheetEl.addEventListener('touchend', function(e) {
+    const dy = e.changedTouches[0].clientY - startY;
+    sheetEl.style.transition = 'transform .3s cubic-bezier(.22,1,.36,1)';
+    if (dy > 100 && startScrollTop <= 0) {
+      sheetEl.style.transform = 'translateX(-50%) translateY(100%)';
+      setTimeout(closeFn, 280);
+    } else {
+      sheetEl.style.transform = 'translateX(-50%) translateY(0)';
+      setTimeout(() => { sheetEl.style.transform = ''; sheetEl.style.transition = ''; }, 300);
+    }
+  }, { passive: true });
+}
 function closeSettingsOutside(event) {
   if (event.target === document.getElementById('settings-overlay')) closeSettings();
 }
