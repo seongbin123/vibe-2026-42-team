@@ -1835,7 +1835,8 @@ function closeSettingsOutside(event) {
 function saveSettings() {
   const d = getData();
   d.name = document.getElementById('settings-name').value.trim() || d.name;
-  d.budget = parseInt(document.getElementById('settings-budget').value) || d.budget;
+  const budgetVal = parseInt(document.getElementById('settings-budget').value);
+  d.budget = isNaN(budgetVal) ? d.budget : Math.max(0, budgetVal);
   d.payday = parseInt(document.getElementById('settings-payday-btn').dataset.payday) || d.payday;
   save(d);
   closeSettings();
