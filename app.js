@@ -338,7 +338,13 @@ window.onload = () => {
   applyStoredTheme();
   initDragInputs();
   registerSW();
-  document.getElementById('expense-amount').addEventListener('input', function() {
+  const amountInput = document.getElementById('expense-amount');
+  amountInput.addEventListener('keydown', function(e) {
+    if (!/[0-9]/.test(e.key) && !['Backspace','Delete','ArrowLeft','ArrowRight','Tab'].includes(e.key)) {
+      e.preventDefault();
+    }
+  });
+  amountInput.addEventListener('input', function() {
     this.value = this.value.replace(/[^0-9]/g, '');
   });
   const d = getData();
