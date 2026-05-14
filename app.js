@@ -1434,7 +1434,7 @@ function toggleExpenseMenu(event, id) {
   }
 }
 document.addEventListener('click', (e) => {
-  if (!e.target.closest('.expense-menu-wrap')) {
+  if (!e.target.closest('.expense-menu-btn')) {
     document.querySelectorAll('.expense-menu-popup').forEach(p => p.classList.add('hidden'));
   }
 });
