@@ -108,6 +108,13 @@ function initDragInputs() {
 
 // ─── 데이터 ───
 const onlyExpenses = exps => exps.filter(e => e.type !== 'income');
+// 생활비 변경 시점 이후 지출만 합산 (budgetSetAt 없으면 전체 포함)
+function getBudgetSpent(d) {
+  const since = d.budgetSetAt || 0;
+  return onlyExpenses(d.expenses)
+    .filter(e => !since || parseInt(e.id) >= since)
+    .reduce((s, e) => s + e.amount, 0);
+}
 const SPARKLE_ICON = `<svg style="display:inline;vertical-align:middle;margin-right:1px;flex-shrink:0" width="13" height="13" viewBox="0 0 20 20" fill="none" stroke="#FF6B35" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 2 L11.2 8.8 L18 10 L11.2 11.2 L10 18 L8.8 11.2 L2 10 L8.8 8.8 Z"/></svg><svg style="display:inline;vertical-align:middle;margin-right:4px;flex-shrink:0" width="8" height="8" viewBox="0 0 20 20" fill="none" stroke="#FFB347" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 2 L11.2 8.8 L18 10 L11.2 11.2 L10 18 L8.8 11.2 L2 10 L8.8 8.8 Z"/></svg>`;
 const EMOJIS = { 식비:'', 카페:'', 교통:'', 술자리:'', 구독:'', 쇼핑:'', 병원:'', 기타:'' };
 const CAT_COLORS = { 식비:'#7C6CF4', 카페:'#FFB347', 교통:'#4ADE80', 술자리:'#FF5A5A', 구독:'#00D4FF', 쇼핑:'#FF69B4', 병원:'#FF6EB4', 기타:'#9090A8' };
