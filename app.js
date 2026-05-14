@@ -1655,6 +1655,16 @@ function closeNotifPanel() {
 function closeNotifOutside(event) {
   if (event.target === document.getElementById('notif-overlay')) closeNotifPanel();
 }
+(function() {
+  const overlay = document.getElementById('notif-overlay');
+  if (!overlay) return;
+  let touchMoved = false;
+  overlay.addEventListener('touchstart', () => { touchMoved = false; }, { passive: true });
+  overlay.addEventListener('touchmove',  () => { touchMoved = true;  }, { passive: true });
+  overlay.addEventListener('touchend', function(e) {
+    if (!touchMoved && e.target === overlay) { e.preventDefault(); closeNotifPanel(); }
+  });
+})();
 
 async function requestNotifPermission() {
   if (!('Notification' in window)) { alert('이 브라우저는 알림을 지원하지 않아요'); return; }
