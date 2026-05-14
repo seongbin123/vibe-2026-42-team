@@ -877,8 +877,8 @@ function renderCategoryChart(expenses) {
       const barPct = (amt / max * 100).toFixed(1);
       const sharePct = total > 0 ? Math.round(amt / total * 100) : 0;
       const iconStyle = CAT_ICON_STYLE[cat] || CAT_ICON_STYLE['기타'];
-      const shiftRight = ['카페','쇼핑','기타','병원','구독','술자리'].includes(cat);
-      const svgRepl = shiftRight ? 'width="19" height="19" style="margin-left:1px"' : 'width="19" height="19"';
+      const svgStyle = cat === '카페' ? 'margin-left:2px;margin-top:-1px' : ['쇼핑','기타','병원','구독','술자리'].includes(cat) ? 'margin-left:1px' : '';
+      const svgRepl = svgStyle ? `width="19" height="19" style="${svgStyle}"` : 'width="19" height="19"';
       const iconSvg = (CAT_ICONS_SVG[cat] || CAT_ICONS_SVG['기타']).replace('width="20" height="20"', svgRepl);
       const iconHtml = `<div style="width:40px;height:40px;border-radius:12px;display:flex;align-items:center;justify-content:center;flex:0 0 40px;${iconStyle}">${iconSvg}</div>`;
       return `<div class="chart-row">
