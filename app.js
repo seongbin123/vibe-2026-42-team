@@ -824,7 +824,7 @@ function renderAnalysis() {
   // 세부 내역
   const breakdown = document.getElementById('pace-breakdown');
   let rows = `<div class="pace-row"><span>이번 달 지출</span><span>${fmt(thisMonthSpent)}</span></div>`;
-  rows += `<div class="pace-row"><span>예산대비</span><span>+${fmt(projectedDaily)}</span></div>`;
+  rows += `<div class="pace-row"><span>예산 대비</span><span>+${fmt(projectedDaily)}</span></div>`;
   if (upcomingSubTotal > 0) {
     rows += `<div class="pace-row"><span>결제 예정 구독 (${upcomingSubs.length}개)</span><span>+${fmt(upcomingSubTotal)}</span></div>`;
   }
