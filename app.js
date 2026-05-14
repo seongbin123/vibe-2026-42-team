@@ -342,15 +342,36 @@ window.onload = () => {
     document.querySelector('#settings-overlay .settings-sheet'),
     closeSettings
   );
-  // 알람 버튼: 모바일 touchend로 직접 처리 (onclick 합성 지연 방지)
-  document.getElementById('notif-bell-btn').addEventListener('touchend', function(e) {
-    e.preventDefault();
-    toggleNotifPanel();
-  });
-  // 알림 오버레이: 외부 탭 시 닫기 (모바일)
-  document.getElementById('notif-overlay').addEventListener('touchend', function(e) {
-    if (e.target === this) { e.preventDefault(); closeNotifPanel(); }
-  });
+  // 알람 버튼: touch/click 이중 발화 방지 후 단일 처리
+  (function() {
+    const btn = document.getElementById('notif-bell-btn');
+    let lastTouch = 0;
+    btn.addEventListener('touchend', function(e) {
+      e.preventDefault();
+      lastTouch = Date.now();
+      toggleNotifPanel();
+    });
+    btn.addEventListener('click', function() {
+      if (Date.now() - lastTouch < 600) return; // ghost click 차단
+      toggleNotifPanel();
+    });
+  })();
+  // 알림 오버레이: 외부 탭/터치 시 닫기
+  (function() {
+    const ov = document.getElementById('notif-overlay');
+    let lastTouch = 0;
+    ov.addEventListener('touchend', function(e) {
+      if (e.target !== ov) return;
+      e.preventDefault();
+      lastTouch = Date.now();
+      closeNotifPanel();
+    });
+    ov.addEventListener('click', function(e) {
+      if (e.target !== ov) return;
+      if (Date.now() - lastTouch < 600) return;
+      closeNotifPanel();
+    });
+  })();
   ['expense-amount', 'setup-budget'].forEach(id => {
     const el = document.getElementById(id);
     el.addEventListener('keydown', function(e) {
