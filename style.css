@@ -539,7 +539,7 @@ input::placeholder { color: var(--ink-4); }
 .weekly-chart-avg-badge { font-size: 12px; font-weight: 700; color: #D94040; background: #FFECEC; border-radius: 10px; padding: 5px 11px; align-self: center; white-space: nowrap; display: flex; align-items: center; gap: 5px; }
 .weekly-chart-bars { display: flex; align-items: flex-end; gap: 5px; height: 80px; overflow: visible; }
 .weekly-bar-col { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: flex-end; gap: 5px; height: 100%; overflow: visible; }
-.weekly-bar { width: 100%; border-radius: 99px; background: var(--line); transition: height .7s cubic-bezier(.22,1,.36,1); }
+.weekly-bar { width: 100%; border-radius: 6px; background: var(--line); transition: height .7s cubic-bezier(.22,1,.36,1); }
 .weekly-bar.has { background: var(--ink-3); }
 .weekly-bar.today { background: var(--accent) !important; }
 .weekly-bar-label { font-size: 10px; font-weight: 700; color: var(--ink-4); white-space: nowrap; }
