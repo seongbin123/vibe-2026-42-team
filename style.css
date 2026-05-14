@@ -237,8 +237,6 @@ input::placeholder { color: var(--ink-4); }
   align-items: center;
   justify-content: space-between;
   padding: 52px 0 12px;
-  position: relative;
-  z-index: 200;
 }
 .greeting { font-size: 13px; color: var(--ink-3); font-weight: 500; }
 .header-sub { font-size: 22px; font-weight: 800; color: var(--ink); margin-top: 2px; letter-spacing: -.03em; }
