@@ -1858,7 +1858,11 @@ function saveSettings() {
   const d = getData();
   d.name = document.getElementById('settings-name').value.trim() || d.name;
   const budgetVal = parseInt(document.getElementById('settings-budget').value);
-  d.budget = isNaN(budgetVal) ? d.budget : Math.max(0, budgetVal);
+  const newBudget = isNaN(budgetVal) ? d.budget : Math.max(0, budgetVal);
+  if (newBudget !== d.budget) {
+    d.budget = newBudget;
+    d.budgetSetAt = Date.now();
+  }
   d.payday = parseInt(document.getElementById('settings-payday-btn').dataset.payday) || d.payday;
   save(d);
   closeSettings();
