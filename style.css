@@ -528,6 +528,11 @@ input::placeholder { color: var(--ink-4); }
   margin-bottom: 12px;
 }
 .cat-btn {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  gap: 2px;
   background: var(--surface-2);
   border: 2px solid transparent;
   border-radius: 12px;
@@ -537,7 +542,6 @@ input::placeholder { color: var(--ink-4); }
   font-weight: 600;
   cursor: pointer;
   transition: all .15s;
-  text-align: center;
   font-family: inherit;
 }
 .cat-btn.active { border-color: var(--accent); background: var(--accent-soft); color: var(--accent-ink); }
