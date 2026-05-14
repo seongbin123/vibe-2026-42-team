@@ -93,6 +93,7 @@ body.dark {
   z-index: 100;
   backdrop-filter: blur(4px);
   animation: overlayIn .2s ease;
+  cursor: pointer;
 }
 .overlay.hidden { display: none; }
 .hidden { display: none; }
