@@ -1011,7 +1011,7 @@ function renderMenuContent(day, todayDay) {
         <div class="menu-two-col">
           ${renderCol('학생 식단', menu)}
           <div class="menu-col-divider"></div>
-          ${renderCol('교직원 식단', faculty)}
+          ${renderCol('교직원 식단 (한식뷔페)', faculty)}
         </div>
       </div>`;
   } else {
