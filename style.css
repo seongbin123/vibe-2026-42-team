@@ -1080,7 +1080,6 @@ input::placeholder { color: var(--ink-4); }
   max-height: 92svh;
   overflow-y: auto;
   scrollbar-width: none;
-  position: relative;
   z-index: 1;
 }
 .settings-sheet::-webkit-scrollbar { display: none; }
