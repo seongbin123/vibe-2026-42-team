@@ -1634,7 +1634,9 @@ function toggleNotifPanel() {
   _notifPanelOpen ? closeNotifPanel() : openNotifPanel();
 }
 
+let _notifOpenTime = 0;
 function openNotifPanel() {
+  _notifOpenTime = Date.now();
   renderNotifPanel();
   updateNotifEnableBtn();
   updateNotifPermUI();
@@ -1651,6 +1653,7 @@ function closeNotifPanel() {
 }
 
 function closeNotifOutside(event) {
+  if (Date.now() - _notifOpenTime < 400) return;
   if (event.target === document.getElementById('notif-overlay')) closeNotifPanel();
 }
 
