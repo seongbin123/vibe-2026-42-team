@@ -209,6 +209,7 @@ input::placeholder { color: var(--ink-4); }
   background: var(--surface); border: none; cursor: pointer;
   display: grid; place-items: center;
   color: var(--ink-2); box-shadow: var(--shadow-sm);
+  touch-action: manipulation;
 }
 .add-btn {
   background: transparent;
