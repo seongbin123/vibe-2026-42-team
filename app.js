@@ -367,6 +367,11 @@ function saveSetup() {
   save(d);
   document.getElementById('setup-overlay').style.display = 'none';
   renderAll();
+  document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
+  document.querySelectorAll('.nav-btn').forEach(el => el.classList.remove('active'));
+  document.getElementById('tab-home').classList.add('active');
+  document.querySelectorAll('.nav-btn')[0].classList.add('active');
+  window.scrollTo(0, 0);
 }
 
 // ─── 렌더 전체 ───
