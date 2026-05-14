@@ -395,7 +395,7 @@ function renderHome() {
   const remaining = d.budget - totalSpent;
   const daysLeft = getDaysLeft(today, d.payday);
   const dailyAllowance = daysLeft > 0 ? Math.floor(remaining / daysLeft) : 0;
-  const pct = Math.min(100, Math.round((totalSpent / d.budget) * 100));
+  const pct = d.budget > 0 ? Math.min(100, Math.round((totalSpent / d.budget) * 100)) : 0;
 
   document.getElementById('header-name').textContent = `${d.name}님 👋`;
   document.getElementById('remaining-amount').textContent = fmt(remaining);
