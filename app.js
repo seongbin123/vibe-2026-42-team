@@ -372,6 +372,7 @@ function saveSetup() {
   d.name = name; d.budget = budget; d.payday = payday;
   save(d);
   document.getElementById('setup-overlay').style.display = 'none';
+  document.getElementById('notif-bell-btn').style.zIndex = '9999';
   renderAll();
   document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
   document.querySelectorAll('.nav-btn').forEach(el => el.classList.remove('active'));
