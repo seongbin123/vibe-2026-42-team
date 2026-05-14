@@ -45,7 +45,7 @@
         <button class="cat-btn" data-cat="기타" onclick="selectCat(this)"><svg width="16" height="16" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="10" cy="10" r="7"/><circle cx="7" cy="10" r="0.8" fill="currentColor" stroke="none"/><circle cx="10" cy="10" r="0.8" fill="currentColor" stroke="none"/><circle cx="13" cy="10" r="0.8" fill="currentColor" stroke="none"/></svg> 기타</button>
       </div>
       <div class="input-wrap">
-        <input type="number" id="expense-amount" placeholder="0" inputmode="numeric">
+        <input type="text" id="expense-amount" placeholder="0" inputmode="numeric" pattern="[0-9]*">
         <span class="unit">원</span>
       </div>
       <div id="recent-amounts" class="recent-amounts"></div>
