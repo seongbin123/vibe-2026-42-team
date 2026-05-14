@@ -1402,16 +1402,25 @@ function toggleExpenseMenu(event, id) {
   // touch 기기에서는 ontouchend로만 처리, ghost click(click 이벤트) 차단
   if (event.type === 'click' && navigator.maxTouchPoints > 0) return;
   if (Date.now() < menuAllowedAfter) return;
-  const wrap = event.currentTarget.closest('.expense-menu-wrap');
+  const btn = event.currentTarget;
+  const wrap = btn.closest('.expense-menu-wrap');
   const popup = wrap.querySelector('.expense-menu-popup');
   const isHidden = popup.classList.contains('hidden');
   document.querySelectorAll('.expense-menu-popup').forEach(p => p.classList.add('hidden'));
   if (isHidden) {
+    const btnRect = btn.getBoundingClientRect();
+    const popupHeight = 100;
+    const openUpward = btnRect.bottom + popupHeight > window.innerHeight - 8;
+    popup.style.position = 'fixed';
+    popup.style.right = (window.innerWidth - btnRect.right) + 'px';
+    if (openUpward) {
+      popup.style.top = 'auto';
+      popup.style.bottom = (window.innerHeight - btnRect.top + 4) + 'px';
+    } else {
+      popup.style.top = (btnRect.bottom + 4) + 'px';
+      popup.style.bottom = 'auto';
+    }
     popup.classList.remove('hidden');
-    const rect = popup.getBoundingClientRect();
-    const overflowsBottom = rect.bottom > (window.innerHeight - 8);
-    popup.style.top = overflowsBottom ? 'auto' : '32px';
-    popup.style.bottom = overflowsBottom ? '32px' : 'auto';
   }
 }
 document.addEventListener('click', (e) => {
