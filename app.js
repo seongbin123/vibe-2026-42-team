@@ -1741,8 +1741,6 @@ const SOCIAL_INFO = {
   email:  { label: '이메일', chip: 'email',  color: '#F0F0F0', ink: '#333' },
 };
 
-let _isOnboarding = false;
-
 function openSocialLogin() {
   const status = document.getElementById('social-status');
   status.classList.add('hidden');
@@ -1750,21 +1748,9 @@ function openSocialLogin() {
 }
 function closeSocialLogin() {
   document.getElementById('social-overlay').classList.add('hidden');
-  if (_isOnboarding) {
-    _isOnboarding = false;
-    document.getElementById('skip-social-btn').style.display = 'none';
-    document.getElementById('setup-overlay').style.display = 'flex';
-  }
 }
 function closeSocialOutside(e) {
-  if (_isOnboarding) return;
   if (e.target === document.getElementById('social-overlay')) closeSocialLogin();
-}
-function skipToSetup() {
-  _isOnboarding = false;
-  document.getElementById('skip-social-btn').style.display = 'none';
-  document.getElementById('social-overlay').classList.add('hidden');
-  document.getElementById('setup-overlay').style.display = 'flex';
 }
 
 function connectSocial(provider) {
