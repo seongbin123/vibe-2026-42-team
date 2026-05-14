@@ -1161,7 +1161,7 @@ input::placeholder { color: var(--ink-4); }
 .dark .settings-mode-btn.active { background: var(--accent); color: #fff; }
 
 /* ─── 알림 ─── */
-.header-actions { display: flex; align-items: center; gap: 8px; position: relative; }
+.header-actions { display: flex; align-items: center; gap: 8px; position: relative; z-index: 200; }
 .notif-badge {
   position: absolute; top: 6px; right: 6px;
   width: 8px; height: 8px; border-radius: 50%;
