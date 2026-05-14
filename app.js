@@ -340,8 +340,9 @@ window.onload = () => {
   registerSW();
   const settingsSheet = document.querySelector('#settings-overlay .settings-sheet');
   if (settingsSheet) initSwipeClose(settingsSheet, closeSettings);
-  document.getElementById('notif-bell-btn')
-    .addEventListener('click', toggleNotifPanel, { passive: false });
+  const bellBtn = document.getElementById('notif-bell-btn');
+  bellBtn.removeEventListener('click', toggleNotifPanel);
+  bellBtn.addEventListener('click', toggleNotifPanel);
   ['expense-amount', 'setup-budget'].forEach(id => {
     const el = document.getElementById(id);
     el.addEventListener('keydown', function(e) {
