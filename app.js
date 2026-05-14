@@ -1406,7 +1406,13 @@ function toggleExpenseMenu(event, id) {
   const popup = wrap.querySelector('.expense-menu-popup');
   const isHidden = popup.classList.contains('hidden');
   document.querySelectorAll('.expense-menu-popup').forEach(p => p.classList.add('hidden'));
-  if (isHidden) popup.classList.remove('hidden');
+  if (isHidden) {
+    popup.classList.remove('hidden');
+    const rect = popup.getBoundingClientRect();
+    const overflowsBottom = rect.bottom > (window.innerHeight - 8);
+    popup.style.top = overflowsBottom ? 'auto' : '32px';
+    popup.style.bottom = overflowsBottom ? '32px' : 'auto';
+  }
 }
 document.addEventListener('click', (e) => {
   if (!e.target.closest('.expense-menu-wrap')) {
