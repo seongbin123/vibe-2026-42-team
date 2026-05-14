@@ -211,9 +211,6 @@ input::placeholder { color: var(--ink-4); }
   color: var(--ink-2); box-shadow: var(--shadow-sm);
   touch-action: manipulation;
   -webkit-tap-highlight-color: transparent;
-  pointer-events: auto;
-  position: relative;
-  z-index: auto;
 }
 .add-btn {
   background: transparent;
