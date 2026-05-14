@@ -477,25 +477,26 @@ input::placeholder { color: var(--ink-4); }
 .filter-row {
   display: flex;
   flex-wrap: nowrap;
-  gap: 8px;
-  overflow-x: auto;
+  gap: 5px;
   padding-bottom: 12px;
-  padding-right: 16px;
+  overflow-x: auto;
   scrollbar-width: none;
 }
 .filter-row::-webkit-scrollbar { display: none; }
 .filter-btn {
+  flex: 1;
+  min-width: 0;
   display: inline-flex;
   align-items: center;
-  gap: 5px;
-  flex-shrink: 0;
+  justify-content: center;
+  gap: 4px;
   background: var(--surface);
   border: none;
   box-shadow: inset 0 0 0 1.5px var(--line);
   border-radius: 9999px;
   color: var(--ink-2);
-  padding: 8px 14px;
-  font-size: 13.5px;
+  padding: 8px 4px;
+  font-size: 12px;
   font-weight: 700;
   cursor: pointer;
   white-space: nowrap;
