@@ -354,8 +354,10 @@ window.onload = () => {
   const d = getData();
   if (!d.budget) {
     document.getElementById('setup-overlay').style.display = 'flex';
+    document.getElementById('notif-bell-btn').style.zIndex = '1';
   } else {
     document.getElementById('setup-overlay').style.display = 'none';
+    document.getElementById('notif-bell-btn').style.zIndex = '9999';
     renderAll();
     setTimeout(checkAndSendNotifications, 1500);
   }
