@@ -369,7 +369,7 @@ input::placeholder { color: var(--ink-4); }
 /* ─── 최근 내역 ─── */
 .recent-list { display: flex; flex-direction: column; gap: 0; }
 #full-expense-list {
-  padding-bottom: 80px;
+  padding-bottom: 16px;
 }
 .expense-date-divider {
   display: flex;
