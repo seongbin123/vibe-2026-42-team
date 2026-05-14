@@ -138,7 +138,10 @@ const CAT_ICONS_SVG = {
 
 function catIconBox(cat, cls) {
   const style = CAT_ICON_STYLE[cat] || CAT_ICON_STYLE['기타'];
-  const svg = CAT_ICONS_SVG[cat] || CAT_ICONS_SVG['기타'];
+  const rawSvg = CAT_ICONS_SVG[cat] || CAT_ICONS_SVG['기타'];
+  const svg = cat === '카페'
+    ? rawSvg.replace('width="20" height="20"', 'width="20" height="20" style="margin-left:4px;margin-top:-1px"')
+    : rawSvg;
   return `<div class="${cls}" style="${style}">${svg}</div>`;
 }
 
