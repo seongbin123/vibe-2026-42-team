@@ -338,6 +338,10 @@ window.onload = () => {
   applyStoredTheme();
   initDragInputs();
   registerSW();
+  initSwipeClose(
+    document.querySelector('#settings-overlay .settings-sheet'),
+    closeSettings
+  );
   ['expense-amount', 'setup-budget'].forEach(id => {
     const el = document.getElementById(id);
     el.addEventListener('keydown', function(e) {
