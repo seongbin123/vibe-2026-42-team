@@ -338,40 +338,8 @@ window.onload = () => {
   applyStoredTheme();
   initDragInputs();
   registerSW();
-  initSwipeClose(
-    document.querySelector('#settings-overlay .settings-sheet'),
-    closeSettings
-  );
-  // 알람 버튼: touch/click 이중 발화 방지 후 단일 처리
-  (function() {
-    const btn = document.getElementById('notif-bell-btn');
-    let lastTouch = 0;
-    btn.addEventListener('touchend', function(e) {
-      e.preventDefault();
-      lastTouch = Date.now();
-      toggleNotifPanel();
-    });
-    btn.addEventListener('click', function() {
-      if (Date.now() - lastTouch < 600) return; // ghost click 차단
-      toggleNotifPanel();
-    });
-  })();
-  // 알림 오버레이: 외부 탭/터치 시 닫기
-  (function() {
-    const ov = document.getElementById('notif-overlay');
-    let lastTouch = 0;
-    ov.addEventListener('touchend', function(e) {
-      if (e.target !== ov) return;
-      e.preventDefault();
-      lastTouch = Date.now();
-      closeNotifPanel();
-    });
-    ov.addEventListener('click', function(e) {
-      if (e.target !== ov) return;
-      if (Date.now() - lastTouch < 600) return;
-      closeNotifPanel();
-    });
-  })();
+  const settingsSheet = document.querySelector('#settings-overlay .settings-sheet');
+  if (settingsSheet) initSwipeClose(settingsSheet, closeSettings);
   ['expense-amount', 'setup-budget'].forEach(id => {
     const el = document.getElementById(id);
     el.addEventListener('keydown', function(e) {
