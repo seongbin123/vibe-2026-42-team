@@ -876,20 +876,18 @@ function renderCategoryChart(expenses) {
     .map(([cat, amt]) => {
       const barPct = (amt / max * 100).toFixed(1);
       const sharePct = total > 0 ? Math.round(amt / total * 100) : 0;
+      const iconStyle = CAT_ICON_STYLE[cat] || CAT_ICON_STYLE['기타'];
+      const iconSvg = (CAT_ICONS_SVG[cat] || CAT_ICONS_SVG['기타']).replace('width="20" height="20"','width="19" height="19"');
+      const iconHtml = `<div style="width:40px;height:40px;border-radius:12px;display:flex;align-items:center;justify-content:center;flex:0 0 40px;${iconStyle}">${iconSvg}</div>`;
       return `<div class="chart-row">
-        <div class="chart-row-inner">
-          ${catIconMini(cat)}
-          <div class="chart-bar-col">
+        ${iconHtml}
+        <div class="chart-info">
+          <div class="chart-label-line">
             <span class="chart-label">${cat}</span>
-            <div class="chart-bar-row">
-              <div class="chart-bar-wrap">
-                <div class="chart-bar-fill" style="width:${barPct}%;background:${CAT_COLORS[cat]||'#7C6CF4'}"></div>
-              </div>
-              <div class="chart-right">
-                <span class="chart-amount">${fmt(amt)}</span>
-                <span class="chart-pct">${sharePct}%</span>
-              </div>
-            </div>
+            <span class="chart-amount">${fmt(amt)} <span class="chart-pct">${sharePct}%</span></span>
+          </div>
+          <div class="chart-bar-wrap">
+            <div class="chart-bar-fill" style="width:${barPct}%;background:${CAT_COLORS[cat]||'#7C6CF4'}"></div>
           </div>
         </div>
       </div>`;
