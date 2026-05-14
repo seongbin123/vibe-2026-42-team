@@ -982,17 +982,24 @@ function switchMenuDay(day, btn) {
 function detectMainIdx(items) {
   if (!items || !items.length) return 0;
 
-  // 1단계: *, /, + 조합 기호 포함 항목
-  const symIdx = items.findIndex(item => /[*/+]/.test(item));
-  if (symIdx !== -1) return symIdx;
+  // 사이드·주식 판별 패턴
+  const sideRe = /밥$|국$|찌개|김치|깍두기|나물|무침|샐러드|음료$|후식차|요거트|두유|과일|생채|겉절이|젓갈|절임|장아찌|피클|묵$|맛탕$/;
+  // 메인 메뉴 양성 패턴 (단백질·조리법 키워드)
+  const mainRe = /짬뽕|짜장|볶음밥|덮밥|비빔밥|잡채|함박|스테이크|커틀릿|까스|가스|탕수|강정|고기|제육|불고기|갈비|돈육|훈제|오리볶|닭볶|닭갈비|오징어볶|낙지볶|쭈꾸미|삼겹|삼치|갈치|고등어|동태|가자미|미트볼/;
 
-  // 2단계: 메인 메뉴 양성 판별 (단백질·조리법 키워드)
-  const mainRe = /제육|불고기|갈비|삼겹|닭볶|닭갈비|닭강정|오징어볶|낙지볶|쭈꾸미|새우볶|해물볶|삼치|갈치|고등어|동태|가자미|조기|병어|도미|생선구|까스|가스|커틀릿|탕수|비빔밥|덮밥|잡채|함박|스테이크|돈육|장어|순살|치킨|텐더|안심|등심|목살|항정|차돌|육전|동그랑/;
-  const mainIdx = items.findIndex(item => mainRe.test(item));
+  // 1단계: *, /, + 기호 포함이면서 각 파트 중 메인 패턴인 항목
+  const symMainIdx = items.findIndex(item => {
+    if (!/[*/+]/.test(item)) return false;
+    const parts = item.split(/[*/+]/).map(p => p.replace(/[()]/g, '').trim());
+    return parts.some(p => mainRe.test(p) && !sideRe.test(p));
+  });
+  if (symMainIdx !== -1) return symMainIdx;
+
+  // 2단계: 사이드 아닌 항목 중 메인 패턴 첫 번째
+  const mainIdx = items.findIndex(item => !sideRe.test(item) && mainRe.test(item));
   if (mainIdx !== -1) return mainIdx;
 
-  // 3단계: 주식·사이드 제외 후 첫 번째 항목
-  const sideRe = /밥$|잡곡|흑미|현미|보리밥|된장|미역국|콩나물국|육개장|북어국|동태국|무국|아욱국|배추국|순두부|찌개|^김치$|배추김치|깍두기|총각김치|열무|나물|무침|두유|요구르트|우유|과일|샐러드|절임|장아찌|젓갈|피클/;
+  // 3단계: 사이드 제외 첫 번째 항목 (폴백)
   const altIdx = items.findIndex(item => !sideRe.test(item));
   return altIdx !== -1 ? altIdx : 0;
 }
