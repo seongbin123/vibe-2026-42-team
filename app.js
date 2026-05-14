@@ -1271,7 +1271,7 @@ function renderRestaurantBrowser() {
 
 function renderSurvival() {
   const d = getData();
-  const totalSpent = onlyExpenses(d.expenses).reduce((s, e) => s + e.amount, 0);
+  const totalSpent = getBudgetSpent(d);
   const remaining = d.budget - totalSpent;
   const daysLeft = getDaysLeft(new Date(), d.payday);
   const dailyAllowance = daysLeft > 0 ? Math.floor(remaining / daysLeft) : 0;
