@@ -211,7 +211,6 @@ input::placeholder { color: var(--ink-4); }
   color: var(--ink-2); box-shadow: var(--shadow-sm);
   touch-action: manipulation;
 }
-.notif-btn { position: relative; }
 .add-btn {
   background: transparent;
   color: var(--accent);
