@@ -1835,9 +1835,12 @@ function openSettings() {
   document.getElementById('mode-light').classList.toggle('active', !isDark);
   document.getElementById('mode-dark').classList.toggle('active', isDark);
   renderLinkedChips();
-  renderNotifPanel();
+  // reset alarm accordion
+  const alarmContent = document.getElementById('alarm-section-content');
+  const alarmChevron = document.getElementById('alarm-chevron');
+  if (alarmContent) alarmContent.style.display = 'none';
+  if (alarmChevron) alarmChevron.style.transform = '';
   updateNotifEnableBtn();
-  updateNotifPermUI();
   document.getElementById('settings-overlay').classList.remove('hidden');
 }
 function closeSettings() {
