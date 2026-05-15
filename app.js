@@ -366,6 +366,7 @@ window.onload = () => {
   } else {
     document.getElementById('setup-overlay').style.display = 'none';
     renderAll();
+    setTimeout(checkInAppAlerts, 500);
     setTimeout(checkAndSendNotifications, 1500);
   }
 };
