@@ -1737,11 +1737,15 @@ function checkAndSendNotifications() {
     } else {
       new Notification('구독 결제 하루 전 알림 🔔', { body });
     }
+    // 알림 기록 저장
+    if (!d.notifLog) d.notifLog = [];
+    d.notifLog.push({ name: sub.name, amount: sub.amount, emoji: sub.emoji || '💳', body, sentAt: Date.now() });
+    if (d.notifLog.length > 50) d.notifLog = d.notifLog.slice(-50);
   });
 
   if (dueTomorrow.length > 0) {
+    save(d);
     localStorage.setItem(notifiedKey, JSON.stringify([...alreadyNotified]));
-    // 알림 보냈으니 seen 초기화 → 배지 다시 표시
     localStorage.removeItem('notif_badge_seen');
     renderNotifBadge();
   }
