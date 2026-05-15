@@ -125,6 +125,7 @@ const CAT_ICON_STYLE = {
   '교통':   'background:var(--cat-trans);color:var(--cat-trans-ink)',
   '술자리': 'background:var(--cat-drink);color:var(--cat-drink-ink)',
   '구독':   'background:var(--cat-sub);color:var(--cat-sub-ink)',
+  '학업':   'background:var(--info-soft);color:var(--info)',
   '쇼핑':   'background:var(--cat-shop);color:var(--cat-shop-ink)',
   '병원':   'background:var(--cat-hosp);color:var(--cat-hosp-ink)',
   '기타':   'background:var(--cat-etc);color:var(--cat-etc-ink)',
