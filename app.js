@@ -1677,35 +1677,6 @@ function renderNotifPanel() {
   }).join('');
 }
 
-let _notifPanelOpen = false;
-let _notifOpenTime = 0;
-
-function toggleNotifPanel(e) {
-  // 모바일: ontouchend로 처리, 이후 합성되는 click 이벤트(ghost click) 무시
-  if (e && e.type === 'click' && navigator.maxTouchPoints > 0) return;
-  _notifPanelOpen ? closeNotifPanel() : openNotifPanel();
-}
-
-function openNotifPanel() {
-  _notifOpenTime = Date.now();
-  renderNotifPanel();
-  updateNotifEnableBtn();
-  updateNotifPermUI();
-  localStorage.setItem('notif_badge_seen', new Date().toISOString().slice(0, 10));
-  renderNotifBadge();
-  document.getElementById('notif-overlay').classList.remove('hidden');
-  _notifPanelOpen = true;
-}
-
-function closeNotifPanel() {
-  document.getElementById('notif-overlay').classList.add('hidden');
-  _notifPanelOpen = false;
-}
-
-function closeNotifOutside(event) {
-  if (Date.now() - _notifOpenTime < 400) return;
-  if (event.target === document.getElementById('notif-overlay')) closeNotifPanel();
-}
 
 async function requestNotifPermission() {
   if (!('Notification' in window)) { alert('이 브라우저는 알림을 지원하지 않아요'); return; }
