@@ -1751,6 +1751,53 @@ function checkAndSendNotifications() {
   }
 }
 
+// ─── 알림 기록 ───
+function openNotifLog() {
+  renderNotifLog();
+  document.getElementById('notif-log-overlay').classList.remove('hidden');
+}
+
+function closeNotifLog() {
+  document.getElementById('notif-log-overlay').classList.add('hidden');
+}
+
+function closeNotifLogOutside(e) {
+  if (e.target === document.getElementById('notif-log-overlay')) closeNotifLog();
+}
+
+function renderNotifLog() {
+  const d = getData();
+  const list = document.getElementById('notif-log-list');
+  const log = d.notifLog || [];
+
+  if (!log.length) {
+    list.innerHTML = '<div class="notif-empty" style="padding:32px 0">아직 발송된 알림이 없어요 🔔</div>';
+    return;
+  }
+
+  list.innerHTML = log.slice().reverse().map((entry, i) => {
+    const dt = new Date(entry.sentAt);
+    const dateStr = `${dt.getMonth()+1}월 ${dt.getDate()}일 ${dt.getHours()}:${String(dt.getMinutes()).padStart(2,'0')}`;
+    return `
+      <div class="notif-log-item${i < log.length - 1 ? ' has-divider' : ''}">
+        <div class="notif-item-icon">${entry.emoji}</div>
+        <div class="notif-log-info">
+          <div class="notif-log-name">${entry.name} <span class="notif-log-amt">${entry.amount.toLocaleString('ko-KR')}원</span></div>
+          <div class="notif-log-body">${entry.body}</div>
+          <div class="notif-log-date">${dateStr}</div>
+        </div>
+      </div>`;
+  }).join('');
+}
+
+function clearNotifLog() {
+  if (!confirm('알림 기록을 모두 지울까요?')) return;
+  const d = getData();
+  d.notifLog = [];
+  save(d);
+  renderNotifLog();
+}
+
 // ─── 소셜 로그인 ───
 const SOCIAL_INFO = {
   kakao: { label: '카카오', chip: 'kakao', color: '#FEE500', ink: '#191919' },
