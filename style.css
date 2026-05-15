@@ -1155,22 +1155,7 @@ input::placeholder { color: var(--ink-4); }
 .dark .settings-mode-btn.active { background: var(--accent); color: #fff; }
 
 /* ─── 알림 ─── */
-.header-actions { display: flex; align-items: center; gap: 8px; position: relative; }
-.notif-badge {
-  position: absolute; top: 6px; right: 6px;
-  width: 8px; height: 8px; border-radius: 50%;
-  background: var(--danger); border: 1.5px solid var(--bg);
-  pointer-events: none;
-}
-#notif-overlay { align-items: flex-end; }
-.notif-sheet {
-  min-height: 92svh;
-  max-height: 92svh;
-  overflow-y: auto;
-  scrollbar-width: none;
-  animation: slideUp .15s cubic-bezier(.22,1,.36,1);
-}
-.notif-sheet::-webkit-scrollbar { display: none; }
+.header-actions { display: flex; align-items: center; gap: 8px; }
 .notif-item-icon {
   width: 36px; height: 36px; border-radius: 12px; flex-shrink: 0;
   background: var(--cat-sub); color: var(--cat-sub-ink);
