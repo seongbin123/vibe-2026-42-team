@@ -1596,6 +1596,22 @@ function toggleNotifFromPanel() {
   updateNotifEnableBtn();
 }
 
+function toggleAlarmSection() {
+  const content = document.getElementById('alarm-section-content');
+  const chevron = document.getElementById('alarm-chevron');
+  if (!content) return;
+  const isOpen = content.style.display !== 'none';
+  if (isOpen) {
+    content.style.display = 'none';
+    chevron.style.transform = '';
+  } else {
+    content.style.display = '';
+    chevron.style.transform = 'rotate(90deg)';
+    updateNotifEnableBtn();
+    updateNotifPermUI();
+  }
+}
+
 function requestNotifPermissionOnly() {
   if (!('Notification' in window)) { alert('이 브라우저는 알림을 지원하지 않아요'); return; }
   if (Notification.permission === 'granted') { alert('이미 알림이 허용되어 있어요 ✓'); return; }
