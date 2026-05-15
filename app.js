@@ -1594,11 +1594,6 @@ function toggleNotifFromPanel() {
   d.notif = !(d.notif !== false);
   save(d);
   updateNotifEnableBtn();
-  const settingsTog = document.getElementById('notif-toggle');
-  if (settingsTog) {
-    settingsTog.textContent = d.notif ? 'ON' : 'OFF';
-    settingsTog.classList.toggle('off', !d.notif);
-  }
 }
 
 function requestNotifPermissionOnly() {
