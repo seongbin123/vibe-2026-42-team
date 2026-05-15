@@ -1155,6 +1155,13 @@ input::placeholder { color: var(--ink-4); }
 
 /* ─── 알림 ─── */
 .header-actions { display: flex; align-items: center; gap: 8px; }
+.notif-bell-btn { position: relative; }
+.notif-badge {
+  position: absolute; top: 4px; right: 4px;
+  width: 8px; height: 8px; border-radius: 50%;
+  background: var(--danger); border: 1.5px solid var(--bg);
+  pointer-events: none;
+}
 #notif-log-overlay { align-items: flex-end; }
 .notif-log-sheet {
   min-height: 60svh;
