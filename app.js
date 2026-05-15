@@ -1758,8 +1758,54 @@ function checkAndSendNotifications() {
   }
 }
 
+// ─── 인앱 알림 체크 ───
+function checkInAppAlerts() {
+  const d = getData();
+  if (!d.subscriptions || !d.subscriptions.length) { renderNotifBadge(); return; }
+
+  const today = new Date();
+  const todayDay = today.getDate();
+  const tomorrow = new Date(today);
+  tomorrow.setDate(today.getDate() + 1);
+  const tomorrowDay = tomorrow.getDate();
+  const todayStr = today.toISOString().slice(0, 10);
+
+  const alertKey = `inapp_alerted_${todayStr}`;
+  const alreadyAlerted = new Set(JSON.parse(localStorage.getItem(alertKey) || '[]'));
+
+  let hasNew = false;
+  d.subscriptions.forEach(sub => {
+    if (!sub.billingDate) return;
+    const isToday = sub.billingDate.day === todayDay;
+    const isTomorrow = sub.billingDate.day === tomorrowDay;
+    if (!isToday && !isTomorrow) return;
+    if (alreadyAlerted.has(sub.id)) return;
+
+    alreadyAlerted.add(sub.id);
+    hasNew = true;
+    const amt = sub.amount.toLocaleString('ko-KR');
+    const body = isToday
+      ? `오늘 "${sub.name}" ${amt}원이 결제돼요 💳 잔액 확인하세요!`
+      : `내일 "${sub.name}" ${amt}원이 빠져나가요 💳 잔액 미리 확인해두세요!`;
+
+    if (!d.notifLog) d.notifLog = [];
+    d.notifLog.push({ name: sub.name, amount: sub.amount, emoji: sub.emoji || '💳', body, sentAt: Date.now() });
+    if (d.notifLog.length > 50) d.notifLog = d.notifLog.slice(-50);
+  });
+
+  if (hasNew) {
+    save(d);
+    localStorage.setItem(alertKey, JSON.stringify([...alreadyAlerted]));
+    localStorage.removeItem('notif_badge_seen');
+  }
+
+  renderNotifBadge();
+}
+
 // ─── 알림 기록 ───
 function openNotifLog() {
+  localStorage.setItem('notif_badge_seen', new Date().toISOString().slice(0, 10));
+  renderNotifBadge();
   renderNotifLog();
   document.getElementById('notif-log-overlay').classList.remove('hidden');
 }
