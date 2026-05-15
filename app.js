@@ -895,9 +895,14 @@ function renderSubscriptions() {
     </div>`).join('');
 }
 
-function renderCategoryChart(expenses) {
+function renderCategoryChart(expenses, subscriptions) {
   const totals = {};
   expenses.forEach(e => { totals[e.cat] = (totals[e.cat]||0) + e.amount; });
+  // 구독 서비스 월 합계 추가 (1개 이상 등록 시)
+  if (subscriptions && subscriptions.length > 0) {
+    const subTotal = subscriptions.reduce((s, sub) => s + sub.amount, 0);
+    if (subTotal > 0) totals['구독'] = (totals['구독'] || 0) + subTotal;
+  }
   const max = Math.max(...Object.values(totals), 1);
   const chart = document.getElementById('category-chart');
   const total = Object.values(totals).reduce((s, v) => s + v, 0);
