@@ -1771,7 +1771,7 @@ function renderNotifLog() {
   const log = d.notifLog || [];
 
   if (!log.length) {
-    list.innerHTML = '<div class="notif-empty" style="padding:32px 0">아직 발송된 알림이 없어요 🔔</div>';
+    list.innerHTML = '<div class="notif-empty" style="padding:32px 0">아직 발송된 알림이 없어요</div>';
     return;
   }
 
