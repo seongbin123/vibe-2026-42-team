@@ -1,3 +1,75 @@
+// ─── 문의하기 ───
+const FAQS = [
+  {
+    id: 1,
+    q: '학식 메뉴가 오늘 안 뜨면 어떻게 하나요?',
+    a: '학식 메뉴는 매주 월요일 오전 7시에 자동 갱신됩니다. 학교 홈페이지 업데이트가 늦거나 방학·휴무 기간에는 메뉴가 표시되지 않을 수 있어요. 해당 주 메뉴가 없다면 학교 홈페이지에서 직접 확인해 주세요.',
+    open: false,
+  },
+  {
+    id: 2,
+    q: '지출 기록을 삭제할 수 있나요?',
+    a: '네, 가능합니다. 내역 탭에서 삭제하고 싶은 지출 항목을 길게 누르면 삭제 옵션이 나타납니다.',
+    open: false,
+  },
+  {
+    id: 3,
+    q: '월이 바뀌면 생활비가 자동 초기화 되나요?',
+    a: '아니요, 자동으로 초기화되지 않습니다. 매월 용돈 받는 날이 되면 새 생활비를 직접 입력하거나, 설정에서 금액을 수정해 주세요.',
+    open: false,
+  },
+  {
+    id: 4,
+    q: '앱을 지우면 데이터가 사라지나요?',
+    a: '수지갑은 기기의 브라우저 저장소(localStorage)에 데이터를 저장합니다. 앱(브라우저)을 삭제하거나 브라우저 데이터를 초기화하면 데이터가 사라질 수 있으니 주의해 주세요. 계정 연동 기능을 사용하면 데이터를 백업할 수 있습니다.',
+    open: false,
+  },
+  {
+    id: 5,
+    q: '계좌 연동 없이 사용할 수 있나요?',
+    a: '네, 계좌 연동 없이 100% 사용 가능합니다. 지출은 직접 입력하는 방식으로, 별도의 금융 정보 제공이 필요하지 않아요.',
+    open: false,
+  },
+];
+
+function renderFaqs() {
+  const list = document.getElementById('faq-list');
+  if (!list) return;
+  list.innerHTML = FAQS.map(f => `
+    <div class="faq-item${f.open ? ' open' : ''}" id="faq-item-${f.id}">
+      <div class="faq-question" onclick="toggleFaq(${f.id})">
+        <span class="faq-q-text">${f.q}</span>
+        <span class="faq-toggle">${f.open ? '−' : '+'}</span>
+      </div>
+      <div class="faq-answer">
+        <div class="faq-answer-inner">${f.a}</div>
+      </div>
+    </div>`).join('');
+}
+
+function toggleFaq(id) {
+  const faq = FAQS.find(f => f.id === id);
+  if (!faq) return;
+  faq.open = !faq.open;
+  const item = document.getElementById('faq-item-' + id);
+  if (!item) return;
+  item.classList.toggle('open', faq.open);
+  item.querySelector('.faq-toggle').textContent = faq.open ? '−' : '+';
+}
+
+function openContact() {
+  renderFaqs();
+  document.getElementById('contact-overlay').classList.remove('hidden');
+}
+
+function closeContact() {
+  document.getElementById('contact-overlay').classList.add('hidden');
+}
+
+function closeContactOutside(e) {
+  if (e.target === document.getElementById('contact-overlay')) closeContact();
+}
+
 // ─── 공지사항 ───
 const NOTICES = [
   {
