@@ -2184,31 +2184,34 @@ function closeSettings() {
 }
 
 function initSwipeClose(sheetEl, closeFn, overlayEl) {
-  let startY = 0, startScrollTop = 0, startTime = 0;
+  let startY = 0, startScrollTop = 0, startTime = 0, nearTop = false;
 
   sheetEl.addEventListener('touchstart', function(e) {
     startY = e.touches[0].clientY;
     startScrollTop = sheetEl.scrollTop;
     startTime = Date.now();
+    const rect = sheetEl.getBoundingClientRect();
+    nearTop = (e.touches[0].clientY - rect.top) < 80;
     sheetEl.style.transition = 'none';
     if (overlayEl) overlayEl.style.transition = 'none';
   }, { passive: true });
 
   sheetEl.addEventListener('touchmove', function(e) {
     const dy = e.touches[0].clientY - startY;
-    if (dy > 0 && startScrollTop <= 0) {
+    const canDrag = nearTop && startScrollTop <= 0 && dy > 0;
+    if (canDrag) {
+      e.preventDefault();
       sheetEl.style.transform = `translateX(-50%) translateY(${dy}px)`;
       if (overlayEl) {
-        const ratio = Math.max(0, 1 - dy / 300);
-        overlayEl.style.background = `rgba(0,0,0,${0.5 * ratio})`;
+        overlayEl.style.background = `rgba(0,0,0,${0.5 * Math.max(0, 1 - dy / 300)})`;
       }
     }
-  }, { passive: true });
+  }, { passive: false });
 
   sheetEl.addEventListener('touchend', function(e) {
     const dy = e.changedTouches[0].clientY - startY;
     const velocity = dy / Math.max(1, Date.now() - startTime) * 1000;
-    const shouldClose = startScrollTop <= 0 && (dy > 120 || velocity > 500);
+    const shouldClose = nearTop && startScrollTop <= 0 && (dy > 120 || velocity > 500);
 
     if (shouldClose) {
       sheetEl.style.transition = 'transform .3s ease-in';
