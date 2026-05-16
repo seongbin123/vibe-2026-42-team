@@ -1393,6 +1393,50 @@ input::placeholder { color: var(--ink-4); }
   margin-bottom: 4px;
 }
 
+/* ─── 이용약관 모달 ─── */
+.terms-sheet { scrollbar-width: none; }
+.terms-sheet::-webkit-scrollbar { display: none; }
+
+.terms-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 4px 4px 20px;
+}
+.terms-title { font-size: 18px; font-weight: 800; color: var(--ink); }
+
+.terms-body { padding-bottom: 8px; }
+.terms-updated {
+  font-size: 12px;
+  color: var(--ink-4);
+  font-weight: 500;
+  margin-bottom: 20px;
+}
+.terms-article {
+  font-size: 14px;
+  font-weight: 800;
+  color: var(--accent);
+  margin: 20px 0 6px;
+}
+.terms-article:first-of-type { margin-top: 0; }
+.terms-text {
+  font-size: 13.5px;
+  color: var(--ink-2);
+  line-height: 1.7;
+  font-weight: 500;
+  margin: 0;
+}
+.terms-footer {
+  margin-top: 28px;
+  padding-top: 16px;
+  border-top: 1px solid var(--line);
+  font-size: 12.5px;
+  color: var(--ink-4);
+  font-weight: 500;
+  line-height: 1.8;
+}
+.terms-footer p { margin: 0; }
+
 /* ─── 문의하기 모달 ─── */
 .contact-sheet { scrollbar-width: none; }
 .contact-sheet::-webkit-scrollbar { display: none; }
