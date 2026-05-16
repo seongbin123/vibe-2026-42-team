@@ -41,7 +41,8 @@
       "Bash(node *)",
       "Bash(ssh-keyscan github.com)",
       "Bash(sed -n '174,180p' /home/jovyan/work/app.js)",
-      "Bash(sed -n '609,614p' /home/jovyan/work/app.js)"
+      "Bash(sed -n '609,614p' /home/jovyan/work/app.js)",
+      "Bash(xargs -I{} git show {} --name-only)"
     ]
   },
   "hooks": {
