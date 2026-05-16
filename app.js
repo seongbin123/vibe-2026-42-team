@@ -256,12 +256,23 @@ function renderCalendar() {
     grid.appendChild(el);
   }
 
+  const isSubContext  = calContext === 'sub';
+  const isPayContext  = calContext === 'setup' || calContext === 'settings';
+
   for (let day = 1; day <= daysInMonth; day++) {
     const btn = document.createElement('button');
     btn.className = 'cal-day';
     btn.textContent = day;
-    if (new Date(calYear, calMonth, day).getDay() === 0) btn.classList.add('sunday');
-    if (isCurrentMonth && day === today.getDate()) btn.classList.add('today');
+    const dow = new Date(calYear, calMonth, day).getDay();
+    if (dow === 0) btn.classList.add('sunday');
+    if (dow === 6) btn.classList.add('saturday');
+    if (isCurrentMonth && day === today.getDate()) {
+      if (isSubContext) {
+        btn.classList.add('today-text');
+      } else if (isPayContext && calSelectedDay === null) {
+        btn.classList.add('today');
+      }
+    }
     if (day === calSelectedDay) btn.classList.add('selected');
     btn.onclick = () => selectCalDay(day);
     grid.appendChild(btn);
