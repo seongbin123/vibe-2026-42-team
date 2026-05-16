@@ -1654,6 +1654,20 @@ input::placeholder { color: var(--ink-4); }
   white-space: nowrap;
 }
 
+.privacy-list {
+  margin: 8px 0 4px;
+  padding-left: 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.privacy-list li {
+  font-size: 13.5px;
+  color: var(--ink-2);
+  line-height: 1.55;
+  font-weight: 500;
+}
+
 .privacy-emphasis {
   font-size: 13px !important;
   color: var(--accent-ink) !important;
