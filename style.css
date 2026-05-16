@@ -923,7 +923,7 @@ input::placeholder { color: var(--ink-4); }
 .cal-day.sunday { color: var(--danger); }
 .cal-day.saturday { color: var(--info); }
 @media (min-width: 481px) {
-  .calendar-modal { min-height: unset; max-height: 45vh; }
+  .calendar-modal { min-height: unset; max-height: 58vh; }
 }
 .cal-day.sunday.selected, .cal-day.saturday.selected { background: #FF6B35; color: #fff; }
 .cal-close-btn {
