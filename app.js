@@ -63,6 +63,12 @@ function renderNotices() {
   }).join('')}</div>`;
 }
 
+function goToNotice() {
+  document.getElementById('settings-overlay').classList.add('hidden');
+  const noticeBtn = document.getElementById('nav-notice-btn');
+  switchTab('notice', noticeBtn);
+}
+
 function toggleNotice(id) {
   const notice = NOTICES.find(n => n.id === id);
   if (!notice) return;
