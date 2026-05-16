@@ -1601,3 +1601,65 @@ input::placeholder { color: var(--ink-4); }
   margin-top: 16px;
   margin-bottom: 0;
 }
+
+/* ─── 개인정보 처리방침 ─── */
+.privacy-notice-box {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  background: var(--accent-soft);
+  border-radius: 14px;
+  padding: 14px 16px;
+  margin-bottom: 20px;
+  font-size: 13.5px;
+  color: var(--accent-ink);
+  line-height: 1.6;
+  font-weight: 500;
+}
+.privacy-notice-icon { flex-shrink: 0; font-size: 16px; }
+
+.privacy-table-wrap {
+  overflow-x: auto;
+  margin: 10px 0 12px;
+  border-radius: 12px;
+  border: 1.5px solid var(--line);
+}
+.privacy-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--ink-2);
+}
+.privacy-table thead tr { background: var(--surface-2); }
+.privacy-table th {
+  padding: 10px 12px;
+  text-align: left;
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--ink-3);
+  border-bottom: 1px solid var(--line);
+  white-space: nowrap;
+}
+.privacy-table td {
+  padding: 10px 12px;
+  vertical-align: top;
+  border-bottom: 1px solid var(--line);
+  line-height: 1.55;
+}
+.privacy-table tr:last-child td { border-bottom: none; }
+.privacy-table td:first-child {
+  font-weight: 700;
+  color: var(--ink);
+  white-space: nowrap;
+}
+
+.privacy-emphasis {
+  font-size: 13px !important;
+  color: var(--accent-ink) !important;
+  font-weight: 700 !important;
+  background: var(--accent-soft);
+  border-radius: 10px;
+  padding: 8px 12px;
+  margin-top: 4px !important;
+}
