@@ -1,3 +1,11 @@
+// ─── 스플래시 ───
+window.addEventListener('load', () => {
+  setTimeout(() => {
+    const splash = document.getElementById('splash-screen');
+    if (splash) splash.classList.add('hide');
+  }, 1500);
+});
+
 // ─── 달력 ───
 let calContext = 'setup';
 let calYear, calMonth, calSelectedDay;
