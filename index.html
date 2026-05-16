@@ -286,7 +286,10 @@
   <div id="sub-overlay" class="overlay hidden">
     <div class="modal-sheet">
       <div class="modal-handle"></div>
-      <h3>구독 서비스 추가</h3>
+      <div class="sheet-close-header">
+        <span class="sheet-close-title">구독 서비스 추가</span>
+        <button class="contact-close-btn" onclick="closeSubModal()">✕</button>
+      </div>
       <div class="sub-presets">
         <button onclick="fillSubPreset('넷플릭스','',13500,this)">넷플릭스 13,500원</button>
         <button onclick="fillSubPreset('유튜브 프리미엄','',14900,this)">유튜브 프리미엄 14,900원</button>
