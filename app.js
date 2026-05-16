@@ -1,3 +1,90 @@
+// ─── 공지사항 ───
+const NOTICES = [
+  {
+    id: 1,
+    tag: '업데이트',
+    title: '수지갑 v1.0.0 출시 안내',
+    date: '2026.05.16',
+    body: '수지갑 베타 v1.0.0이 정식 출시되었습니다! 하루 가용금액 자동 계산, 수원대 학식 메뉴 연동, 소비 패턴 분석 기능을 지금 바로 사용해보세요. 앞으로도 지속적인 업데이트로 더 편리한 생활비 관리를 지원할 예정입니다.',
+    open: false,
+  },
+  {
+    id: 2,
+    tag: '학식',
+    title: '학식 메뉴 자동 연동 시작 안내',
+    date: '2026.05.10',
+    body: '수원대학교 종합강의동·아마랜스홀 학식 메뉴가 자동으로 연동되기 시작했습니다. 매일 오전 갱신되며, 알뜰 한끼 탭에서 이번 주 메뉴를 한눈에 확인할 수 있습니다.',
+    open: false,
+  },
+  {
+    id: 3,
+    tag: '이벤트',
+    title: '베타 테스터 피드백 이벤트',
+    date: '2026.05.01',
+    body: '수지갑 베타 테스터 여러분의 소중한 의견을 기다립니다. 앱 내 불편한 점, 원하는 기능 등 자유롭게 제보해 주시면 추첨을 통해 스타벅스 상품권을 드립니다. 이벤트 기간: 2026.05.01 ~ 2026.05.31',
+    open: false,
+  },
+];
+let noticeReadSet = new Set(JSON.parse(localStorage.getItem('noticeRead') || '[]'));
+
+function saveNoticeRead() {
+  localStorage.setItem('noticeRead', JSON.stringify([...noticeReadSet]));
+}
+
+function renderNotices() {
+  const container = document.getElementById('notice-list');
+  if (!container) return;
+
+  const unreadCount = NOTICES.filter(n => !noticeReadSet.has(n.id)).length;
+  const dot = document.getElementById('nav-notice-dot');
+  if (dot) dot.classList.toggle('hidden', unreadCount === 0);
+
+  container.innerHTML = `<div class="notice-list">${NOTICES.map(n => {
+    const isRead = noticeReadSet.has(n.id);
+    const isOpen = n.open;
+    const tagClass = { '업데이트': 'notice-tag-update', '점검': 'notice-tag-check', '학식': 'notice-tag-meal', '이벤트': 'notice-tag-event' }[n.tag] || 'notice-tag-update';
+    return `
+      <div class="notice-item${isOpen ? ' open' : ''}" id="notice-item-${n.id}">
+        <div class="notice-item-header" onclick="toggleNotice(${n.id})">
+          <span class="notice-tag ${tagClass}">${n.tag}</span>
+          <div class="notice-meta">
+            <div class="notice-title-row">
+              <span class="notice-title">${n.title}</span>
+              ${!isRead ? '<span class="notice-unread-dot"></span>' : ''}
+            </div>
+            <div class="notice-date">${n.date}</div>
+          </div>
+          <span class="notice-chevron">›</span>
+        </div>
+        <div class="notice-body">
+          <div class="notice-body-inner">${n.body}</div>
+        </div>
+      </div>`;
+  }).join('')}</div>`;
+}
+
+function toggleNotice(id) {
+  const notice = NOTICES.find(n => n.id === id);
+  if (!notice) return;
+  notice.open = !notice.open;
+
+  if (notice.open && !noticeReadSet.has(id)) {
+    noticeReadSet.add(id);
+    saveNoticeRead();
+  }
+
+  const item = document.getElementById('notice-item-' + id);
+  if (item) {
+    item.classList.toggle('open', notice.open);
+    const dot = item.querySelector('.notice-unread-dot');
+    if (dot) dot.remove();
+  }
+
+  const unreadCount = NOTICES.filter(n => !noticeReadSet.has(n.id)).length;
+  const navDot = document.getElementById('nav-notice-dot');
+  if (navDot) navDot.classList.toggle('hidden', unreadCount === 0);
+}
+
 // ─── 스플래시 ───
 window.addEventListener('load', () => {
   setTimeout(() => {
