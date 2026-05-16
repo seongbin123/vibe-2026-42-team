@@ -1298,6 +1298,19 @@ input::placeholder { color: var(--ink-4); }
   to   { transform: scale(1);   opacity: 1; }
 }
 
+/* ─── 공통 시트 닫기 헤더 ─── */
+.sheet-close-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 4px 16px;
+}
+.sheet-close-title {
+  font-size: 18px;
+  font-weight: 800;
+  color: var(--ink);
+}
+
 /* ─── 공지사항 바텀시트 ─── */
 .nav-notice-icon-wrap { position: relative; display: inline-flex; }
 .nav-notice-dot {
