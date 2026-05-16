@@ -554,6 +554,8 @@ window.onload = () => {
   registerSW();
   const settingsSheet = document.querySelector('#settings-overlay .settings-sheet');
   if (settingsSheet) initSwipeClose(settingsSheet, closeSettings);
+  const noticeSheet = document.getElementById('notice-sheet');
+  if (noticeSheet) initSwipeClose(noticeSheet, closeNotice);
   ['expense-amount', 'setup-budget'].forEach(id => {
     const el = document.getElementById(id);
     el.addEventListener('keydown', function(e) {
