@@ -911,11 +911,14 @@ input::placeholder { color: var(--ink-4); }
   font-family: inherit;
 }
 .cal-day:hover { background: var(--surface-2); }
-.cal-day.today { color: var(--accent); font-weight: 700; }
-.cal-day.selected { background: var(--accent); color: white; font-weight: 700; }
+.cal-day.today { background: var(--accent); color: #fff; font-weight: 700; }
+.cal-day.today-text { font-weight: 800; color: var(--ink); }
+.cal-day.selected { background: var(--accent); color: #fff; font-weight: 700; }
 .cal-day.empty { pointer-events: none; }
 .cal-day.sunday { color: var(--danger); }
-.cal-day.sunday.selected { background: var(--accent); color: white; }
+.cal-day.saturday { color: var(--info); }
+.cal-day.sunday.today, .cal-day.saturday.today { color: #fff; }
+.cal-day.sunday.selected, .cal-day.saturday.selected { background: var(--accent); color: #fff; }
 
 /* ─── 학식 메뉴 ─── */
 .menu-badge { font-size: 11px; color: var(--ink-4); font-weight: 500; }
