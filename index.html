@@ -516,6 +516,26 @@
     </div>
   </div>
 
+  <!-- 공지사항 바텀시트 -->
+  <div id="notice-overlay" class="overlay hidden" onclick="closeNoticeOutside(event)">
+    <div class="modal-sheet notice-sheet" id="notice-sheet">
+      <div class="modal-handle"></div>
+      <div class="notice-sheet-header">
+        <button class="notice-back-btn hidden" id="notice-back-btn" onclick="backToNoticeList()">‹</button>
+        <span class="notice-sheet-title" id="notice-sheet-title">공지사항</span>
+        <button class="contact-close-btn" onclick="closeNotice()">✕</button>
+      </div>
+      <div id="notice-list-panel">
+        <div id="notice-card-list"></div>
+        <div style="height:24px"></div>
+      </div>
+      <div id="notice-detail-panel" class="hidden">
+        <div id="notice-detail-content"></div>
+        <div style="height:32px"></div>
+      </div>
+    </div>
+  </div>
+
   <!-- 알림 기록 모달 -->
   <div id="notif-log-overlay" class="overlay hidden" onclick="closeNotifLogOutside(event)">
     <div class="modal-sheet notif-log-sheet">
