@@ -218,7 +218,7 @@ function openCalendar(context) {
   const now = new Date();
   calYear = now.getFullYear();
   calMonth = now.getMonth();
-  calSelectedDay = context === 'sub' ? null : (d.payday || null);
+  calSelectedDay = context === 'settings' ? (d.payday || now.getDate()) : now.getDate();
   document.getElementById('calendar-overlay').classList.remove('hidden');
   renderCalendar();
 }
