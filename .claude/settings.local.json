@@ -38,7 +38,8 @@
       "Bash(gunzip -c /tmp/design.gz)",
       "Read(//tmp/**)",
       "Bash(node --input-type=module)",
-      "Bash(node *)"
+      "Bash(node *)",
+      "Bash(ssh-keyscan github.com)"
     ]
   },
   "hooks": {
