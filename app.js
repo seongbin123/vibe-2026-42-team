@@ -570,6 +570,16 @@ window.onload = () => {
   if (privacySheet) initSwipeClose(privacySheet, closePrivacy, document.getElementById('privacy-overlay'));
   const notifLogSheet = document.querySelector('#notif-log-overlay .notif-log-sheet');
   if (notifLogSheet) initSwipeClose(notifLogSheet, closeNotifLog, document.getElementById('notif-log-overlay'));
+  const expenseSheet = document.querySelector('#expense-overlay .modal-sheet');
+  if (expenseSheet) initSwipeClose(expenseSheet, closeExpenseModal, document.getElementById('expense-overlay'));
+  const subSheet = document.querySelector('#sub-overlay .modal-sheet');
+  if (subSheet) initSwipeClose(subSheet, closeSubModal, document.getElementById('sub-overlay'));
+  const socialSheet = document.querySelector('.social-sheet');
+  if (socialSheet) initSwipeClose(socialSheet, closeSocialLogin, document.getElementById('social-overlay'));
+  const addBudgetSheet = document.querySelector('#add-budget-overlay .modal-sheet');
+  if (addBudgetSheet) initSwipeClose(addBudgetSheet, closeAddBudgetModal, document.getElementById('add-budget-overlay'));
+  const calendarSheet = document.querySelector('.calendar-modal');
+  if (calendarSheet) initSwipeClose(calendarSheet, closeCalendar, document.getElementById('calendar-overlay'));
   ['expense-amount', 'setup-budget'].forEach(id => {
     const el = document.getElementById(id);
     el.addEventListener('keydown', function(e) {
