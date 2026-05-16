@@ -1,3 +1,14 @@
+// ─── 이용약관 ───
+function openTerms() {
+  document.getElementById('terms-overlay').classList.remove('hidden');
+}
+function closeTerms() {
+  document.getElementById('terms-overlay').classList.add('hidden');
+}
+function closeTermsOutside(e) {
+  if (e.target === document.getElementById('terms-overlay')) closeTerms();
+}
+
 // ─── 문의하기 ───
 const FAQS = [
   {
