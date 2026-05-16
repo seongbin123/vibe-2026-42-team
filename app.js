@@ -607,7 +607,6 @@ function renderAll() {
   renderAnalysis();
   renderSurvival();
   renderNotifBadge();
-  updateNoticeDot();
 }
 
 // ─── 홈 ───
