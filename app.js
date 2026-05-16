@@ -269,11 +269,17 @@ function renderCalendar() {
     if (isCurrentMonth && day === today.getDate()) {
       if (isSubContext) {
         btn.classList.add('today-text');
-      } else if (isPayContext && calSelectedDay === null) {
-        btn.classList.add('today');
+      } else if (isPayContext) {
+        btn.classList.add('cal-pay-today');
       }
     }
-    if (day === calSelectedDay) btn.classList.add('selected');
+    if (day === calSelectedDay) {
+      if (isPayContext) {
+        btn.classList.add('cal-pay-selected');
+      } else {
+        btn.classList.add('selected');
+      }
+    }
     btn.onclick = () => selectCalDay(day);
     grid.appendChild(btn);
   }
