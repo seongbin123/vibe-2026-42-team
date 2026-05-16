@@ -261,6 +261,12 @@
 
     </section>
 
+    <!-- 공지사항 탭 -->
+    <section class="tab-content" id="tab-notice">
+      <div class="page-header">공지사항</div>
+      <div id="notice-list"></div>
+    </section>
+
     <!-- 하단 네비 -->
     <nav class="bottom-nav">
       <button class="nav-btn active" onclick="switchTab('home', this)">
@@ -278,6 +284,13 @@
       <button class="nav-btn" onclick="switchTab('survival', this)">
         <span class="nav-icon"><svg width="22" height="22" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><line x1="7" y1="2" x2="7" y2="8"/><path d="M5 2v4a2 2 0 004 0V2"/><line x1="7" y1="10" x2="7" y2="18"/><line x1="13" y1="2" x2="13" y2="18"/></svg></span>
         <span class="nav-label">한끼</span>
+      </button>
+      <button class="nav-btn nav-btn-notice" id="nav-notice-btn" onclick="switchTab('notice', this)">
+        <span class="nav-icon nav-notice-icon-wrap">
+          <svg width="22" height="22" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M15 8A5 5 0 005 8c0 4-2 5-2 5h14s-2-1-2-5"/><path d="M10.73 17a1.5 1.5 0 01-1.46 0"/></svg>
+          <span class="nav-notice-dot hidden" id="nav-notice-dot"></span>
+        </span>
+        <span class="nav-label">공지</span>
       </button>
     </nav>
   </div>
