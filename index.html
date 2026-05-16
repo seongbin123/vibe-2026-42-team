@@ -536,6 +536,93 @@
     </div>
   </div>
 
+  <!-- 개인정보 처리방침 모달 -->
+  <div id="privacy-overlay" class="overlay hidden" onclick="closePrivacyOutside(event)">
+    <div class="modal-sheet terms-sheet" id="privacy-sheet">
+      <div class="modal-handle"></div>
+      <div class="terms-header">
+        <span class="terms-title">개인정보 처리방침</span>
+        <button class="contact-close-btn" onclick="closePrivacy()">✕</button>
+      </div>
+      <div class="terms-body">
+
+        <p class="terms-updated">시행일: 2026년 5월 16일</p>
+
+        <div class="privacy-notice-box">
+          <span class="privacy-notice-icon">🔒</span>
+          <span>수지갑은 <strong>금융 계좌·카드 정보를 일절 수집하지 않습니다.</strong> 모든 지출 데이터는 사용자가 직접 입력하며, 기기 내부에만 저장됩니다.</span>
+        </div>
+
+        <h2 class="terms-article">제1조 수집하는 개인정보 항목</h2>
+        <p class="terms-text">수지갑은 서비스 이용에 필요한 최소한의 정보만 수집합니다. 수집하는 항목은 아래와 같습니다.</p>
+        <div class="privacy-table-wrap">
+          <table class="privacy-table">
+            <thead><tr><th>구분</th><th>수집 항목</th><th>수집 방법</th></tr></thead>
+            <tbody>
+              <tr><td>필수</td><td>닉네임, 이번 달 생활비 예산, 용돈 받는 날</td><td>사용자 직접 입력</td></tr>
+              <tr><td>선택</td><td>지출 내역 (금액, 카테고리, 날짜, 메모)</td><td>사용자 직접 입력</td></tr>
+              <tr><td>자동</td><td>앱 접속 기기의 브라우저 종류 (서비스 최적화 목적)</td><td>자동 수집</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <p class="terms-text privacy-emphasis">금융 계좌번호, 카드 정보, 주민등록번호 등 민감한 개인정보는 수집하지 않습니다.</p>
+
+        <h2 class="terms-article">제2조 개인정보 수집 및 이용 목적</h2>
+        <p class="terms-text">수집한 정보는 아래 목적으로만 사용되며, 목적 외 용도로 사용하지 않습니다.</p>
+        <div class="privacy-table-wrap">
+          <table class="privacy-table">
+            <thead><tr><th>이용 목적</th><th>사용 항목</th></tr></thead>
+            <tbody>
+              <tr><td>하루 가용금액 계산 및 예산 관리</td><td>예산, 용돈 받는 날, 지출 내역</td></tr>
+              <tr><td>소비 분석 및 통계 제공</td><td>지출 내역 (카테고리, 금액, 날짜)</td></tr>
+              <tr><td>개인화 서비스 제공 (닉네임 표시 등)</td><td>닉네임</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <h2 class="terms-article">제3조 개인정보 보유 및 이용 기간</h2>
+        <p class="terms-text">수지갑은 서버에 개인정보를 별도 보관하지 않습니다. 모든 데이터는 사용자의 기기 내 브라우저 저장소(localStorage)에만 저장되며, 앱 삭제 또는 브라우저 데이터 초기화 시 즉시 삭제됩니다. 소셜 로그인 연동 기능을 사용하는 경우, 연동 해제 즉시 관련 정보가 삭제됩니다.</p>
+
+        <h2 class="terms-article">제4조 개인정보의 제3자 제공</h2>
+        <p class="terms-text">수지갑은 이용자의 개인정보를 외부 기관·기업·개인에게 제공하지 않습니다. 단, 법령에 따른 수사기관의 요청이 있는 경우에 한해 법이 정한 절차와 방법에 따라 제공할 수 있습니다.</p>
+
+        <h2 class="terms-article">제5조 개인정보 처리 위탁</h2>
+        <p class="terms-text">현재 수지갑은 개인정보 처리 업무를 외부에 위탁하고 있지 않습니다. 향후 위탁이 필요한 경우, 위탁 업체와 위탁 내용을 공지사항 및 본 방침을 통해 사전에 안내하겠습니다.</p>
+
+        <h2 class="terms-article">제6조 이용자의 권리</h2>
+        <p class="terms-text">이용자는 언제든지 아래 권리를 행사할 수 있습니다.</p>
+        <div class="privacy-table-wrap">
+          <table class="privacy-table">
+            <thead><tr><th>권리</th><th>방법</th></tr></thead>
+            <tbody>
+              <tr><td>개인정보 조회·수정</td><td>앱 내 설정 화면에서 직접 수정</td></tr>
+              <tr><td>개인정보 삭제 (탈퇴)</td><td>설정 → 데이터 초기화, 또는 브라우저 데이터 삭제</td></tr>
+              <tr><td>소셜 연동 해제</td><td>설정 → 연동 계정 → 연동 해제</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <p class="terms-text">데이터 초기화를 요청하면 모든 데이터가 즉시, 복구 불가능하게 삭제됩니다.</p>
+
+        <h2 class="terms-article">제7조 개인정보 보호책임자</h2>
+        <p class="terms-text">개인정보와 관련한 문의, 불만, 열람 요청은 아래 연락처로 보내주시면 신속히 처리하겠습니다.</p>
+        <div class="privacy-table-wrap">
+          <table class="privacy-table">
+            <tbody>
+              <tr><td>책임자</td><td>수지갑 운영팀</td></tr>
+              <tr><td>이메일</td><td>jangsungbeen01@gmail.com</td></tr>
+              <tr><td>처리 기간</td><td>접수 후 영업일 기준 3일 이내 답변</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="terms-footer">
+          <p>본 방침은 2026년 5월 16일부터 적용됩니다.</p>
+          <p>수지갑 운영팀</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <!-- 알림 기록 모달 -->
   <div id="notif-log-overlay" class="overlay hidden" onclick="closeNotifLogOutside(event)">
     <div class="modal-sheet notif-log-sheet">
