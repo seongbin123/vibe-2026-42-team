@@ -2164,28 +2164,47 @@ function closeSettings() {
   document.getElementById('settings-overlay').classList.add('hidden');
 }
 
-function initSwipeClose(sheetEl, closeFn) {
-  let startY = 0, startScrollTop = 0;
+function initSwipeClose(sheetEl, closeFn, overlayEl) {
+  let startY = 0, startScrollTop = 0, startTime = 0;
+
   sheetEl.addEventListener('touchstart', function(e) {
     startY = e.touches[0].clientY;
     startScrollTop = sheetEl.scrollTop;
+    startTime = Date.now();
     sheetEl.style.transition = 'none';
+    if (overlayEl) overlayEl.style.transition = 'none';
   }, { passive: true });
+
   sheetEl.addEventListener('touchmove', function(e) {
     const dy = e.touches[0].clientY - startY;
     if (dy > 0 && startScrollTop <= 0) {
       sheetEl.style.transform = `translateX(-50%) translateY(${dy}px)`;
+      if (overlayEl) {
+        const ratio = Math.max(0, 1 - dy / 300);
+        overlayEl.style.background = `rgba(0,0,0,${0.5 * ratio})`;
+      }
     }
   }, { passive: true });
+
   sheetEl.addEventListener('touchend', function(e) {
     const dy = e.changedTouches[0].clientY - startY;
-    sheetEl.style.transition = 'transform .3s cubic-bezier(.22,1,.36,1)';
-    if (dy > 100 && startScrollTop <= 0) {
+    const velocity = dy / Math.max(1, Date.now() - startTime) * 1000;
+    const shouldClose = startScrollTop <= 0 && (dy > 120 || velocity > 500);
+
+    if (shouldClose) {
+      sheetEl.style.transition = 'transform .3s ease-in';
       sheetEl.style.transform = 'translateX(-50%) translateY(100%)';
+      if (overlayEl) { overlayEl.style.transition = 'background .3s ease-in'; overlayEl.style.background = 'rgba(0,0,0,0)'; }
       setTimeout(closeFn, 280);
     } else {
+      sheetEl.style.transition = 'transform .2s ease-out';
       sheetEl.style.transform = 'translateX(-50%) translateY(0)';
-      setTimeout(() => { sheetEl.style.transform = ''; sheetEl.style.transition = ''; }, 300);
+      if (overlayEl) { overlayEl.style.transition = 'background .2s ease-out'; overlayEl.style.background = ''; }
+      setTimeout(() => {
+        sheetEl.style.transform = '';
+        sheetEl.style.transition = '';
+        if (overlayEl) { overlayEl.style.background = ''; overlayEl.style.transition = ''; }
+      }, 200);
     }
   }, { passive: true });
 }
