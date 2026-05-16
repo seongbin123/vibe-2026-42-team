@@ -490,6 +490,7 @@ function renderAll() {
   renderAnalysis();
   renderSurvival();
   renderNotifBadge();
+  renderNotices();
 }
 
 // ─── 홈 ───
