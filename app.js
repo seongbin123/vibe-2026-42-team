@@ -122,7 +122,6 @@ function saveNoticeRead() {
   localStorage.setItem('noticeRead', JSON.stringify([...noticeReadSet]));
 }
 
-function updateNoticeDot() {}
 
 const TAG_CLASS = { '업데이트': 'notice-tag-update', '점검': 'notice-tag-check', '학식': 'notice-tag-meal', '이벤트': 'notice-tag-event' };
 
