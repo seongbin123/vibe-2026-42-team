@@ -558,9 +558,17 @@ window.onload = () => {
   initDragInputs();
   registerSW();
   const settingsSheet = document.querySelector('#settings-overlay .settings-sheet');
-  if (settingsSheet) initSwipeClose(settingsSheet, closeSettings);
+  if (settingsSheet) initSwipeClose(settingsSheet, closeSettings, document.getElementById('settings-overlay'));
   const noticeSheet = document.getElementById('notice-sheet');
-  if (noticeSheet) initSwipeClose(noticeSheet, closeNotice);
+  if (noticeSheet) initSwipeClose(noticeSheet, closeNotice, document.getElementById('notice-overlay'));
+  const contactSheet = document.getElementById('contact-sheet');
+  if (contactSheet) initSwipeClose(contactSheet, closeContact, document.getElementById('contact-overlay'));
+  const termsSheet = document.getElementById('terms-sheet');
+  if (termsSheet) initSwipeClose(termsSheet, closeTerms, document.getElementById('terms-overlay'));
+  const privacySheet = document.getElementById('privacy-sheet');
+  if (privacySheet) initSwipeClose(privacySheet, closePrivacy, document.getElementById('privacy-overlay'));
+  const notifLogSheet = document.querySelector('#notif-log-overlay .notif-log-sheet');
+  if (notifLogSheet) initSwipeClose(notifLogSheet, closeNotifLog, document.getElementById('notif-log-overlay'));
   ['expense-amount', 'setup-budget'].forEach(id => {
     const el = document.getElementById(id);
     el.addEventListener('keydown', function(e) {
