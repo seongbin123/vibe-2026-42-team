@@ -256,9 +256,6 @@ function renderCalendar() {
     grid.appendChild(el);
   }
 
-  const isSubContext  = calContext === 'sub';
-  const isPayContext  = calContext === 'setup' || calContext === 'settings';
-
   for (let day = 1; day <= daysInMonth; day++) {
     const btn = document.createElement('button');
     btn.className = 'cal-day';
@@ -266,20 +263,7 @@ function renderCalendar() {
     const dow = new Date(calYear, calMonth, day).getDay();
     if (dow === 0) btn.classList.add('sunday');
     if (dow === 6) btn.classList.add('saturday');
-    if (isCurrentMonth && day === today.getDate()) {
-      if (isSubContext) {
-        btn.classList.add('today-text');
-      } else if (isPayContext) {
-        btn.classList.add('cal-pay-today');
-      }
-    }
-    if (day === calSelectedDay) {
-      if (isPayContext) {
-        btn.classList.add('cal-pay-selected');
-      } else {
-        btn.classList.add('selected');
-      }
-    }
+    if (day === calSelectedDay) btn.classList.add('selected');
     btn.onclick = () => selectCalDay(day);
     grid.appendChild(btn);
   }
