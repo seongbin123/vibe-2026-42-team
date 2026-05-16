@@ -1,3 +1,14 @@
+// ─── 개인정보 처리방침 ───
+function openPrivacy() {
+  document.getElementById('privacy-overlay').classList.remove('hidden');
+}
+function closePrivacy() {
+  document.getElementById('privacy-overlay').classList.add('hidden');
+}
+function closePrivacyOutside(e) {
+  if (e.target === document.getElementById('privacy-overlay')) closePrivacy();
+}
+
 // ─── 이용약관 ───
 function openTerms() {
   document.getElementById('terms-overlay').classList.remove('hidden');
