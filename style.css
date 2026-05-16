@@ -922,12 +922,12 @@ input::placeholder { color: var(--ink-4); }
 .cal-day.sunday.today, .cal-day.saturday.today { color: #fff; }
 .cal-day.sunday.selected, .cal-day.saturday.selected { background: var(--accent); color: #fff; }
 .cal-day.cal-pay-today { font-weight: 700; color: var(--accent); }
-.cal-day.cal-pay-today::after, .cal-day.cal-pay-selected::after {
+.cal-day.cal-pay-today::after, .cal-day.cal-pay-selected::after, .cal-day.cal-sub-selected::after {
   content: ''; position: absolute; bottom: 4px; left: 50%; transform: translateX(-50%);
-  width: 5px; height: 5px; border-radius: 50%; background: var(--accent);
+  width: 3px; height: 3px; border-radius: 50%; background: var(--accent);
 }
 .cal-day.cal-pay-selected { font-weight: 700; }
-.cal-day.cal-pay-today.cal-pay-selected::after { background: var(--accent); }
+.cal-day.cal-sub-selected { font-weight: 700; }
 
 /* ─── 학식 메뉴 ─── */
 .menu-badge { font-size: 11px; color: var(--ink-4); font-weight: 500; }
