@@ -276,6 +276,8 @@ function renderCalendar() {
     if (day === calSelectedDay) {
       if (isPayContext) {
         btn.classList.add('cal-pay-selected');
+      } else if (isSubContext) {
+        btn.classList.add('cal-sub-selected');
       } else {
         btn.classList.add('selected');
       }
