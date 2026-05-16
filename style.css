@@ -1297,3 +1297,98 @@ input::placeholder { color: var(--ink-4); }
   from { transform: scale(0.8); opacity: 0; }
   to   { transform: scale(1);   opacity: 1; }
 }
+
+/* ─── 공지사항 탭 ─── */
+.nav-notice-icon-wrap { position: relative; display: inline-flex; }
+.nav-notice-dot {
+  position: absolute; top: -2px; right: -3px;
+  width: 7px; height: 7px;
+  background: var(--danger);
+  border-radius: 50%;
+  border: 1.5px solid var(--surface);
+}
+.nav-notice-dot.hidden { display: none; }
+
+.notice-list { display: flex; flex-direction: column; gap: 10px; padding-bottom: 24px; }
+
+.notice-item {
+  background: var(--surface);
+  border-radius: 18px;
+  box-shadow: var(--shadow-sm);
+  overflow: hidden;
+  transition: box-shadow .15s;
+}
+.notice-item-header {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  padding: 16px;
+  cursor: pointer;
+  user-select: none;
+  -webkit-tap-highlight-color: transparent;
+}
+.notice-item-header:active { background: var(--surface-2); }
+
+.notice-tag {
+  flex-shrink: 0;
+  font-size: 11px;
+  font-weight: 800;
+  padding: 3px 8px;
+  border-radius: 9999px;
+  letter-spacing: .01em;
+}
+.notice-tag-update { background: var(--accent-soft); color: var(--accent-ink); }
+.notice-tag-check  { background: var(--warn-soft);   color: #7A5200; }
+.notice-tag-meal   { background: var(--success-soft); color: #0E6B4A; }
+.notice-tag-event  { background: var(--info-soft);   color: #1558C0; }
+
+.notice-meta { flex: 1; min-width: 0; }
+.notice-title-row { display: flex; align-items: center; gap: 6px; }
+.notice-title {
+  font-size: 14.5px;
+  font-weight: 700;
+  color: var(--ink);
+  line-height: 1.35;
+  flex: 1;
+}
+.notice-unread-dot {
+  width: 7px; height: 7px;
+  background: var(--danger);
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+.notice-date {
+  font-size: 12px;
+  color: var(--ink-4);
+  margin-top: 3px;
+  font-weight: 500;
+}
+
+.notice-chevron {
+  flex-shrink: 0;
+  color: var(--ink-4);
+  font-size: 18px;
+  transition: transform .22s cubic-bezier(.22,1,.36,1);
+  line-height: 1;
+  margin-top: 1px;
+}
+.notice-item.open .notice-chevron { transform: rotate(90deg); }
+
+.notice-body {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height .3s cubic-bezier(.22,1,.36,1);
+}
+.notice-item.open .notice-body { max-height: 400px; }
+
+.notice-body-inner {
+  padding: 0 16px 18px;
+  font-size: 14px;
+  color: var(--ink-2);
+  line-height: 1.65;
+  font-weight: 500;
+  border-top: 1px solid var(--line);
+  padding-top: 14px;
+  margin: 0 16px;
+  margin-bottom: 4px;
+}
