@@ -122,11 +122,7 @@ function saveNoticeRead() {
   localStorage.setItem('noticeRead', JSON.stringify([...noticeReadSet]));
 }
 
-function updateNoticeDot() {
-  const unreadCount = NOTICES.filter(n => !noticeReadSet.has(n.id)).length;
-  const dot = document.getElementById('nav-notice-dot');
-  if (dot) dot.classList.toggle('hidden', unreadCount === 0);
-}
+function updateNoticeDot() {}
 
 const TAG_CLASS = { '업데이트': 'notice-tag-update', '점검': 'notice-tag-check', '학식': 'notice-tag-meal', '이벤트': 'notice-tag-event' };
 
