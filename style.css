@@ -906,28 +906,18 @@ input::placeholder { color: var(--ink-4); }
 .cal-weekdays span:last-child  { color: var(--info); }
 .cal-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 4px; }
 .cal-day {
-  aspect-ratio: 1; border-radius: 50%;
+  width: 36px; height: 36px; border-radius: 50%;
   display: flex; align-items: center; justify-content: center;
   font-size: 14px; cursor: pointer; border: none; background: none;
   color: var(--ink); font-weight: 500; transition: background .15s;
-  font-family: inherit; position: relative;
+  font-family: inherit;
 }
 .cal-day:hover { background: var(--surface-2); }
-.cal-day.today { background: var(--accent); color: #fff; font-weight: 700; }
-.cal-day.today-text { font-weight: 800; color: var(--ink); }
-.cal-day.selected { background: var(--accent); color: #fff; font-weight: 700; }
+.cal-day.selected { background: #FF6B35; color: #fff; font-weight: 700; }
 .cal-day.empty { pointer-events: none; }
 .cal-day.sunday { color: var(--danger); }
 .cal-day.saturday { color: var(--info); }
-.cal-day.sunday.today, .cal-day.saturday.today { color: #fff; }
-.cal-day.sunday.selected, .cal-day.saturday.selected { background: var(--accent); color: #fff; }
-.cal-day.cal-pay-today { font-weight: 700; color: var(--accent); }
-.cal-day.cal-pay-today::after, .cal-day.cal-pay-selected::after {
-  content: ''; position: absolute; bottom: 4px; left: 50%; transform: translateX(-50%);
-  width: 5px; height: 5px; border-radius: 50%; background: var(--accent);
-}
-.cal-day.cal-pay-selected { font-weight: 700; }
-.cal-day.cal-pay-today.cal-pay-selected::after { background: var(--accent); }
+.cal-day.sunday.selected, .cal-day.saturday.selected { background: #FF6B35; color: #fff; }
 
 /* ─── 학식 메뉴 ─── */
 .menu-badge { font-size: 11px; color: var(--ink-4); font-weight: 500; }
