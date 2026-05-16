@@ -600,7 +600,7 @@ function renderAll() {
   renderAnalysis();
   renderSurvival();
   renderNotifBadge();
-  renderNotices();
+  updateNoticeDot();
 }
 
 // ─── 홈 ───
