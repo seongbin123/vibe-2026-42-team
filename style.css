@@ -1259,7 +1259,7 @@ input::placeholder { color: var(--ink-4); }
 #splash-screen {
   position: fixed;
   inset: 0;
-  background: #FF6B35;
+  background: #FFFFFF;
   display: flex;
   align-items: center;
   justify-content: center;
