@@ -94,6 +94,7 @@ body.dark {
   backdrop-filter: blur(4px);
   animation: overlayIn .2s ease;
   cursor: pointer;
+  overscroll-behavior: none;
 }
 .overlay.hidden { display: none; }
 .hidden { display: none; }
