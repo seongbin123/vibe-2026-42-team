@@ -89,7 +89,6 @@ const NOTICES = [
     title: '수지갑 v1.0.0 출시 안내',
     date: '2026.05.16',
     body: '수지갑 베타 v1.0.0이 정식 출시되었습니다! 하루 가용금액 자동 계산, 수원대 학식 메뉴 연동, 소비 패턴 분석 기능을 지금 바로 사용해보세요. 앞으로도 지속적인 업데이트로 더 편리한 생활비 관리를 지원할 예정입니다.',
-    open: false,
   },
   {
     id: 2,
@@ -97,7 +96,6 @@ const NOTICES = [
     title: '학식 메뉴 자동 연동 시작 안내',
     date: '2026.05.10',
     body: '수원대학교 종합강의동·아마랜스홀 학식 메뉴가 자동으로 연동되기 시작했습니다. 매주 월요일 오전 7시에 이번 주 메뉴가 자동 갱신되며, 알뜰 한끼 탭에서 한눈에 확인할 수 있습니다.',
-    open: false,
   },
   {
     id: 3,
@@ -105,7 +103,6 @@ const NOTICES = [
     title: '베타 테스터 피드백 이벤트',
     date: '2026.05.01',
     body: '수지갑 베타 테스터 여러분의 소중한 의견을 기다립니다. 앱 내 불편한 점, 원하는 기능 등 자유롭게 제보해 주시면 추첨을 통해 스타벅스 상품권을 드립니다. 이벤트 기간: 2026.05.18 ~ 2026.06.18',
-    open: false,
   },
 ];
 let noticeReadSet = new Set(JSON.parse(localStorage.getItem('noticeRead') || '[]'));
@@ -114,64 +111,88 @@ function saveNoticeRead() {
   localStorage.setItem('noticeRead', JSON.stringify([...noticeReadSet]));
 }
 
-function renderNotices() {
-  const container = document.getElementById('notice-list');
-  if (!container) return;
-
+function updateNoticeDot() {
   const unreadCount = NOTICES.filter(n => !noticeReadSet.has(n.id)).length;
   const dot = document.getElementById('nav-notice-dot');
   if (dot) dot.classList.toggle('hidden', unreadCount === 0);
+}
 
-  container.innerHTML = `<div class="notice-list">${NOTICES.map(n => {
+const TAG_CLASS = { '업데이트': 'notice-tag-update', '점검': 'notice-tag-check', '학식': 'notice-tag-meal', '이벤트': 'notice-tag-event' };
+
+function renderNoticeList() {
+  const list = document.getElementById('notice-card-list');
+  if (!list) return;
+  list.innerHTML = NOTICES.map(n => {
     const isRead = noticeReadSet.has(n.id);
-    const isOpen = n.open;
-    const tagClass = { '업데이트': 'notice-tag-update', '점검': 'notice-tag-check', '학식': 'notice-tag-meal', '이벤트': 'notice-tag-event' }[n.tag] || 'notice-tag-update';
+    const tagClass = TAG_CLASS[n.tag] || 'notice-tag-update';
     return `
-      <div class="notice-item${isOpen ? ' open' : ''}" id="notice-item-${n.id}">
-        <div class="notice-item-header" onclick="toggleNotice(${n.id})">
+      <div class="notice-card" onclick="openNoticeDetail(${n.id})">
+        <div class="notice-card-top">
           <span class="notice-tag ${tagClass}">${n.tag}</span>
-          <div class="notice-meta">
-            <div class="notice-title-row">
-              <span class="notice-title">${n.title}</span>
-              ${!isRead ? '<span class="notice-unread-dot"></span>' : ''}
-            </div>
-            <div class="notice-date">${n.date}</div>
-          </div>
-          <span class="notice-chevron">›</span>
+          ${!isRead ? '<span class="notice-unread-dot"></span>' : ''}
         </div>
-        <div class="notice-body">
-          <div class="notice-body-inner">${n.body}</div>
+        <div class="notice-card-title">${n.title}</div>
+        <div class="notice-card-bottom">
+          <span class="notice-card-date">${n.date}</span>
+          <span class="notice-card-arrow">›</span>
         </div>
       </div>`;
-  }).join('')}</div>`;
+  }).join('');
 }
 
-function goToNotice() {
-  document.getElementById('settings-overlay').classList.add('hidden');
-  const noticeBtn = document.getElementById('nav-notice-btn');
-  switchTab('notice', noticeBtn);
+function openNotice() {
+  const sheet = document.getElementById('notice-sheet');
+  sheet.style.transform = '';
+  sheet.style.transition = '';
+  sheet.scrollTop = 0;
+  document.getElementById('notice-sheet-title').textContent = '공지사항';
+  document.getElementById('notice-back-btn').classList.add('hidden');
+  document.getElementById('notice-detail-panel').classList.add('hidden');
+  document.getElementById('notice-list-panel').classList.remove('hidden');
+  renderNoticeList();
+  document.getElementById('notice-overlay').classList.remove('hidden');
 }
 
-function toggleNotice(id) {
-  const notice = NOTICES.find(n => n.id === id);
-  if (!notice) return;
-  notice.open = !notice.open;
+function closeNotice() {
+  document.getElementById('notice-overlay').classList.add('hidden');
+}
 
-  if (notice.open && !noticeReadSet.has(id)) {
+function closeNoticeOutside(e) {
+  if (e.target === document.getElementById('notice-overlay')) closeNotice();
+}
+
+function openNoticeDetail(id) {
+  const n = NOTICES.find(n => n.id === id);
+  if (!n) return;
+  if (!noticeReadSet.has(id)) {
     noticeReadSet.add(id);
     saveNoticeRead();
+    updateNoticeDot();
   }
+  const tagClass = TAG_CLASS[n.tag] || 'notice-tag-update';
+  document.getElementById('notice-detail-content').innerHTML = `
+    <div class="notice-detail-tag-row">
+      <span class="notice-tag ${tagClass}">${n.tag}</span>
+      <span class="notice-detail-date">${n.date}</span>
+    </div>
+    <div class="notice-detail-title">${n.title}</div>
+    <div class="notice-detail-body">${n.body}</div>`;
+  const sheet = document.getElementById('notice-sheet');
+  sheet.scrollTop = 0;
+  document.getElementById('notice-sheet-title').textContent = n.title;
+  document.getElementById('notice-back-btn').classList.remove('hidden');
+  document.getElementById('notice-list-panel').classList.add('hidden');
+  document.getElementById('notice-detail-panel').classList.remove('hidden');
+}
 
-  const item = document.getElementById('notice-item-' + id);
-  if (item) {
-    item.classList.toggle('open', notice.open);
-    const dot = item.querySelector('.notice-unread-dot');
-    if (dot) dot.remove();
-  }
-
-  const unreadCount = NOTICES.filter(n => !noticeReadSet.has(n.id)).length;
-  const navDot = document.getElementById('nav-notice-dot');
-  if (navDot) navDot.classList.toggle('hidden', unreadCount === 0);
+function backToNoticeList() {
+  const sheet = document.getElementById('notice-sheet');
+  sheet.scrollTop = 0;
+  document.getElementById('notice-sheet-title').textContent = '공지사항';
+  document.getElementById('notice-back-btn').classList.add('hidden');
+  document.getElementById('notice-detail-panel').classList.add('hidden');
+  document.getElementById('notice-list-panel').classList.remove('hidden');
+  renderNoticeList();
 }
 
 // ─── 스플래시 ───
