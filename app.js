@@ -173,7 +173,6 @@ function openNoticeDetail(id) {
   if (!noticeReadSet.has(id)) {
     noticeReadSet.add(id);
     saveNoticeRead();
-    updateNoticeDot();
   }
   const tagClass = TAG_CLASS[n.tag] || 'notice-tag-update';
   document.getElementById('notice-detail-content').innerHTML = `
