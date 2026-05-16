@@ -558,6 +558,8 @@ window.onload = () => {
   applyStoredTheme();
   initDragInputs();
   registerSW();
+  const verLabel = document.getElementById('app-version-label');
+  if (verLabel) verLabel.textContent = APP_VERSION;
   const settingsSheet = document.querySelector('#settings-overlay .settings-sheet');
   if (settingsSheet) initSwipeClose(settingsSheet, closeSettings, document.getElementById('settings-overlay'));
   const noticeSheet = document.getElementById('notice-sheet');
